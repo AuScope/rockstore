@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ROCK STORE</title>
+
+  <link href="css/bootstrap.css" rel="stylesheet">
+ <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <!-- Fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700,800,300' rel='stylesheet' type='text/css'>
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/theme.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  
+ 	<!-- jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  
+    <!-- angular-UI -->
+  	<link rel="styleSheet" href="js/angular-ui/ui-grid/ui-grid-stable.css"/>
+	<script src="js/angular/angular.min.js"></script>
+	<script src="js/angular-ui/ui-grid/ui-grid-stable.js"></script>
+	
+  <!-- Angular javascript -->	
+   <script src="js/rockstore/controllers/collections.js"></script>
+
+ 
+</head>
+
+<body class="body-nav-fixed-menu-top" ng-app="app">
+  <div class="wrapper-body">
+
+    <!-- NAVBAR -->
+    <!--===============================================================-->
+    <script> 
+    	<!--Load Header -->
+		$(function(){
+		  $("#header").load("header.html"); 		   
+		});
+		
+		<!--Dates -->
+		$(function() {		   
+		    $( "#DateSample" ).datepicker();
+		    $( "#SampleDisposed" ).datepicker();
+		  });
+		
+	</script>
+	<div id="header"></div>
+    <!-- NAVBAR END -->
+
+   </div>
+	<div class="section section-lg section-bottom">
+      <div>    
+      
+        <div class="row mb">
+          <div class="col-md-12">
+			<div class="row row-tabs" role="tabpanel">
+			  <div class="col-md-12">
+			    <div class="row mb" ng-controller="SampleCtrl">			          	
+		          	<div class="panel panel-default col-md-8">					  					   		 					   
+				   		<div class="panel panel-default">
+						  <div class="panel-heading">Filter Panel</div>
+						  <div class="panel-body">
+							<form class="form-horizontal">	  
+							  <div class="form-group">
+						       <label class="col-sm-2 control-label" for="inputSuccess">Collection</label>
+						       <div class="col-sm-10">						          
+						         <select   class="form-control">
+								  <option value="volvo">Rock</option>
+								  <option value="volvo">Sand</option>
+								</select>
+						         <span class="help-block">Is this hazardous</span>
+						       </div>
+						     </div>	
+						     <div class="form-group">
+						       <label class="col-sm-2 control-label" for="inputSuccess">Sub Collection</label>
+						       <div class="col-sm-10">						          
+						         <select   class="form-control">
+								  <option value="volvo">Rock</option>
+								  <option value="volvo">Sand</option>
+								</select>
+						         <span class="help-block">Is this hazardous</span>
+						       </div>
+						     </div>	
+						    </form>   
+						   </div>  	  
+						</div>
+						<div class="panel-heading">Samples</div>
+						<div id="SampleGrid"  ui-grid="gridOptions" ui-grid-selection  class="collection-grid"></div>
+					</div>
+		          
+					<div class="panel text-theme col-md-4">
+					  <div class="panel-heading">
+					    <h3 class="panel-title">Manage Sample</h3>
+					  </div>
+					  <div class="panel-body">
+					    <form class="form-horizontal">
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Id</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Sample ID">					        
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">IGSN Number</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="IGSN">					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">CSIRO Sample ID</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="CSIRO Sample ID">					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Type</label>
+					        <div class="col-sm-9">						          
+					          <select   class="form-control">
+								  <option value="volvo">Rock</option>
+								  <option value="volvo">Sand</option>
+								</select>
+					          
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">BHID</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="BHID">
+					          <span class="help-block">BHID</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Easting (EPSG:4326)</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Easting">					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Northing (EPSG:4326)</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="Northing">					          
+					        </div>
+					      </div>
+					       <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Depth(m)</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Depth(m)">					          
+					        </div>
+					      </div>
+					       <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Datum</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Datum">
+					         
+					        </div>
+					      </div>	
+					       <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Zone</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Zone">
+					          
+					        </div>
+					      </div>
+					       <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Container ID</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Container ID">
+					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Location In Storage</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="Location In Storage">
+					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">SubCollection ID</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="SubCollection ID">
+					         
+					        </div>
+					      </div>						     
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">External Ref</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="External Ref">
+					          
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Collector</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="Sample Collector">
+					          
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Date Sampled</label>
+					        <div class="col-sm-9">
+					          <input type="text" id="DateSampled" class="form-control" placeholder="Date Sampled">
+					          
+					        </div>
+					      </div>						      
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Disposed</label>
+					        <div class="col-sm-9">
+					          <input type="text" id="SampleDisposed" class="form-control" placeholder="Sample Disposed">
+					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Staff Disposed ID</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Staff Disposed ID">
+					          
+					        </div>
+					      </div>						      
+					    </form>
+					  </div>
+					</div>			         	
+				  </div>	
+			  </div>
+			</div>           
+          </div>         
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>

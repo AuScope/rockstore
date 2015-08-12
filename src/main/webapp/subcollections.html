@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ROCK STORE</title>
+
+  <link href="css/bootstrap.css" rel="stylesheet">
+ <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <!-- Fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700,800,300' rel='stylesheet' type='text/css'>
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/theme.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  
+ 	<!-- jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  
+    <!-- angular-UI -->
+  	<link rel="styleSheet" href="js/angular-ui/ui-grid/ui-grid-stable.css"/>
+	<script src="js/angular/angular.min.js"></script>
+	<script src="js/angular-ui/ui-grid/ui-grid-stable.js"></script>
+	
+  <!-- Angular javascript -->	
+   <script src="js/rockstore/controllers/collections.js"></script>
+
+ 
+</head>
+
+<body class="body-nav-fixed-menu-top" ng-app="app">
+  <div class="wrapper-body">
+
+    <!-- NAVBAR -->
+    <!--===============================================================-->
+    <script> 
+    	<!--Load Header -->
+		$(function(){
+		  $("#header").load("header.html"); 		   
+		});
+		
+	
+	</script>
+	<div id="header"></div>
+    <!-- NAVBAR END -->
+
+   </div>
+   
+    
+   
+	<div class="section section-lg section-bottom">
+      <div>    
+        <div class="row mb">
+          <div class="col-md-12">
+			<div class="row row-tabs" role="tabpanel">
+			  <div class="col-md-12">
+				 <div class="row mb" ng-controller="SubCollectionCtrl">			          	
+		          	<div class="panel panel-default col-md-8">
+					  <div class="panel-heading">SubCollections</div>
+					   <div id="SubCollectionGrid"  ui-grid="gridOptions" ui-grid-selection  class="collection-grid"></div>						 
+					</div>
+		          
+					<div class="panel text-theme col-md-4">
+					  <div class="panel-heading">
+					    <h3 class="panel-title">Manage SubCollection</h3>
+					  </div>
+					  <div class="panel-body">
+					    <form class="form-horizontal">
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Old ID</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Original ID">
+					          <span class="help-block">Original Id</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Subcollection ID</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="SubCollection Id">
+					          <span class="help-block">SubCollection Id</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Location in Storage</label>
+					        <div class="col-sm-9">						          
+					           <input type="text"  class="form-control" placeholder="Location in Storage">
+					          <span class="help-block">Location in Storage</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Container From</label>
+					        <div class="col-sm-9">						          
+					           <input type="text"  class="form-control" placeholder="Container from">
+					          <span class="help-block">Container from</span>
+					        </div>
+					      </div>
+					       <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Container To</label>
+					        <div class="col-sm-9">						          
+					           <input type="text"  class="form-control" placeholder="Container to">
+					          <span class="help-block">Container to</span>
+					        </div>
+					      </div>
+					       <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Sample From</label>
+					        <div class="col-sm-9">						          
+					           <input type="text"  class="form-control" placeholder="Sample from">
+					          <span class="help-block">Sample from</span>
+					        </div>
+					      </div>
+					        <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Sample To</label>
+					        <div class="col-sm-9">						          
+					           <input type="text"  class="form-control" placeholder="Sample to">
+					          <span class="help-block">Sample to</span>
+					        </div>
+					      </div>
+					       <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Storage Type</label>
+					        <div class="col-sm-9">						          
+					          <select   class="form-control">
+								  <option value="volvo">STANDARD</option>
+								  <option value="volvo">EXTRA LARGE</option>
+								</select>
+					          <span class="help-block">Type of storage</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Hazardous</label>
+					        <div class="col-sm-9">						          
+					          <select   class="form-control">
+								  <option value="volvo">YES</option>
+								  <option value="volvo">NO</option>
+								</select>
+					          <span class="help-block">Is this hazardous</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Collection ID</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Collection ID">
+					          <span class="help-block">Collection Id</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">ARRC Store</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="ARRC store location">
+					          <span class="help-block">Location in Arrc Store</span>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Source</label>
+					        <div class="col-sm-9">
+					          <input type="text" class="form-control" placeholder="Source">
+					          <span class="help-block">Source of sub collection</span>
+					        </div>
+					      </div>	
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Total Pallet</label>
+					        <div class="col-sm-9">
+					          <input type="number"  class="form-control" placeholder="Total Pallets">
+					          <span class="help-block">Total number of pallets</span>
+					        </div>
+					      </div>	    					    
+					    </form>
+					  </div>
+					</div>			         	
+				  </div>		    
+			  </div>
+			</div>           
+          </div>         
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>
