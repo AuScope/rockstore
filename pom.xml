@@ -23,8 +23,8 @@
         <targetJdk>1.8</targetJdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>        
         <log4j.version>1.2.16</log4j.version>
-        <spring.version>3.2.10.RELEASE</spring.version>
-        <spring.security.version>3.2.4.RELEASE</spring.security.version>
+         <spring.version>4.2.0.RELEASE</spring.version>
+        <spring.security.version>4.0.2.RELEASE</spring.security.version>
         <httpclient.version>4.3.5</httpclient.version>    
     </properties>
     <build>    
@@ -283,13 +283,21 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-spatial</artifactId>
             <version>4.3</version>
-        </dependency>
-					
+        </dependency>				
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.4-1201-jdbc41</version>
 		</dependency>
-			
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3.1</version>
+		 </dependency>		 
     </dependencies>
 </project>

@@ -1,154 +1,100 @@
-var app = angular.module('app', ['ui.grid','ui.grid.selection']);
 
-app.service('DropDownValueService', function() {
-    this.getUsers = function() {
-           return [{
-        	   value:'lala@gmail.com', 
-        	   display:'Jeremy Jones'
-        	},{
-        		value:'hohoho@hotmail.com', 
-        		display:'Warren Buffet'
-        	}];
-        };
- 
-    this.getBoolean = function() {
-            return [{
-            	value:0, 
-            	YesNo:'Yes',
-            	boolean:'true'
-            },{
-            	value:1, 
-            	YesNo:'No',
-            	boolean:'false'
-            }];
-        };
-        
-        
-    this.getExternalUsers = function() {
-        return [{
-        	value:'xxxx@gmail.com', 
-        	display:'Andy Lau'
-        },{
-        	value:'yyyy@hotmail.com', 
-        	display:'John Lennon'
-        }];
-     };  
-     
-     this.getLocations = function() {
-         return ['G1-L2','G2-L3','G4-L5'];
-      };  
-      
-      this.getStorageType = function(){
-    	  return ['STANDARD','EXTRA','COLD ROOM'];
-      }
-      
-      this.getSampleType = function(){
-    	  return ['ROCK','SAND','LIME'];
-      }
-      
-      this.getDatum = function(){
-    	  return ['EPSG:4326','GDA84'];
-      }
-        
-});
-
-
- 
-app.controller('CollectionCtrl', ['$scope','$rootScope','DropDownValueService', function ($scope,$rootScope,DropDownValueService) {
+angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter) {
+	
+	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
+	$scope.gridOptions.data = [];
 
 	$scope.users = DropDownValueService.getUsers();
 	
 	$scope.booleans = DropDownValueService.getBoolean();
 	
 	
-	$scope.form ={
-	    	 ID			: 0,
-	    	 CollectionID : 'SC0001' ,
-             ProjectID : '',
-             StaffFieldManager: $scope.users[0].value,
-             StaffResponsible : $scope.users[0].value,
-             ProjectResult: '',
-             ProjectPublication : '',
-             ProjectCloseDate :'',
-             AvailableToPublic :0,
-             ArchiveDue :''
-	    }
+	$scope.form ={};
+	
+	$scope.resetForm = function(){
+		$scope.form ={			
+				collectionId : '' ,
+				project : '',	
+				staffIdFieldManager:$scope.form.staffIdFieldManager,
+				staffidResponsible : $scope.form.staffidResponsible,
+				projectResult: '',
+				projectPublication : '',
+				projectCloseDate :'',
+				availableToPublic : true,
+				archiveDue :''
+		    }
+	}
 	
 	$scope.submit = function(){
-		$http.get('/addUpdate.do').
-		  then(function(response) {
-		    // this callback will be called asynchronously
-		    // when the response is available
+		$http.get('addUpdate.do', {
+			params:{	
+				collectionId: $scope.form.collectionId,
+				projectId: $scope.form.project,
+				staffFieldManager: $scope.form.staffIdFieldManager,
+				staffResponsible: $scope.form.staffidResponsible,
+				projectResult: $scope.form.projectResult,
+				projectPublication: $scope.form.projectPublication,
+				projectCloseDate: $scope.form.projectCloseDate,
+				availableToPublic: $scope.form.availableToPublic,
+				archiveDue: $scope.form.archiveDue
+				}
+		})
+		.then(function(response) {
+			response.data.projectCloseDate=$filter('date')(response.data.projectCloseDate,'d/MMM/yyyy');
+			response.data.archiveDue=$filter('date')(response.data.archiveDue,'d/MMM/yyyy');			
+			if($scope.form.collectionId){
+				$scope.gridApi.selection.getSelectedRows()[0]=response.data
+			}else{				
+				$scope.gridOptions.data.push(response.data)
+			}
+			$scope.resetForm();		
+			
 		  }, function(response) {
-		    // called asynchronously if an error occurs
-		    // or server returns response with an error status.
+		    console.log(response)
 		  });
 	}
 
  
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
+	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
 	$scope.gridOptions.columnDefs = [
-                                 	 { name: 'ID',width:50 },
-	                                 { name: 'Collection ID',width:150 },
-	                                 { name: 'Project ID',width:130},
-	                                 { name: 'Staff Field Manager',width:180},
-	                                 { name: 'Staff Responsible',width:155 },
-	                                 { name: 'Project Result',width:150 },
-	                                 { name: 'Project Publication',width:170 },
-	                                 { name: 'Project Close date',width:170 },
-	                                 { name: 'Available To Public',width:170 },
-	                                 { name: 'Archive Due',width:150 }
+	                                 //{field: 'id', displayName: 'Id'},
+                                 	 { field: 'id',displayName: 'id',width:50 },
+	                                 { field: 'collectionId',displayName: 'collection id',width:150 },
+	                                 { field: 'project',displayName: 'project',width:130},
+	                                 { field: 'staffIdFieldManager',displayName: 'Field Manager',width:180},
+	                                 { field: 'staffidResponsible',displayName: 'Staff Responsible',width:155 },
+	                                 { field: 'projectResult',displayName: 'Project Result',width:150 },
+	                                 { field: 'projectPublication',displayName: 'publication',width:170 },
+	                                 { field: 'projectCloseDate',displayName: 'Close Date',cellFilter :'date:"d/MMM/yyyy"',width:170 },
+	                                 { field: 'availableToPublic',displayName: 'public',width:170 },
+	                                 { field: 'archiveDue',displayName: 'Archive Due', cellFilter :'date:"d/MMM/yyyy"', width:150 }
 	                               ];
 	                              
    $scope.gridOptions.multiSelect = false;
    $scope.gridOptions.modifierKeysToMultiSelect = false;
    $scope.gridOptions.noUnselect = true;
    $scope.gridOptions.onRegisterApi = function( gridApi ) {
-     $scope.gridApi = gridApi;
+     $scope.gridApi = gridApi;       
+     gridApi.selection.on.rowSelectionChanged($scope, function(){
+    	var selectedRow=jQuery.extend(true, {}, $scope.gridApi.selection.getSelectedRows()[0]);
+    	selectedRow.projectCloseDate=$filter('date')(selectedRow.projectCloseDate,'d/MMM/yyyy');
+    	selectedRow.archiveDue=$filter('date')(selectedRow.archiveDue,'d/MMM/yyyy');
+    	 $scope.form = selectedRow
+     });
+     $http.get('getCollections.do')
+     .success(function(data) {
+       $scope.gridOptions.data = data;
+     });
    };
+   
+   
   
-   $scope.gridOptions.data = [
-	    {
-	    	 'ID'			: 9,
-	    	 'Collection ID' : 'C00001' ,
-             'Project ID' : 'Hammersley basin distall footprints',
-             'Staff Field Manager': 'AJW',
-             'Staff Responsible' : 'AJW',
-             'Project Result': 'AJW',
-             'Project Publication': '',
-             'Project Close date':'',
-             'Available To Public':'',
-             'Archive Due':''
-	    },
-	    {
-	    	 'ID'			: 9,
-	    	 'Collection ID' : 'C00001' ,
-            'Project ID' : 'Hammersley basin distall footprints',
-            'Staff Field Manager': 'AJW',
-            'Staff Responsible' : 'AJW',
-            'Project Result': 'AJW',
-            'Project Publication': '',
-            'Project Close date':'',
-            'Available To Public':'',
-            'Archive Due':''
-	    },
-	    {
-	    	 'ID'			: 9,
-	    	 'Collection ID' : 'C00001' ,
-            'Project ID' : 'Hammersley basin distall footprints',
-            'Staff Field Manager': 'AJW',
-            'Staff Responsible' : 'AJW',
-            'Project Result': 'AJW',
-            'Project Publication': '',
-            'Project Close date':'',
-            'Available To Public':'',
-            'Archive Due':''
-	    }
-    ];
+   
 }]);
 
-app.controller('SubCollectionCtrl', ['$scope', function ($scope) {
+angular.module('app').controller('SubCollectionCtrl', ['$scope', function ($scope) {
 	 
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
 	
@@ -231,7 +177,7 @@ app.controller('SubCollectionCtrl', ['$scope', function ($scope) {
     ];
 }]);
 
-app.controller('SampleCtrl', ['$scope', function ($scope) {
+angular.module('app').controller('SampleCtrl', ['$scope', function ($scope) {
 	 
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false};
 	
@@ -329,3 +275,4 @@ app.controller('SampleCtrl', ['$scope', function ($scope) {
                      	    }
                           ];
 }]);
+

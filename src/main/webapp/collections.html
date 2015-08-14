@@ -8,7 +8,7 @@
   <title>ROCK STORE</title>
 
   <link href="css/bootstrap.css" rel="stylesheet">
- <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
   <!-- Fonts -->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700,800,300' rel='stylesheet' type='text/css'>
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -27,9 +27,12 @@
   	<link rel="styleSheet" href="js/angular-ui/ui-grid/ui-grid-stable.css"/>
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular-ui/ui-grid/ui-grid-stable.js"></script>
+	<script src="js/angular-ui/ui-bootstrap/ui-bootstrap-tpls-0.13.3.min.js"></script>
+	
 	
   <!-- Angular javascript -->	
-   <script src="js/rockstore/controllers/collections.js"></script>
+  <script src="js/rockstore/modules/app.js"></script>
+   <script src="js/rockstore/controllers/collectionsCtrl.js"></script>
 
  
 </head>
@@ -65,7 +68,7 @@
 				  <div class="row mb" ng-controller="CollectionCtrl">			          	
 		          	<div class="panel panel-default col-md-8">
 					  <div class="panel-heading">Collections</div>
-					   <div id="CollectionGrid"  ui-grid="gridOptions" ui-grid-selection  class="collection-grid"></div>						 
+					   <div id="CollectionGrid"  ui-grid="gridOptions" ui-grid-selection ui.grid.resizeColumns class="collection-grid"></div>						 
 					</div>
 		          
 					<div class="panel text-theme col-md-4">
@@ -77,75 +80,75 @@
 					    
 					      <div class="form-group has-success">					       
 					        <div class="col-sm-10">
-					          <button class="btn btn-rounded btn-green" type="button">Clear Form</button>					         
+					          <button class="btn btn-rounded btn-green" type="button" ng-click="resetForm()">Clear Form</button>					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Collection ID</label>
 					        <div class="col-sm-10">
-					          <input type="text" class="form-control" placeholder="Collection ID" value={{form.CollectionID}}>
+					          <input type="text" class="form-control" placeholder="Collection ID" value={{form.collectionId}} readonly>
 					          <span class="help-block">Collection Id</span>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Project ID</label>
+					        <label class="col-sm-2 control-label" for="inputSuccess">Project</label>
 					        <div class="col-sm-10">
-					          <input type="text"  class="form-control" placeholder="Project Id" value={{form.ProjectID}}>
-					          <span class="help-block">Project Id</span>
+					          <input type="text"  class="form-control" placeholder="Project" ng-model="form.project">
+					          <span class="help-block">Project name</span>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Staff Field Manager</label>
 					        <div class="col-sm-10">					        	
-					          <select class="form-control" ng-model="form.StaffFieldManager" ng-options="user.value as user.display for user in users"></select>			          					         
+					          <select class="form-control" ng-model="form.staffIdFieldManager" ng-options="user.value as user.display for user in users"></select>			          					         
 					          <span class="help-block">Staff Field Manager</span>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Staff Responsible</label>
 					        <div class="col-sm-10">						          
-					          <select class="form-control" ng-model="form.StaffResponsible" ng-options="user.value as user.display for user in users"></select>	
+					          <select class="form-control" ng-model="form.staffidResponsible" ng-options="user.value as user.display for user in users"></select>	
 					          <span class="help-block">Staff Responsible</span>
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Project Result</label>
 					        <div class="col-sm-10">
-					          <input type="text"  class="form-control" placeholder="Project Result" value={{form.ProjectResult}}>
+					          <input type="text"  class="form-control" placeholder="Project Result" ng-model="form.projectResult">
 					          <span class="help-block">Project Result</span>
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Project Publication</label>
 					        <div class="col-sm-10">
-					          <input type="text"  class="form-control" placeholder="Project Publication" value={{form.ProjectPublication}}>
+					          <input type="text"  class="form-control" placeholder="Project Publication" ng-model="form.projectPublication">
 					          <span class="help-block">Project Publication</span>
 					        </div>
 					      </div>	
 					       <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Project Close Date</label>
 					        <div class="col-sm-10">
-					          <input type="text" id="ProjectCloseDate" class="form-control" placeholder="Project Close Date"  value={{form.ProjectCloseDate}}>
+					          <input type="text" id="ProjectCloseDate" class="form-control" placeholder="Project Close Date"  ng-model="form.projectCloseDate" jqdatepicker>
 					          <span class="help-block">Project Close Date</span>
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Available to Public</label>
 					        <div class="col-sm-10">						          
-					          <select class="form-control" ng-model="form.AvailableToPublic" ng-options="boolean.value as boolean.YesNo for boolean in booleans"></select>	
+					          <select class="form-control" ng-model="form.availableToPublic" ng-options="boolean.value as boolean.YesNo for boolean in booleans"></select>	
 					          <span class="help-block">Will this data be made publicly available</span>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-2 control-label" for="inputSuccess">Archive Due</label>
 					        <div class="col-sm-10">
-					          <input type="text" id="ArchiveDue" class="form-control" placeholder="Archive Due Date"  value={{form.ArchiveDue}}>
-					          <span class="help-block">Archive Due Date</span>
+					           <input type="text" id="ArchiveDue" class="form-control" placeholder="Project Close Date"  ng-model="form.archiveDue" jqdatepicker >
+					           <span class="help-block">Archieve due date</span>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">					       
 					        <div class="col-sm-10">
-					          <button class="btn btn-rounded btn-green" type="button">Add/update</button>					         
+					          <button class="btn btn-rounded btn-green" ng-click="submit()" type="button">Add/update</button>					         
 					        </div>
 					      </div>			    					    
 					    </form>

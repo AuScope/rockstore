@@ -94,7 +94,7 @@ public class RsSample implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "collection_id")
+	@JoinColumn(name = "collection_id",referencedColumnName="collection_id")
 	public RsCollection getRsCollection() {
 		return this.rsCollection;
 	}
@@ -104,7 +104,7 @@ public class RsSample implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "subcollection_id")
+	@JoinColumn(name = "subcollection_id",referencedColumnName="subcollection_id")
 	public RsSubcollection getRsSubcollection() {
 		return this.rsSubcollection;
 	}

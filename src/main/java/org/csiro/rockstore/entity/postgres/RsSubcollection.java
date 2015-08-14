@@ -48,14 +48,12 @@ public class RsSubcollection implements java.io.Serializable {
 	}
 
 	public RsSubcollection(int id, RsCollection rsCollection, String oldId,
-			String subcollectionId, String locationInStorage,
-			String containerFrom, String containerTo, String sampleFrom,
+			 String locationInStorage,String containerFrom, String containerTo, String sampleFrom,
 			String sampleTo, String storageType, Boolean hazardous,
 			String source, Integer totalPallet, Set<RsSample> rsSamples) {
 		this.id = id;
 		this.rsCollection = rsCollection;
-		this.oldId = oldId;
-		this.subcollectionId = subcollectionId;
+		this.oldId = oldId;		
 		this.locationInStorage = locationInStorage;
 		this.containerFrom = containerFrom;
 		this.containerTo = containerTo;
@@ -81,7 +79,7 @@ public class RsSubcollection implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "collection_id")
+	@JoinColumn(name = "collection_id", referencedColumnName="collection_id")
 	public RsCollection getRsCollection() {
 		return this.rsCollection;
 	}
@@ -99,7 +97,7 @@ public class RsSubcollection implements java.io.Serializable {
 		this.oldId = oldId;
 	}
 
-	@Column(name = "subcollection_id", unique = true, length = 100)
+	@Column(insertable=false, name = "subcollection_id", unique = true, length = 100)
 	public String getSubcollectionId() {
 		return this.subcollectionId;
 	}
