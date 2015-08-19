@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.utilities.NullUtilities;
@@ -23,7 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CollectionController {
 	
+	private final Log logger = LogFactory.getLog(getClass());
+	
 	CollectionEntityService collectionEntityService;
+	
 	
 	@Autowired
 	public CollectionController(CollectionEntityService collectionEntityService){
@@ -31,8 +36,8 @@ public class CollectionController {
 	}
 
 
-    @RequestMapping(value = "addUpdate.do")
-    public ResponseEntity<RsCollection> addUpdate(            
+    @RequestMapping(value = "collectionAddUpdate.do")
+    public ResponseEntity<Object> collectionAddUpdate(            
             @RequestParam(required = false, value ="collectionId") String collectionId,
             @RequestParam(required = false, value ="projectId") String projectId,
             @RequestParam(required = false, value ="staffFieldManager") String staffFieldManager,
@@ -42,39 +47,49 @@ public class CollectionController {
             @RequestParam(required = false, value ="projectCloseDate") String projectCloseDate,
             @RequestParam(required = false, value ="availableToPublic") String availableToPublic,
             @RequestParam(required = false, value ="archiveDue") String archiveDue,            
-            HttpServletResponse response)throws Exception {
+            HttpServletResponse response) {
     	
     
-    	
-    	if(collectionId != null && !collectionId.isEmpty()){
-    		RsCollection rc = this.collectionEntityService.search(collectionId);
-    		rc.update(projectId, staffFieldManager,  staffResponsible,
-       			 projectResult,  projectPublication, NullUtilities.parseDateAllowNull(projectCloseDate),
-       			 Boolean.parseBoolean(availableToPublic),NullUtilities.parseDateAllowNull(archiveDue),null,null);
-    		
-    		this.collectionEntityService.merge(rc);
-    		
-    		return  new ResponseEntity<RsCollection>(rc,HttpStatus.OK);  
-    		
-    	}else{
-    		RsCollection rc= new RsCollection(projectId,
-       			 staffFieldManager,  staffResponsible,
-       			 projectResult,  projectPublication,
-       			NullUtilities.parseDateAllowNull(projectCloseDate),  Boolean.parseBoolean(availableToPublic), NullUtilities.parseDateAllowNull(archiveDue),
-       			null,null);
-       	
-	       	this.collectionEntityService.persist(rc);
-	
-	       	return  new ResponseEntity<RsCollection>(rc,HttpStatus.OK);    		
-    	}       
+    	try{
+	    	if(collectionId != null && !collectionId.isEmpty()){
+	    		RsCollection rc = this.collectionEntityService.search(collectionId);
+	    		rc.update(projectId, staffFieldManager,  staffResponsible,
+	       			 projectResult,  projectPublication, NullUtilities.parseDateAllowNull(projectCloseDate),
+	       			 Boolean.parseBoolean(availableToPublic),NullUtilities.parseDateAllowNull(archiveDue));
+	    		
+	    		this.collectionEntityService.merge(rc);
+	    		
+	    		return  new ResponseEntity<Object>(rc,HttpStatus.OK);  
+	    		
+	    	}else{
+	    		RsCollection rc= new RsCollection(projectId,
+	       			 staffFieldManager,  staffResponsible,
+	       			 projectResult,  projectPublication,
+	       			NullUtilities.parseDateAllowNull(projectCloseDate),  Boolean.parseBoolean(availableToPublic), NullUtilities.parseDateAllowNull(archiveDue),
+	       			null,null);
+	       	
+		       	this.collectionEntityService.persist(rc);
+		
+		       	return  new ResponseEntity<Object>(rc,HttpStatus.OK);    		
+	    	}  
+    	}catch(Exception e){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating",e.getMessage()),HttpStatus.BAD_REQUEST);
+    	}
     }
 	
   
     @RequestMapping(value = "getCollections.do")
     public ResponseEntity<List<RsCollection>> getCollections(                       
-            HttpServletResponse response)throws Exception {
+            HttpServletResponse response){
+    	try{
     		List<RsCollection> lrc = this.collectionEntityService.getCollections();    		
-    		return  new ResponseEntity<List<RsCollection>>(lrc,HttpStatus.OK);  
+    		return  new ResponseEntity<List<RsCollection>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
 
-    }    
+    } 
+    
+    
 }

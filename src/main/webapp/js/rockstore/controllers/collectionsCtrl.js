@@ -1,12 +1,11 @@
 
-angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter) {
+angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
 	$scope.gridOptions.data = [];
 
-	$scope.users = DropDownValueService.getUsers();
-	
+	$scope.users = DropDownValueService.getUsers();	
 	$scope.booleans = DropDownValueService.getBoolean();
 	
 	
@@ -24,10 +23,11 @@ angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http
 				availableToPublic : true,
 				archiveDue :''
 		    }
+		$scope.gridApi.selection.clearSelectedRows();
 	}
 	
 	$scope.submit = function(){
-		$http.get('addUpdate.do', {
+		$http.get('collectionAddUpdate.do', {
 			params:{	
 				collectionId: $scope.form.collectionId,
 				projectId: $scope.form.project,
@@ -44,22 +44,25 @@ angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http
 			response.data.projectCloseDate=$filter('date')(response.data.projectCloseDate,'d/MMM/yyyy');
 			response.data.archiveDue=$filter('date')(response.data.archiveDue,'d/MMM/yyyy');			
 			if($scope.form.collectionId){
-				$scope.gridApi.selection.getSelectedRows()[0]=response.data
+				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)				
 			}else{				
 				$scope.gridOptions.data.push(response.data)
+				$scope.resetForm();		
 			}
-			$scope.resetForm();		
 			
-		  }, function(response) {
-		    console.log(response)
+			
+		  }, function(response,status) {
+			  modalService.showModal({}, {    	            	           
+		           headerText: response.data.header,
+		           bodyText: response.data.message
+	    	 });
 		  });
 	}
 
  
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
-	$scope.gridOptions.columnDefs = [
-	                                 //{field: 'id', displayName: 'Id'},
+	$scope.gridOptions.columnDefs = [	                                
                                  	 { field: 'id',displayName: 'id',width:50 },
 	                                 { field: 'collectionId',displayName: 'collection id',width:150 },
 	                                 { field: 'project',displayName: 'project',width:130},
@@ -83,196 +86,27 @@ angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http
     	selectedRow.archiveDue=$filter('date')(selectedRow.archiveDue,'d/MMM/yyyy');
     	 $scope.form = selectedRow
      });
-     $http.get('getCollections.do')
+     
+     spinnerService.show('collection.grid');
+     $http.get('getCollections.do')     
      .success(function(data) {
        $scope.gridOptions.data = data;
-     });
+       spinnerService.hide('collection.grid')
+        
+     })
+     .error(function(data, status) {    	
+    	 modalService.showModal({}, {    	            	           
+	           headerText: "Error loading data:" + status ,
+	           bodyText: "Please contact cg-admin@csiro.au if this persist"
+    	 });
+       
+        spinnerService.hide('collection.grid')
+     })
+     
    };
+
    
-   
-  
    
 }]);
 
-angular.module('app').controller('SubCollectionCtrl', ['$scope', function ($scope) {
-	 
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
-	
-	$scope.gridOptions.columnDefs = [
-                                 	 { name: 'ID',width:50 },
-	                                 { name: 'Old ID',width:100 },
-	                                 { name: 'SubCollectionId',width:160},
-	                                 { name: 'Location in Store',width:160},
-	                                 { name: 'Container From',width:150 },
-	                                 { name: 'Container To',width:145 },
-	                                 { name: 'Sample From',width:140 },
-	                                 { name: 'Sample To',width:140 },
-	                                 { name: 'Storage Type',width:145 },
-	                                 { name: 'Hazardous',width:130 },
-	                                 { name: 'Collection Id',width:145 },	                                
-	                                 { name: 'ARRC Store',width:140 },
-	                                 { name: 'Source',width:120 },
-	                                 { name: 'Total Pallet',width:150 }
-	                               ];
-	                              
-   $scope.gridOptions.multiSelect = false;
-   $scope.gridOptions.modifierKeysToMultiSelect = false;
-   $scope.gridOptions.noUnselect = true;
-   $scope.gridOptions.onRegisterApi = function( gridApi ) {
-     $scope.gridApi = gridApi;
-   };
-  
-  
-   
-	
-   $scope.gridOptions.data = [
-	    {
-	    	 'ID': 14,
-             'Old ID':'',
-             'SubCollectionId': 'SC00001',
-             'Location in Store':'G2-L3',
-             'Container From':'',
-             'Container To':'',
-             'Sample From':'HM-1A',
-             'Sample To':'HM-110C',
-             'Storage Type':'STANDARD',
-             'Hazardous':'',
-             'Collection Id':'C00001',             
-             'ARRC Store':'',
-             'Source':'',
-             'Total Pallet':'1',
-	    },
-	    {
-	    	 'ID': 14,
-            'Old ID':'',
-            'SubCollectionId': 'SC00001',
-            'Location in Store':'G2-L3',
-            'Container From':'',
-            'Container To':'',
-            'Sample From':'HM-1A',
-            'Sample To':'HM-110C',
-            'Storage Type':'STANDARD',
-            'Hazardous':'',
-            'Collection Id':'C00001',             
-            'ARRC Store':'',
-            'Source':'',
-            'Total Pallet':'1',
-	    },
-	    {
-	    	 'ID': 14,
-            'Old ID':'',
-            'SubCollectionId': 'SC00001',
-            'Location in Store':'G2-L3',
-            'Container From':'',
-            'Container To':'',
-            'Sample From':'HM-1A',
-            'Sample To':'HM-110C',
-            'Storage Type':'STANDARD',
-            'Hazardous':'',
-            'Collection Id':'C00001',             
-            'ARRC Store':'',
-            'Source':'',
-            'Total Pallet':'1',
-	    }
-    ];
-}]);
-
-angular.module('app').controller('SampleCtrl', ['$scope', function ($scope) {
-	 
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false};
-	
-	$scope.gridOptions.columnDefs = [
-                                 	 { name: 'Sample Id',width:100 },
-	                                 { name: 'IGSN',width:100 },
-	                                 { name: 'CSIRO Sample',width:155},
-	                                 { name: 'Sample Type',width:140},
-	                                 { name: 'BHID',width:80},
-	                                 { name: 'Easting',width:110 },
-	                                 { name: 'Northing',width:110 },
-	                                 { name: 'Depth(m)',width:130 },
-	                                 { name: 'Datum',width:120 },
-	                                 { name: 'Zone',width:100 },
-	                                 { name: 'Container ID',width:150 },
-	                                 { name: 'Storage Location',width:165 },
-	                                 { name: 'SubCollection Id',width:165 },
-	                                 { name: 'External Ref',width:150 },
-	                                 { name: 'Sample Collector',width:165 },	                                 
-	                                 { name: 'Date Sampled',width:150 },	                               
-	                                 { name: 'Sample Disposed',width:165 },
-	                                 { name: 'Staff Disposed',width:165 }
-	                               ];
-	                              
-   $scope.gridOptions.multiSelect = false;
-   $scope.gridOptions.modifierKeysToMultiSelect = false;
-   $scope.gridOptions.noUnselect = true;
-   $scope.gridOptions.onRegisterApi = function( gridApi ) {
-     $scope.gridApi = gridApi;
-   };
-  
-   
-   
-	
-   $scope.gridOptions.data = [
-                      	    {
-                      	    	 'Sample Id':'970',
-                                 'IGSN':'',
-                                 'CSIRO Sample':'HM-1A',
-                                 'Sample Type': 'Rock',
-                                 'BHID':'',
-                                 'Easting':'584076',
-                                 'Northing':'7487628',
-                                 'Depth(m)':'50',
-                                 'Datum':'',
-                                 'Zone':'',
-                                 'Container ID':'',
-                                 'Storage Location':'',	 
-                                 'SubCollection Id' :'SC0001',
-                                 'External Ref':'White, Fortescue Group regional-scale metasomatism study, CSIRO Data Collection, 2013; White et al., Journal of Petrology, 55, 977-1009, 2014',
-                                 'Sample Collector':'Alistair White',	                                 
-                                 'Date Sampled':'Alistair White',	                               
-                                 'Sample Disposed':'08/08/2015',
-                                 'Staff Disposed':''
-                      	    },
-                      	   {
-                     	    	 'Sample Id':'970',
-                                'IGSN':'',
-                                'CSIRO Sample':'HM-1A',
-                                'Sample Type': 'Rock',
-                                'BHID':'',
-                                'Easting':'584076',
-                                'Northing':'7487628',
-                                'Depth(m)':'50',
-                                'Datum':'',
-                                'Zone':'',
-                                'Container ID':'',
-                                'Storage Location':'',	 
-                                'SubCollection Id' :'SC0001',
-                                'External Ref':'White, Fortescue Group regional-scale metasomatism study, CSIRO Data Collection, 2013; White et al., Journal of Petrology, 55, 977-1009, 2014',
-                                'Sample Collector':'Alistair White',	                                 
-                                'Date Sampled':'Alistair White',	                               
-                                'Sample Disposed':'08/08/2015',
-                                'Staff Disposed':''
-                     	    },
-                     	   {
-                     	    	 'Sample Id':'970',
-                                'IGSN':'',
-                                'CSIRO Sample':'HM-1A',
-                                'Sample Type': 'Rock',
-                                'BHID':'',
-                                'Easting':'584076',
-                                'Northing':'7487628',
-                                'Depth(m)':'50',
-                                'Datum':'',
-                                'Zone':'',
-                                'Container ID':'',
-                                'Storage Location':'',	 
-                                'SubCollection Id' :'SC0001',
-                                'External Ref':'White, Fortescue Group regional-scale metasomatism study, CSIRO Data Collection, 2013; White et al., Journal of Petrology, 55, 977-1009, 2014',
-                                'Sample Collector':'Alistair White',	                                 
-                                'Date Sampled':'Alistair White',	                               
-                                'Sample Disposed':'08/08/2015',
-                                'Staff Disposed':''
-                     	    }
-                          ];
-}]);
 

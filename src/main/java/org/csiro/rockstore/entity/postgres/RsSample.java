@@ -2,7 +2,6 @@ package org.csiro.rockstore.entity.postgres;
 
 // Generated 12/08/2015 3:14:54 PM by Hibernate Tools 4.3.1
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,6 +21,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -27,6 +29,17 @@ import com.vividsolutions.jts.geom.Point;
  */
 @Entity
 @Table(name = "rs_sample")
+@NamedQueries({
+	@NamedQuery(
+			name="RsSample.findSampleById",
+		    query="SELECT c FROM RsSample c WHERE c.id = :id"
+		),
+	@NamedQuery(
+			name="RsSample.getAllSample",
+		    query="SELECT c FROM RsSample c"
+		)
+		
+})	
 public class RsSample implements java.io.Serializable {
 
 	private int id;
@@ -95,6 +108,7 @@ public class RsSample implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "collection_id",referencedColumnName="collection_id")
+	@JsonManagedReference
 	public RsCollection getRsCollection() {
 		return this.rsCollection;
 	}
@@ -105,6 +119,7 @@ public class RsSample implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subcollection_id",referencedColumnName="subcollection_id")
+	@JsonManagedReference
 	public RsSubcollection getRsSubcollection() {
 		return this.rsSubcollection;
 	}

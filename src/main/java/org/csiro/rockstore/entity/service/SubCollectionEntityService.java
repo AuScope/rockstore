@@ -3,14 +3,14 @@ package org.csiro.rockstore.entity.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import org.csiro.rockstore.entity.postgres.RsCollection;
+import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CollectionEntityService {
+public class SubCollectionEntityService {
 	
 	
-	public void persist(RsCollection rc){
+	public void persist(RsSubcollection rc){
 		EntityManager em = JPAEntityManager.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(rc);
@@ -19,7 +19,7 @@ public class CollectionEntityService {
 	    
 	}
 	
-	public void merge(RsCollection rc){
+	public void merge(RsSubcollection rc){
 		EntityManager em = JPAEntityManager.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(rc);
@@ -28,25 +28,21 @@ public class CollectionEntityService {
 	    
 	}
 	
-	public RsCollection search(String collectionId){
+	public RsSubcollection search(String subCollectionId){
 
 		EntityManager em = JPAEntityManager.createEntityManager();
-		List<RsCollection> result = em.createNamedQuery("RsCollection.findCollectionById",RsCollection.class)
-	    .setParameter("collectionId", collectionId)
+		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.findSubCollectionById",RsSubcollection.class)
+	    .setParameter("subcollectionId", subCollectionId)
 	    .getResultList();
 		
 		//VT: should only ever return 1 result as collectionid is unique
-		if(result.isEmpty()){
-			return null;
-		}{
-			return result.remove(0);
-		}
+		return result.remove(0);
 	    
 	}
 	
-	public List<RsCollection> getCollections(){
+	public List<RsSubcollection> getSubCollections(){
 		EntityManager em = JPAEntityManager.createEntityManager();
-		List<RsCollection> result = em.createNamedQuery("RsCollection.getAllCollection",RsCollection.class)	    
+		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.getAllSubCollection",RsSubcollection.class)	    
 	    .getResultList();
 		
 		return result;

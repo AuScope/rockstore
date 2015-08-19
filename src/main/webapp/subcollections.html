@@ -8,7 +8,7 @@
   <title>ROCK STORE</title>
 
   <link href="css/bootstrap.css" rel="stylesheet">
- <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
   <!-- Fonts -->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700,800,300' rel='stylesheet' type='text/css'>
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -27,10 +27,14 @@
   	<link rel="styleSheet" href="js/angular-ui/ui-grid/ui-grid-stable.css"/>
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular-ui/ui-grid/ui-grid-stable.js"></script>
+	<script src="js/angular-ui/ui-bootstrap/ui-bootstrap-tpls-0.13.3.min.js"></script>
+	<script src="js/angular-ui/spinner/angular-spinners.min.js"></script>
+	
+	
 	
   <!-- Angular javascript -->	
-   <script src="js/rockstore/modules/app.js"></script>
-   <script src="js/rockstore/controllers/collectionsCtrl.js"></script>
+  <script src="js/rockstore/modules/app.js"></script>
+  <script src="js/rockstore/controllers/subCollectionCtrl.js"></script>
 
  
 </head>
@@ -43,28 +47,39 @@
     <script> 
     	<!--Load Header -->
 		$(function(){
-		  $("#header").load("header.html"); 		   
+		  $("#header").load("navigation.html"); 		   
 		});
 		
-	
+		<!--Dates -->
+		$(function() {
+		    $( "#ProjectCloseDate" ).datepicker();
+		    $( "#ArchiveDue" ).datepicker();
+		  });
+		
 	</script>
 	<div id="header"></div>
     <!-- NAVBAR END -->
 
    </div>
-   
-    
-   
 	<div class="section section-lg section-bottom">
       <div>    
         <div class="row mb">
           <div class="col-md-12">
 			<div class="row row-tabs" role="tabpanel">
 			  <div class="col-md-12">
-				 <div class="row mb" ng-controller="SubCollectionCtrl">			          	
-		          	<div class="panel panel-default col-md-8">
-					  <div class="panel-heading">SubCollections</div>
-					   <div id="SubCollectionGrid"  ui-grid="gridOptions" ui-grid-selection  class="collection-grid"></div>						 
+				  <div class="row mb" ng-controller="SubCollectionCtrl">
+				  	
+		          	<div class="panel panel-default col-md-8">		          	
+					  <div class="panel-heading">Collections</div>	
+					   <spinner name="subCollection.grid" ng-cloak="" >
+					   	   <div class="overlay"></div>
+						   <div class="spinner">
+						     <div class="double-bounce1"></div>
+						     <div class="double-bounce2"></div>
+						   </div>
+						   <div class="please-wait">Please Wait...</div>
+					   </spinner>					 
+					   <div id="SubCollectionGrid"  ui-grid="gridOptions" ui-grid-selection ui.grid.resizeColumns class="collection-grid" ></div>						 
 					</div>
 		          
 					<div class="panel text-theme col-md-4">
@@ -73,107 +88,75 @@
 					  </div>
 					  <div class="panel-body">
 					    <form class="form-horizontal">
-					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Old ID</label>
-					        <div class="col-sm-9">
-					          <input type="text"  class="form-control" placeholder="Original ID">
-					          <span class="help-block">Original Id</span>
+					      <div class="form-group has-success">					       
+					        <div class="col-sm-10">
+					          <button class="btn btn-rounded btn-green" type="button" ng-click="resetForm()">Clear Form</button>					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-3 control-label" for="inputSuccess">Subcollection ID</label>
 					        <div class="col-sm-9">
-					          <input type="text" class="form-control" placeholder="SubCollection Id">
-					          <span class="help-block">SubCollection Id</span>
+					          <input type="text" class="form-control" placeholder="SubCollection Id" ng-model="form.subcollectionId" readonly>
+					         
+					        </div>
+					      </div> 	
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Old ID</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Original ID" ng-model="form.oldId">
+					         
+					        </div>
+					      </div>					      
+					      <div class="form-group has-success">
+					        <label class="col-sm-3 control-label" for="inputSuccess">Collection ID</label>
+					        <div class="col-sm-9">
+					          <input type="text"  class="form-control" placeholder="Collection ID" ng-model="form.rsCollection['collectionId']">
+					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-3 control-label" for="inputSuccess">Location in Storage</label>
 					        <div class="col-sm-9">						          
-					           <input type="text"  class="form-control" placeholder="Location in Storage">
-					          <span class="help-block">Location in Storage</span>
+					           <select class="form-control" ng-model="form.locationInStorage" ng-options="location as location for location in locations"></select>
+					         
 					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Container From</label>
-					        <div class="col-sm-9">						          
-					           <input type="text"  class="form-control" placeholder="Container from">
-					          <span class="help-block">Container from</span>
-					        </div>
-					      </div>
-					       <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Container To</label>
-					        <div class="col-sm-9">						          
-					           <input type="text"  class="form-control" placeholder="Container to">
-					          <span class="help-block">Container to</span>
-					        </div>
-					      </div>
-					       <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Sample From</label>
-					        <div class="col-sm-9">						          
-					           <input type="text"  class="form-control" placeholder="Sample from">
-					          <span class="help-block">Sample from</span>
-					        </div>
-					      </div>
-					        <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Sample To</label>
-					        <div class="col-sm-9">						          
-					           <input type="text"  class="form-control" placeholder="Sample to">
-					          <span class="help-block">Sample to</span>
-					        </div>
-					      </div>
+					      </div>					      
 					       <div class="form-group has-success">
 					        <label class="col-sm-3 control-label" for="inputSuccess">Storage Type</label>
 					        <div class="col-sm-9">						          
-					          <select   class="form-control">
-								  <option value="volvo">STANDARD</option>
-								  <option value="volvo">EXTRA LARGE</option>
-								</select>
-					          <span class="help-block">Type of storage</span>
+					          <select class="form-control" ng-model="form.storageType" ng-options="storageType as storageType for storageType in storageTypes"></select>
+					          
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-3 control-label" for="inputSuccess">Hazardous</label>
 					        <div class="col-sm-9">						          
-					          <select   class="form-control">
-								  <option value="volvo">YES</option>
-								  <option value="volvo">NO</option>
-								</select>
-					          <span class="help-block">Is this hazardous</span>
+					          <select class="form-control" ng-model="form.hazardous" ng-options="boolean.value as boolean.YesNo for boolean in booleans"></select>	
+					         
 					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Collection ID</label>
-					        <div class="col-sm-9">
-					          <input type="text"  class="form-control" placeholder="Collection ID">
-					          <span class="help-block">Collection Id</span>
-					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">ARRC Store</label>
-					        <div class="col-sm-9">
-					          <input type="text"  class="form-control" placeholder="ARRC store location">
-					          <span class="help-block">Location in Arrc Store</span>
-					        </div>
-					      </div>
+					      </div>					      					      
 					      <div class="form-group has-success">
 					        <label class="col-sm-3 control-label" for="inputSuccess">Source</label>
 					        <div class="col-sm-9">
-					          <input type="text" class="form-control" placeholder="Source">
-					          <span class="help-block">Source of sub collection</span>
+					          <input type="text" class="form-control" placeholder="Source" ng-model="form.source">
+					        
 					        </div>
 					      </div>	
 					      <div class="form-group has-success">
 					        <label class="col-sm-3 control-label" for="inputSuccess">Total Pallet</label>
 					        <div class="col-sm-9">
-					          <input type="number"  class="form-control" placeholder="Total Pallets">
-					          <span class="help-block">Total number of pallets</span>
+					          <input type="number"  class="form-control" placeholder="Total Pallets" ng-model="form.totalPallet">					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">					       
+					        <div class="col-sm-12">
+					          <button class="btn btn-rounded btn-green pull-right" ng-click="submit()" type="button">Add/update</button>					         
 					        </div>
 					      </div>	    					    
 					    </form>
 					  </div>
 					</div>			         	
-				  </div>		    
+				  </div>			    
 			  </div>
 			</div>           
           </div>         

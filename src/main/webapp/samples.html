@@ -8,7 +8,7 @@
   <title>ROCK STORE</title>
 
   <link href="css/bootstrap.css" rel="stylesheet">
- <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
   <!-- Fonts -->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700,800,300' rel='stylesheet' type='text/css'>
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -27,10 +27,14 @@
   	<link rel="styleSheet" href="js/angular-ui/ui-grid/ui-grid-stable.css"/>
 	<script src="js/angular/angular.min.js"></script>
 	<script src="js/angular-ui/ui-grid/ui-grid-stable.js"></script>
+	<script src="js/angular-ui/ui-bootstrap/ui-bootstrap-tpls-0.13.3.min.js"></script>
+	<script src="js/angular-ui/spinner/angular-spinners.min.js"></script>
+	
+	
 	
   <!-- Angular javascript -->	
   <script src="js/rockstore/modules/app.js"></script>
-  <script src="js/rockstore/controllers/collectionsCtrl.js"></script>
+  <script src="js/rockstore/controllers/sampleCtrl.js"></script>
 
  
 </head>
@@ -43,13 +47,13 @@
     <script> 
     	<!--Load Header -->
 		$(function(){
-		  $("#header").load("header.html"); 		   
+		  $("#header").load("navigation.html"); 		   
 		});
 		
 		<!--Dates -->
-		$(function() {		   
-		    $( "#DateSample" ).datepicker();
-		    $( "#SampleDisposed" ).datepicker();
+		$(function() {
+		    $( "#DateSampled" ).datepicker();
+		    $( "#DateDisposed" ).datepicker();
 		  });
 		
 	</script>
@@ -59,42 +63,23 @@
    </div>
 	<div class="section section-lg section-bottom">
       <div>    
-      
         <div class="row mb">
           <div class="col-md-12">
 			<div class="row row-tabs" role="tabpanel">
 			  <div class="col-md-12">
-			    <div class="row mb" ng-controller="SampleCtrl">			          	
-		          	<div class="panel panel-default col-md-8">					  					   		 					   
-				   		<div class="panel panel-default">
-						  <div class="panel-heading">Filter Panel</div>
-						  <div class="panel-body">
-							<form class="form-horizontal">	  
-							  <div class="form-group">
-						       <label class="col-sm-2 control-label" for="inputSuccess">Collection</label>
-						       <div class="col-sm-10">						          
-						         <select   class="form-control">
-								  <option value="volvo">Rock</option>
-								  <option value="volvo">Sand</option>
-								</select>
-						         <span class="help-block">Is this hazardous</span>
-						       </div>
-						     </div>	
-						     <div class="form-group">
-						       <label class="col-sm-2 control-label" for="inputSuccess">Sub Collection</label>
-						       <div class="col-sm-10">						          
-						         <select   class="form-control">
-								  <option value="volvo">Rock</option>
-								  <option value="volvo">Sand</option>
-								</select>
-						         <span class="help-block">Is this hazardous</span>
-						       </div>
-						     </div>	
-						    </form>   
-						   </div>  	  
-						</div>
-						<div class="panel-heading">Samples</div>
-						<div id="SampleGrid"  ui-grid="gridOptions" ui-grid-selection  class="collection-grid"></div>
+				  <div class="row mb" ng-controller="SampleCtrl">
+				  	
+		          	<div class="panel panel-default col-md-8">		          	
+					  <div class="panel-heading">Samples</div>	
+					   <spinner name="sample.grid" ng-cloak="" >
+					   	   <div class="overlay"></div>
+						   <div class="spinner">
+						     <div class="double-bounce1"></div>
+						     <div class="double-bounce2"></div>
+						   </div>
+						   <div class="please-wait">Please Wait...</div>
+					   </spinner>					 
+					   <div id="SampleGrid"  ui-grid="gridOptions" ui-grid-selection ui.grid.resizeColumns class="collection-grid" ></div>						 
 					</div>
 		          
 					<div class="panel text-theme col-md-4">
@@ -104,26 +89,26 @@
 					  <div class="panel-body">
 					    <form class="form-horizontal">
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Id</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Id</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="Sample ID">					        
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">IGSN Number</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">IGSN Number</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="IGSN">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">CSIRO Sample ID</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">CSIRO Sample ID</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="CSIRO Sample ID">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Type</label>
-					        <div class="col-sm-9">						          
+					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Type</label>
+					        <div class="col-sm-8">						          
 					          <select   class="form-control">
 								  <option value="volvo">Rock</option>
 								  <option value="volvo">Sand</option>
@@ -132,104 +117,107 @@
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">BHID</label>
-					        <div class="col-sm-9">
-					          <input type="text" class="form-control" placeholder="BHID">
-					          <span class="help-block">BHID</span>
+					        <label class="col-sm-4 control-label" for="inputSuccess">BHID</label>
+					        <div class="col-sm-8">
+					          <input type="text" class="form-control" placeholder="BHID">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Easting (EPSG:4326)</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Easting (EPSG:4326)</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="Easting">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Northing (EPSG:4326)</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Northing (EPSG:4326)</label>
+					        <div class="col-sm-8">
 					          <input type="text" class="form-control" placeholder="Northing">					          
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Depth(m)</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Depth(m)</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="Depth(m)">					          
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Datum</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Datum</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="Datum">
 					         
 					        </div>
 					      </div>	
 					       <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Zone</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Zone</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="Zone">
 					          
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Container ID</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Container ID</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="Container ID">
 					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Location In Storage</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Location In Storage</label>
+					        <div class="col-sm-8">
 					          <input type="text" class="form-control" placeholder="Location In Storage">
 					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">SubCollection ID</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">SubCollection ID</label>
+					        <div class="col-sm-8">
 					          <input type="text" class="form-control" placeholder="SubCollection ID">
 					         
 					        </div>
 					      </div>						     
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">External Ref</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">External Ref</label>
+					        <div class="col-sm-8">
 					          <input type="text" class="form-control" placeholder="External Ref">
 					          
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Collector</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Collector</label>
+					        <div class="col-sm-8">
 					          <input type="text" class="form-control" placeholder="Sample Collector">
 					          
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Date Sampled</label>
-					        <div class="col-sm-9">
-					          <input type="text" id="DateSampled" class="form-control" placeholder="Date Sampled">
-					          
+					        <label class="col-sm-4 control-label" for="inputSuccess">Date Sampled</label>
+					        <div class="col-sm-8">
+					         <input type="text" id="DateSampled" class="form-control" placeholder="Project Close Date"  ng-model="form.dateSampled" jqdatepicker>					          
 					        </div>
 					      </div>						      
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Sample Disposed</label>
-					        <div class="col-sm-9">
-					          <input type="text" id="SampleDisposed" class="form-control" placeholder="Sample Disposed">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Disposed</label>
+					        <div class="col-sm-8">
+					          <input type="text"  class="form-control" placeholder="Sample Disposed">
 					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-3 control-label" for="inputSuccess">Staff Disposed ID</label>
-					        <div class="col-sm-9">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Date Disposed</label>
+					        <div class="col-sm-8">
+					         <input type="text" id="DateDisposed" class="form-control" placeholder="Project Close Date"  ng-model="form.dateDisposed" jqdatepicker>					          
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Staff Disposed ID</label>
+					        <div class="col-sm-8">
 					          <input type="text"  class="form-control" placeholder="Staff Disposed ID">
-					          
 					        </div>
 					      </div>						      
 					    </form>
 					  </div>
 					</div>			         	
-				  </div>	
+				  </div>			    
 			  </div>
 			</div>           
           </div>         
