@@ -14,6 +14,7 @@ public class CollectionEntityService {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(rc);
+		em.flush();
 		em.getTransaction().commit();
 	    em.close();
 	    
@@ -34,7 +35,7 @@ public class CollectionEntityService {
 		List<RsCollection> result = em.createNamedQuery("RsCollection.findCollectionById",RsCollection.class)
 	    .setParameter("collectionId", collectionId)
 	    .getResultList();
-		
+		em.close();
 		//VT: should only ever return 1 result as collectionid is unique
 		if(result.isEmpty()){
 			return null;
@@ -48,7 +49,7 @@ public class CollectionEntityService {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		List<RsCollection> result = em.createNamedQuery("RsCollection.getAllCollection",RsCollection.class)	    
 	    .getResultList();
-		
+		em.close();
 		return result;
 	}
 	

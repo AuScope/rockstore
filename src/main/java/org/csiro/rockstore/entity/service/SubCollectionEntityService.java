@@ -14,6 +14,7 @@ public class SubCollectionEntityService {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(rc);
+		em.flush();
 		em.getTransaction().commit();
 	    em.close();
 	    
@@ -34,7 +35,7 @@ public class SubCollectionEntityService {
 		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.findSubCollectionById",RsSubcollection.class)
 	    .setParameter("subcollectionId", subCollectionId)
 	    .getResultList();
-		
+		em.close();
 		//VT: should only ever return 1 result as collectionid is unique
 		return result.remove(0);
 	    
@@ -44,7 +45,7 @@ public class SubCollectionEntityService {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.getAllSubCollection",RsSubcollection.class)	    
 	    .getResultList();
-		
+		em.close();
 		return result;
 	}
 	

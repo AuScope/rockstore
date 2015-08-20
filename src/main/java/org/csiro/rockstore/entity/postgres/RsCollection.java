@@ -190,6 +190,7 @@ public class RsCollection implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsCollection")
+	@JsonBackReference
 	public Set<RsSample> getRsSamples() {
 		return this.rsSamples;
 	}

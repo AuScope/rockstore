@@ -68,7 +68,14 @@
 			<div class="row row-tabs" role="tabpanel">
 			  <div class="col-md-12">
 				  <div class="row mb" ng-controller="SampleCtrl">
-				  	
+				  	<spinner name="Page-spinner" ng-cloak="" >
+					   	   <div class="overlay"></div>
+						   <div class="spinner">
+						     <div class="double-bounce1"></div>
+						     <div class="double-bounce2"></div>
+						   </div>
+						   <div class="please-wait">Please Wait...</div>
+					   </spinner>		
 		          	<div class="panel panel-default col-md-8">		          	
 					  <div class="panel-heading">Samples</div>	
 					   <spinner name="sample.grid" ng-cloak="" >
@@ -88,105 +95,102 @@
 					  </div>
 					  <div class="panel-body">
 					    <form class="form-horizontal">
+					      <div class="form-group has-success">					       
+					        <div class="col-sm-12">
+					          <button class="btn btn-rounded btn-green" type="button" ng-click="resetForm()">Clear Form</button>					         
+					        </div>
+					      </div>	
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Id</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Sample ID">					        
+					          <input type="number"  class="form-control" placeholder="Sample ID" value={{form.id}} readonly>					        
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
+					        <label class="col-sm-4 control-label" for="inputSuccess">SubCollection ID</label>
+					        <div class="col-sm-8">
+					          <input type="text" class="form-control" placeholder="SubCollection ID" ng-model="form.rsSubcollection['subcollectionId']">					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-4 control-label" for="inputSuccess">Collection ID</label>
+					        <div class="col-sm-8">
+					          <input type="text" class="form-control" placeholder="Collection ID" ng-model="form.rsCollection['collectionId']">					         
+					        </div>
+					      </div>	
+					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">IGSN Number</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="IGSN">					         
+					          <input type="text"  class="form-control" placeholder="IGSN" ng-model="form.igsn">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">CSIRO Sample ID</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="CSIRO Sample ID">					         
+					          <input type="text"  class="form-control" placeholder="CSIRO Sample ID"  ng-model="form.csiroSampleId">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Type</label>
-					        <div class="col-sm-8">						          
-					          <select   class="form-control">
-								  <option value="volvo">Rock</option>
-								  <option value="volvo">Sand</option>
-								</select>
-					          
+					        <div class="col-sm-8">					          
+					         <select class="form-control" ng-model="form.sampleType" ng-options="sampleType as sampleType for sampleType in sampleTypes"></select>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">BHID</label>
 					        <div class="col-sm-8">
-					          <input type="text" class="form-control" placeholder="BHID">					         
+					          <input type="text" class="form-control" placeholder="BHID" ng-model="form.bhid">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-4 control-label" for="inputSuccess">Easting (EPSG:4326)</label>
+					        <label class="col-sm-4 control-label" for="inputSuccess">longitude (EPSG:4326)</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Easting">					         
+					          <input type="number" step="any"  class="form-control" placeholder="Easting" ng-model="form.lon">					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
-					        <label class="col-sm-4 control-label" for="inputSuccess">Northing (EPSG:4326)</label>
+					        <label class="col-sm-4 control-label" for="inputSuccess">latitude (EPSG:4326)</label>
 					        <div class="col-sm-8">
-					          <input type="text" class="form-control" placeholder="Northing">					          
+					          <input type="number" step="any" class="form-control" placeholder="Northing" ng-model="form.lat">					          
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Depth(m)</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Depth(m)">					          
+					          <input type="number" step="any" class="form-control" placeholder="Depth(m)" ng-model="form.depth">					          
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Datum</label>
-					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Datum">
-					         
+					        <div class="col-sm-8">					          
+					         <select class="form-control" ng-model="form.datum" ng-options="datum as datum for datum in datums"></select>
 					        </div>
 					      </div>	
 					       <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Zone</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Zone">
+					          <input type="text"  class="form-control" placeholder="Zone" ng-model="form.zone">
 					          
 					        </div>
 					      </div>
 					       <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Container ID</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Container ID">
+					          <input type="text"  class="form-control" placeholder="Container ID" ng-model="form.containerId">
 					         
 					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-4 control-label" for="inputSuccess">Location In Storage</label>
-					        <div class="col-sm-8">
-					          <input type="text" class="form-control" placeholder="Location In Storage">
-					         
-					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-4 control-label" for="inputSuccess">SubCollection ID</label>
-					        <div class="col-sm-8">
-					          <input type="text" class="form-control" placeholder="SubCollection ID">
-					         
-					        </div>
-					      </div>						     
+					      </div>					      					      					    
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">External Ref</label>
 					        <div class="col-sm-8">
-					          <input type="text" class="form-control" placeholder="External Ref">
+					          <input type="text" class="form-control" placeholder="External Ref" ng-model="form.externalRef">
 					          
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Collector</label>
-					        <div class="col-sm-8">
-					          <input type="text" class="form-control" placeholder="Sample Collector">
-					          
+					        <div class="col-sm-8">					          
+					          <select class="form-control" ng-model="form.sampleCollector" ng-options="user.value as user.display for user in users"></select>							          
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
@@ -198,8 +202,7 @@
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Disposed</label>
 					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Sample Disposed">
-					         
+					          <select class="form-control" ng-model="form.sampleDispose" ng-options="boolean.value as boolean.YesNo for boolean in booleans"></select>					         
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
@@ -210,8 +213,13 @@
 					      </div>
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Staff Disposed ID</label>
-					        <div class="col-sm-8">
-					          <input type="text"  class="form-control" placeholder="Staff Disposed ID">
+					        <div class="col-sm-8">					          
+					          <select class="form-control" ng-model="form.staffidDisposed" ng-options="user.value as user.display for user in users"></select>
+					        </div>
+					      </div>
+					      <div class="form-group has-success">					       
+					        <div class="col-sm-12">
+					          <button class="btn btn-rounded btn-green pull-right" ng-click="submit()" type="button">Add/update</button>					         
 					        </div>
 					      </div>						      
 					    </form>

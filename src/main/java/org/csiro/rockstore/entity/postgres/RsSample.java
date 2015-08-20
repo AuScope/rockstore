@@ -18,9 +18,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vividsolutions.jts.geom.Point;
 
@@ -64,17 +66,13 @@ public class RsSample implements java.io.Serializable {
 	public RsSample() {
 	}
 
-	public RsSample(int id) {
-		this.id = id;
-	}
 
-	public RsSample(int id, RsCollection rsCollection,
+	public RsSample( RsCollection rsCollection,
 			RsSubcollection rsSubcollection, String igsn, String csiroSampleId,
 			String sampleType, String bhid, Double depth, String datum,
 			String zone, String containerId, String externalRef,
 			String sampleCollector, Date dateSampled, Boolean sampleDispose,
-			Date dateDisposed, String staffidDisposed, Point location) {
-		this.id = id;
+			Date dateDisposed, String staffidDisposed, Point location) {		
 		this.rsCollection = rsCollection;
 		this.rsSubcollection = rsSubcollection;
 		this.igsn = igsn;
@@ -92,6 +90,32 @@ public class RsSample implements java.io.Serializable {
 		this.dateDisposed = dateDisposed;
 		this.staffidDisposed = staffidDisposed;
 		this.location = location;
+	}
+	
+	public RsSample update(RsCollection rsCollection,
+			RsSubcollection rsSubcollection, String igsn, String csiroSampleId,
+			String sampleType, String bhid, Double depth, String datum,
+			String zone, String containerId, String externalRef,
+			String sampleCollector, Date dateSampled, Boolean sampleDispose,
+			Date dateDisposed, String staffidDisposed, Point location) {		
+		this.setRsCollection(rsCollection);
+		this.setRsSubcollection(rsSubcollection);
+		this.setIgsn(igsn);
+		this.setCsiroSampleId(csiroSampleId);
+		this.setSampleType(sampleType);
+		this.setBhid(bhid);
+		this.setDepth(depth);
+		this.setDatum(datum);
+		this.setZone(zone);
+		this.setContainerId(containerId);
+		this.setExternalRef(externalRef);
+		this.setSampleCollector(sampleCollector);
+		this.setDateSampled(dateSampled);
+		this.setSampleDispose(sampleDispose);
+		this.setDateDisposed(dateDisposed);
+		this.setStaffidDisposed(staffidDisposed);
+		this.setLocation(location);
+		return this;
 	}
 
 	@Id
@@ -258,8 +282,20 @@ public class RsSample implements java.io.Serializable {
 
 	@Column(name = "location")
 	@Type(type="org.hibernate.spatial.GeometryType")
+	@JsonIgnore
 	public Point getLocation() {
 		return this.location;
+	}
+	
+	
+	@Transient
+	public Double getLon() {
+		return this.getLocation().getX();
+	}
+	
+	@Transient
+	public Double getLat() {
+		return this.getLocation().getY();
 	}
 
 	public void setLocation(Point location) {

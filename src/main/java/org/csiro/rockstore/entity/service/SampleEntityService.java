@@ -15,6 +15,7 @@ public class SampleEntityService {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(rs);
+		em.flush();
 		em.getTransaction().commit();
 	    em.close();
 	    
@@ -29,13 +30,13 @@ public class SampleEntityService {
 	    
 	}
 	
-	public RsSample search(String sampleId){
+	public RsSample search(int sampleId){
 
 		EntityManager em = JPAEntityManager.createEntityManager();
 		List<RsSample> result = em.createNamedQuery("RsSample.findSampleById",RsSample.class)
 	    .setParameter("id", sampleId)
 	    .getResultList();
-		
+		 em.close();
 		//VT: should only ever return 1 result as collectionid is unique
 		return result.remove(0);
 	    
@@ -45,7 +46,7 @@ public class SampleEntityService {
 		EntityManager em = JPAEntityManager.createEntityManager();
 		List<RsSample> result = em.createNamedQuery("RsSample.getAllSample",RsSample.class)	    
 	    .getResultList();
-		
+		em.close();
 		return result;
 	}
 	

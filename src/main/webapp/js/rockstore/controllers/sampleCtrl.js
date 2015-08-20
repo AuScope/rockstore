@@ -3,7 +3,10 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
 	$scope.gridOptions.data = [];
-	
+	$scope.users = DropDownValueService.getUsers();
+	$scope.sampleTypes = DropDownValueService.getSampleType();
+	$scope.booleans = DropDownValueService.getBoolean();
+	$scope.datums = DropDownValueService.getDatum();
 	
 	$scope.form ={};
 	
@@ -22,9 +25,12 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 		           bodyText: "Make sure you choose a valid collection id and sub-collection id"
 	    	 });
 		}
+		spinnerService.show('Page-spinner');
 		$http.get('sampleAddUpdate.do', {
 			params:{	
+				id : $scope.form.id,
 				subcollectionId: $scope.form.rsSubcollection['subcollectionId'],
+				collectionId: $scope.form.rsCollection['collectionId'],
 				igsn: $scope.form.igsn,
 				csiroSampleId: $scope.form.csiroSampleId,				
 				sampleType: $scope.form.sampleType,
@@ -39,14 +45,14 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 				sampleDispose : $scope.form.sampleDispose,
 				dateDisposed : $scope.form.dateDisposed,
 				staffidDisposed : $scope.form.staffidDisposed,
-				location : $scope.form.location,
-				collectionId: $scope.form.rsCollection['collectionId']
+				locationWkt : "POINT ("+$scope.form.lon + " "+ $scope.form.lat +")"
+				
 				}
 		})
 		.then(function(response) {		
 			response.data.dateSampled=$filter('date')(response.data.dateSampled,'d/MMM/yyyy');
 			response.data.dateDisposed=$filter('date')(response.data.dateDisposed,'d/MMM/yyyy');						
-			if($scope.form.subcollectionId){
+			if($scope.form.id){//VT if ID exist, we assume it is a update else it is a insert new
 				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)				
 			}else{				
 				$scope.gridOptions.data.push(response.data)
@@ -59,7 +65,10 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 		           headerText: response.data.header,
 		           bodyText: response.data.message
 	    	 });
-		  });
+		  })
+		  ['finally'](function(res){
+			  spinnerService.hide('Page-spinner');
+		  })
 	}
 
  
@@ -70,11 +79,11 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
                                  	 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
 	                                 { field: "rsSubcollection['subcollectionId']",displayName: 'subCollection id',width:150 },	                                 
 	                                 { field: 'igsn',displayName: 'igsn',width:150 },	                                 
-	                                 { field: 'csiroSampleId',displayName: 'CSIRO SampleId',width:130},
-	                                 { field: "sampleType",displayName: 'Sample Type',width:180},	                            
+	                                 { field: 'csiroSampleId',displayName: 'CSIRO SampleId',width:150},
+	                                 { field: "sampleType",displayName: 'Sample Type',width:140},	                            
 	                                 { field: 'bhid',displayName: 'Borehole ID',width:170 },
-	                                 { field: 'depth',displayName: 'Depth',width:170 },
-	                                 { field: 'datum',displayName: 'Datum',width:170 },
+	                                 { field: 'depth',displayName: 'Depth',width:110 },
+	                                 { field: 'datum',displayName: 'Datum',width:120 },
 	                                 { field: 'zone',displayName: 'Zone',width:170 },
 	                                 { field: 'containerId',displayName: 'ContainerId',width:170 },
 	                                 { field: 'externalRef',displayName: 'externalRef',width:170 },
@@ -83,7 +92,8 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 	                                 { field: 'sampleDispose',displayName: 'Sample Dispose',width:170 },
 	                                 { field: 'dateDisposed',displayName: 'Date Disposed', cellFilter :'date:"d/MMM/yyyy"', width:170 },
 	                                 { field: 'staffidDisposed',displayName: 'Staff Disposed',width:170 },
-	                                 { field: 'location',displayName: 'Location',width:170 },
+	                                 { field: 'lat',displayName: 'Latitude',width:120 },
+	                                 { field: 'lon',displayName: 'Longtitude',width:120 }
 	                               ];
 	                              
    $scope.gridOptions.multiSelect = false;
