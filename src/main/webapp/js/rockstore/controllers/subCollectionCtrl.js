@@ -1,4 +1,4 @@
-angular.module('app').controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
+allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
                                                     function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
@@ -56,6 +56,7 @@ angular.module('app').controller('SubCollectionCtrl', ['$scope','$rootScope','$h
 		  })
 		  ['finally'](function(res){
 			  spinnerService.hide('subcollection-page-spinner');
+			  spinnerService._unregister('subcollection-page-spinner')
 		  })
 	}
 
@@ -93,6 +94,7 @@ angular.module('app').controller('SubCollectionCtrl', ['$scope','$rootScope','$h
      .success(function(data) {
        $scope.gridOptions.data = data;
        spinnerService.hide('subCollection.grid')
+       spinnerService._unregister('subCollection.grid')
      })
      .error(function(data, status) {
     	 modalService.showModal({}, {    	            	           
@@ -100,6 +102,7 @@ angular.module('app').controller('SubCollectionCtrl', ['$scope','$rootScope','$h
 	           bodyText: "Please contact cg-admin@csiro.au if this persist"
     	 });
         spinnerService.hide('subCollection.grid')
+        spinnerService._unregister('subCollection.grid')
      })
      
    };

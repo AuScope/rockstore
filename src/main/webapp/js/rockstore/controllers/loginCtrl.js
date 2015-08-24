@@ -1,4 +1,4 @@
-angular.module('app').controller('LoginCtrl', ['$scope','$rootScope','$http',
+allControllers.controller('LoginCtrl', ['$scope','$rootScope','$http',
                                                     function ($scope,$rootScope,$http) {
 	
 	$scope.authenticated=$rootScope.authenticated

@@ -1,4 +1,4 @@
-angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
+allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
                                                     function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
@@ -68,6 +68,7 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 		  })
 		  ['finally'](function(res){
 			  spinnerService.hide('sample-page-spinner');
+			  spinnerService._unregister('sample-page-spinner')
 		  })
 	}
 
@@ -113,6 +114,8 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
      .success(function(data) {
        $scope.gridOptions.data = data;
        spinnerService.hide('sample.grid')
+       spinnerService._unregister('sample.grid')
+       
      })
      .error(function(data, status) {
     	 modalService.showModal({}, {    	            	           
@@ -120,6 +123,7 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 	           bodyText: "Please contact cg-admin@csiro.au if this persist"
     	 });
         spinnerService.hide('sample.grid')
+        spinnerService._unregister('sample.grid')
      })
      
    };	

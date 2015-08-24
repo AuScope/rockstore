@@ -1,5 +1,5 @@
 
-angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
+allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
                                                     function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
@@ -93,6 +93,7 @@ angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http
      .success(function(data) {
        $scope.gridOptions.data = data;
        spinnerService.hide('collection.grid')
+       spinnerService._unregister('collection.grid')
         
      })
      .error(function(data, status) {    	
@@ -102,6 +103,7 @@ angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http
     	 });
        
         spinnerService.hide('collection.grid')
+        spinnerService._unregister('collection.grid')
      })
      
    };

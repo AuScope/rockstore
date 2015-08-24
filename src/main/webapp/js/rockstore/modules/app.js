@@ -1,4 +1,36 @@
-var app = angular.module('app', ['ui.grid','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners']);
+var app = angular.module('app', ['ngRoute','allControllers','ui.grid','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners']);
+
+app.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/', {
+        templateUrl: 'views/browse.html',
+        controller: 'CollectionCtrl'
+      }).
+      when('/browse', {
+        templateUrl: 'views/browse.html',
+        controller: 'CollectionCtrl'
+      }).
+      when('/collections', {
+          templateUrl: 'views/collections.html',
+          controller: 'CollectionCtrl'
+        }).
+      when('/subcollections', {
+          templateUrl: 'views/subcollections.html',
+          controller: 'SubCollectionCtrl'
+        }).
+      when('/samples', {
+          templateUrl: 'views/samples.html',
+          controller: 'SampleCtrl'
+        }).
+      when('/login', {
+          templateUrl: 'views/login.html',
+          controller: 'LoginCtrl'
+        }).     
+      otherwise({
+        redirectTo: '/'
+      });
+  }]);
 
 app.service('DropDownValueService', function() {
     this.getUsers = function() {

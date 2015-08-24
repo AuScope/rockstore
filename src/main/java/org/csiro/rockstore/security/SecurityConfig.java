@@ -92,7 +92,7 @@ public  class SecurityConfig extends
 			if(referrer.endsWith("/login.html")){								
 				result.put("redirect", (httpServletRequest.getContextPath() + "/index.html"));				
 			}else{
-				httpServletResponse.sendRedirect(referrer);
+				result.put("redirect", (referrer));
 			}
 			
 			httpServletResponse.getWriter().write(gson.toJson(result));

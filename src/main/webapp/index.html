@@ -26,6 +26,7 @@
     <!-- angular-UI -->
   	<link rel="styleSheet" href="js/angular-ui/ui-grid/ui-grid-stable.css"/>
 	<script src="js/angular/angular.min.js"></script>
+	<script src="js/angular/angular-route.min.js"></script>	
 	<script src="js/angular-ui/ui-grid/ui-grid-stable.js"></script>
 	<script src="js/angular-ui/ui-bootstrap/ui-bootstrap-tpls-0.13.3.min.js"></script>
 	<script src="js/angular-ui/spinner/angular-spinners.min.js"></script>
@@ -34,208 +35,120 @@
 	
   <!-- Angular javascript -->	
   <script src="js/rockstore/modules/app.js"></script>
+  <script src="js/rockstore/controllers/controllers.js"></script>
   <script src="js/rockstore/controllers/loginCtrl.js"></script>
   <script src="js/rockstore/controllers/collectionsCtrl.js"></script>
+  <script src="js/rockstore/controllers/subCollectionCtrl.js"></script>
+  <script src="js/rockstore/controllers/sampleCtrl.js"></script>
 
  
 </head>
 
 <body class="body-nav-fixed-menu-top" ng-app="app">
   <div class="wrapper-body">
-
-    <!-- NAVBAR -->
-    <!--===============================================================-->
-   <div ng-include src="'navigation.html'"></div>
-   
-	<div id="header"></div>
-    <!-- NAVBAR END -->
-   </div>
-   
-   <div class="section section-lg section-bottom">
-      <div>    
-        <div class="row mb">
-          <div class="col-md-12">
-			  <div class="col-sm-4 grid-sidebar">		         
-		          <div class="row-heading row-heading-mt-40">
-		            <div class="col-sm-12">
-		              <h3 class="title-sm text-uppercase hr-left text-theme">Search</h3>
-		            </div>
-		          </div>
-		          <div class="row">
-		            <div class="col-sm-12">
-		               <div class="icon-box bordered">		               
-		                <h3 class="title-sm text-theme">Collections</h3>
-		                <hr class="hr-divider-xs">
-		                <form class="form-horizontal">					    					      
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Collection ID</label>
-					        <div class="col-sm-10">
-					          <input type="text" class="form-control" placeholder="Collection ID" value={{form.collectionId}} readonly>
-					         
-					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Project</label>
-					        <div class="col-sm-10">
-					          <input type="text"  class="form-control" placeholder="Project" ng-model="form.project">
-					         
-					        </div>
-					      </div>					     			    					   
-					    </form>
-		              </div>
-		              <hr class="hr-divider-xs">
-		               <div class="icon-box bordered">		               
-		                <h3 class="title-sm text-theme">Sub-Collections</h3>
-		                <hr class="hr-divider-xs">
-		                 <form class="form-horizontal">					    					      
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Collection ID</label>
-					        <div class="col-sm-10">
-					          <input type="text" class="form-control" placeholder="Collection ID" value={{form.collectionId}} readonly>
-					         
-					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Project</label>
-					        <div class="col-sm-10">
-					          <input type="text"  class="form-control" placeholder="Project" ng-model="form.project">
-					         
-					        </div>
-					      </div>					     			    					   
-					    </form>
-		              </div>
-		              <hr class="hr-divider-xs">
-		               <div class="icon-box bordered">		               
-		                <h3 class="title-sm text-theme">Sample</h3>
-		                <hr class="hr-divider-xs">
-		                <div class="panel-body">
-					    <form class="form-horizontal">					    					      
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Collection ID</label>
-					        <div class="col-sm-10">
-					          <input type="text" class="form-control" placeholder="Collection ID" value={{form.collectionId}} readonly>
-					         
-					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Project</label>
-					        <div class="col-sm-10">
-					          <input type="text"  class="form-control" placeholder="Project" ng-model="form.project">
-					         
-					        </div>
-					      </div>					     			    					   
-					    </form>
-					  </div>
-		              </div>		             
-		            </div>
-		          </div>
-		      </div>    
-		      <div class="col-sm-8 grid-posts">
-		          <!-- POST ITEM 1 -->
-		          <div class="row">
-		            <div class="col-sm-12">
-		            
-		            
-			            <div class="panel-acc panel-group panel-group-v1 panel-group-icon-v1 icon-right" id="accordion-icon-right">
-						  <div class="panel panel-default panel-collapse-in">
-						    <div class="panel-body">
-						      <h4 class="panel-title"></h4>						      	
-						          <div class="wrapper-post">		                
-					                <div class="wrapper-post-text">
-					                  <h3 class="title-lg text-uppercase text-theme">Hammersley basin distall</h3>
-					                  <ul class="list-unstyled list-inline text-theme post-date-author">
-					                    <li>
-					                      <i class="fa fa-user"></i>AJW
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-map-marker"></i>G2-L3
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-file-o"></i>SC00001
-					                    </li>
-					                  </ul>
-					                  <br>
-					                  <p>some sort of meaningful description would be nice
-					                  </p>
-					                  <br>					                  
-					                  <a href="#content-icon-right-1" data-toggle="collapse" data-target="#content-icon-right-1" class="text-theme btn btn-primary btn-md">Read More</a>					                  
-					                </div>
-					              </div>
-						    </div>
-						    <div id="content-icon-right-1" class="panel-collapse collapse">
-						      <div class="panel-body">
-						        <p class="text-theme">We will expand from here to show more information</p>
-						      </div>
-						    </div>
-						  </div>
-						   <hr class="hr-divider-xs">
-						   <div class="panel panel-default panel-collapse-in">
-						    <div class="panel-body">
-						      <h4 class="panel-title"></h4>					      	
-						          <div class="wrapper-post">		                
-					                <div class="wrapper-post-text">
-					                  <h3 class="title-lg text-uppercase text-theme">Hammersley basin distall</h3>
-					                  <ul class="list-unstyled list-inline text-theme post-date-author">
-					                    <li>
-					                      <i class="fa fa-user"></i>AJW
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-map-marker"></i>G2-L3
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-file-o"></i>SC00001
-					                    </li>
-					                  </ul>
-					                  <br>
-					                  <p>some sort of meaningful description would be nice
-					                  </p>
-					                  <br>					                  
-					                  <a href="#content-icon-right-2" data-toggle="collapse" data-target="#content-icon-right-2" class="text-theme btn btn-primary btn-md">Read More</a>					                  
-					                </div>
-					              </div>						       
-						      
-						    </div>
-						    <div id="content-icon-right-2" class="panel-collapse collapse">
-						      <div class="panel-body">
-						        <p class="text-theme">We will expand from here to show more information</p>
-						      </div>
-						    </div>
-						  </div>
-						   <hr class="hr-divider-xs">
-						</div>		           
-		            </div>
-		          </div>
-		        	 
-		          <!-- PAGINATAION -->
-		          <div class="row">
-		            <div class="col-sm-12">
-		              <ul class="pagination pagination-lg">
-		                <li class="active">
-		                  <a href="#">1</a>
-		                </li>
-		                <li>
-		                  <a href="#">2</a>
-		                </li>
-		                <li>
-		                  <a href="#">3</a>
-		                </li>
-		                <li>
-		                  <a href="#">4</a>
-		                </li>
-		                <li>
-		                  <a href="#">Next Page &raquo;</a>
-		                </li>
-		              </ul>
-		            </div>
-		          </div>
-		        </div>   
-          </div>         
+    <div id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="LoginCtrl">
+      <div class="menu-top menu-top-inverse">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-5 hidden-xs">
+              <a class="title-menu-top display-inline-block" href="mailto:insure@allsure.com.au">cg-admin@csiro.au</a>
+            </div>
+            <div class="col-sm-7 col-xs-12">
+			  <div class="pull-right">
+                <div class="dropdown dropdown-login pull-left">
+                  <a href="#/login"><button class="btn-menu-top"><i class="fa fa-user"></i> Log in </button></a>                  
+                </div>
+			  </div>                           
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="navbar-header">
+         
+          <a class="navbar-brand" href="index.html">
+            <img class="brand-img-2" src="img/logo.png" alt="logo">
+            <img class="brand-img-1" src="img/logo.png" alt="logo">
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+           
+            <li class="dropdown">
+              <a href="#contact" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Browse</a>
+              <ul class="dropdown-menu dropdown-menu-left">
+              	<li>
+                  <a href="#/browse">Collections</a>
+                </li>
+                <li>
+                  <a href="xxx.html">Previous revisions</a>
+                </li>
+                <li>
+                  <a href="xxx.html">History logs</a>
+                </li>
+              </ul>
+            </li>
+            <!-- Get a quote -->
+           <li class="dropdown">
+              <a href="#contact" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">Manage Data</a>
+              <ul class="dropdown-menu dropdown-menu-left">
+              	<li>
+                  <a href="#/collections">Collections</a>
+                </li>
+                <li>
+                  <a href="#/subcollections">SubCollections</a>
+                </li>
+                <li>
+                  <a href="#/samples">Samples</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+            	<a href="xxx.html">Settings</a>
+            </li>
+            <li>
+            	<a href="xxx.html">About Us</a>
+            </li>
+                                  
+              
+          </ul>
         </div>
       </div>
     </div>
-  
+   </div>
+   
+    <script> 
+		<!--Dates -->
+		$(function() {
+		    $( "#ProjectCloseDate" ).datepicker();
+		    $( "#ArchiveDue" ).datepicker();
+		    $( "#DateSampled" ).datepicker();
+		    $( "#DateDisposed" ).datepicker();		    	    
+		  });
+		
+	</script>
+   
+   <!-- CONTENT STARTS HERE -->
+   <div ng-view></div>
    
 
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
