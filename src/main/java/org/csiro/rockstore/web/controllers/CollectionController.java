@@ -1,6 +1,7 @@
 package org.csiro.rockstore.web.controllers;
 
 
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -79,7 +80,8 @@ public class CollectionController {
 	
   
     @RequestMapping(value = "getCollections.do")
-    public ResponseEntity<List<RsCollection>> getCollections(                       
+    public ResponseEntity<List<RsCollection>> getCollections(       
+    		Principal user,
             HttpServletResponse response){
     	try{
     		List<RsCollection> lrc = this.collectionEntityService.getCollections();    		

@@ -33,8 +33,7 @@
    <servlet-mapping>
       <servlet-name>annotationsDispatcher</servlet-name>
       <url-pattern>*.diag</url-pattern>
-   </servlet-mapping>
-
+   </servlet-mapping>   
    <welcome-file-list>
       <welcome-file>index.html</welcome-file>
    </welcome-file-list>
@@ -47,35 +46,5 @@
 
    <!-- Security for admin page below this comment -->
 
-   <security-constraint>
-        <display-name>Admin User URLs</display-name>
-        <web-resource-collection>
-            <web-resource-name>Admin User URLs</web-resource-name>
-            <url-pattern>/admin.html</url-pattern>
-            <url-pattern>*.diag</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>manager</role-name>
-            <role-name>admin</role-name>
-            <role-name>tomcat</role-name>
-        </auth-constraint>
-    </security-constraint>
-
-    <security-role>
-        <role-name>manager</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>tomcat</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>admin</role-name>
-    </security-role>
-
-    <login-config>
-        <auth-method>BASIC</auth-method>
-        <realm-name>AuScope Portal</realm-name>
-    </login-config>
-
+  
 </web-app>

@@ -25,7 +25,7 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 		           bodyText: "Make sure you choose a valid collection id and sub-collection id"
 	    	 });
 		}
-		spinnerService.show('Page-spinner');
+		spinnerService.show('sample-page-spinner');
 		$http.get('sampleAddUpdate.do', {
 			params:{	
 				id : $scope.form.id,
@@ -67,7 +67,7 @@ angular.module('app').controller('SampleCtrl', ['$scope','$rootScope','$http','D
 	    	 });
 		  })
 		  ['finally'](function(res){
-			  spinnerService.hide('Page-spinner');
+			  spinnerService.hide('sample-page-spinner');
 		  })
 	}
 

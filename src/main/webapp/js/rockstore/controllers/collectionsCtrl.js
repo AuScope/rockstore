@@ -57,6 +57,7 @@ angular.module('app').controller('CollectionCtrl', ['$scope','$rootScope','$http
 		           bodyText: response.data.message
 	    	 });
 		  });
+		  
 	}
 
  

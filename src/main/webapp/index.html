@@ -34,24 +34,21 @@
 	
   <!-- Angular javascript -->	
   <script src="js/rockstore/modules/app.js"></script>
-   <script src="js/rockstore/controllers/collectionsCtrl.js"></script>
+  <script src="js/rockstore/controllers/loginCtrl.js"></script>
+  <script src="js/rockstore/controllers/collectionsCtrl.js"></script>
 
  
 </head>
 
-<body class="body-nav-fixed-menu-top">
+<body class="body-nav-fixed-menu-top" ng-app="app">
   <div class="wrapper-body">
 
     <!-- NAVBAR -->
     <!--===============================================================-->
-    <script> 
-		$(function(){
-		  $("#header").load("navigation.html"); 		   
-		});
-	</script>
+   <div ng-include src="'navigation.html'"></div>
+   
 	<div id="header"></div>
     <!-- NAVBAR END -->
-
    </div>
    
    <div class="section section-lg section-bottom">
@@ -236,7 +233,7 @@
         </div>
       </div>
     </div>
-   
+  
    
 
 </body>

@@ -1,6 +1,7 @@
 package org.csiro.rockstore.web.controllers;
 
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -78,7 +79,8 @@ public class SubCollectionController {
       
     
     @RequestMapping(value = "getSubCollections.do")
-    public ResponseEntity<List<RsSubcollection>> getSubCollections(                       
+    public ResponseEntity<List<RsSubcollection>> getSubCollections(      
+    		Principal user,
             HttpServletResponse response) {
     	try{
     		List<RsSubcollection> lrc = this.subCollectionEntityService.getSubCollections();    		
