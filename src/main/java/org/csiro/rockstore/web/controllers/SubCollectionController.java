@@ -46,9 +46,12 @@ public class SubCollectionController {
             @RequestParam(required = true, value ="collectionId") String collectionId,
             @RequestParam(required = false, value ="source") String source,
             @RequestParam(required = false, value ="totalPallet") Integer totalPallet,
+            Principal user,
             HttpServletResponse response){
     	
-    
+    	if(user==null){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+    	}
     	try{
 	    	if(subcollectionId != null && !subcollectionId.isEmpty()){
 	    		RsSubcollection rsc = this.subCollectionEntityService.search(subcollectionId);

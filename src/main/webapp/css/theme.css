@@ -85,6 +85,10 @@ a:focus {
 .a-black {
   color: black;
 }
+
+.a-red {
+  color: red;
+}
 /* HEADING OF PAGES
    ================================================== */
 .section-heading-page {

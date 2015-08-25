@@ -12,24 +12,27 @@ app.config(['$routeProvider',
         controller: 'CollectionCtrl'
       }).
       when('/collections', {
-          templateUrl: 'views/collections.html',
+          templateUrl: 'restricted/collections.html',
           controller: 'CollectionCtrl'
         }).
       when('/subcollections', {
-          templateUrl: 'views/subcollections.html',
+          templateUrl: 'restricted/subcollections.html',
           controller: 'SubCollectionCtrl'
         }).
       when('/samples', {
-          templateUrl: 'views/samples.html',
+          templateUrl: 'restricted/samples.html',
           controller: 'SampleCtrl'
         }).
       when('/login', {
-          templateUrl: 'views/login.html',
-          controller: 'LoginCtrl'
+          templateUrl: 'views/login.html'
+         
         }).     
       otherwise({
         redirectTo: '/'
       });
+    
+    
+    
   }]);
 
 app.service('DropDownValueService', function() {
@@ -131,6 +134,32 @@ app.service('modalService', ['$modal',function ($modal) {
       };
 
   }]);
+
+app.service('currentAuthService', function() {
+	
+	 var status = {};	
+
+    return {
+    	getAuthenticated: function () {
+            return status.authenticated;
+        },
+        setAuthenticated: function (auth) {
+        	status.authenticated = auth;
+        },
+        setUsername : function(name){
+        	status.username=name;
+        },
+        getUsername : function(){
+        	return status.username;
+        },
+        getStatus : function(){
+        	return status;
+        }
+    };
+		    
+		    
+    
+});
 
 
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SecurityController {
 	
-	@RequestMapping("user.do")
+	@RequestMapping("getUser.do")
 	public ResponseEntity<Principal>  user(Principal user) {
 		return new ResponseEntity<Principal>(user,HttpStatus.OK);    			
 	}

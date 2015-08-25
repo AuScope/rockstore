@@ -1,6 +1,7 @@
 package org.csiro.rockstore.web.controllers;
 
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -63,7 +64,12 @@ public class SampleController {
             @RequestParam(required = false, value ="dateDisposed") String dateDisposed,
             @RequestParam(required = false, value ="staffidDisposed") String staffidDisposed,
             @RequestParam(required = false, value ="locationWkt") String locationWkt,
+            Principal user,
             HttpServletResponse response){
+    	
+    	if(user==null){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+    	}
     	
     
     	try{

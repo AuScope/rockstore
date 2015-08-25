@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,14 +38,14 @@ public  class SecurityConfig extends
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {		
 		http.authorizeRequests()
-		 .antMatchers("/collections.html","/subcollections.html","/samples.html").authenticated()	
+		 .antMatchers("/restricted/**").authenticated()
 		 .and()
 		    .formLogin()
 		    	.usernameParameter("j_username") // default is username
                 .passwordParameter("j_password") // default is password
-		    	.loginPage("/login.html").successHandler(new CustomSuccessHandler()).failureUrl("/index.html")		   		
+		    	.loginPage("/views/login.html").successHandler(new CustomSuccessHandler()).failureUrl("/views/login.html?failure")		   		
 		 .and()
-		    .logout().logoutSuccessUrl("/index.html")
+		    .logout().logoutSuccessUrl("/")
 		    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		 .and()
 		    .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
@@ -62,8 +63,21 @@ public  class SecurityConfig extends
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	  auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");		  
+	  //auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		auth.ldapAuthentication()
+        .userDnPatterns("cn={0},ou=Users")//.userSearchFilter("(&(objectClass=inetOrgPerson))")        
+        .contextSource(getLdapContextSource());            
+          
+		
 	}	
+	
+	private LdapContextSource getLdapContextSource() throws Exception {
+        LdapContextSource cs = new LdapContextSource();
+        cs.setUrl("ldaps://cg-admin.arrc.csiro.au:636");
+        cs.setBase("dc=arrc,dc=csiro,dc=au");     
+        cs.afterPropertiesSet();
+        return cs;
+    }
 	
 	
 	protected class CustomSuccessHandler implements AuthenticationSuccessHandler{
@@ -82,19 +96,11 @@ public  class SecurityConfig extends
 
 			// set our response to OK status
 			httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-			httpServletResponse.setContentType("text/html; charset=UTF-8");
-			String referrer = httpServletRequest.getHeader("referer");
+			httpServletResponse.setContentType("text/html; charset=UTF-8");			
 			Gson gson = new Gson();
 			Map<String,String> result = new HashMap<String,String>();
-			
-			
-			
-			if(referrer.endsWith("/login.html")){								
-				result.put("redirect", (httpServletRequest.getContextPath() + "/index.html"));				
-			}else{
-				result.put("redirect", (referrer));
-			}
-			
+			result.put("name", authUser.getUsername());
+
 			httpServletResponse.getWriter().write(gson.toJson(result));
 	    }  
 	}  

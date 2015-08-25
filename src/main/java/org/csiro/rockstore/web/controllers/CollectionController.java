@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.auth.AuthenticationException;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.utilities.NullUtilities;
@@ -47,9 +48,13 @@ public class CollectionController {
             @RequestParam(required = false, value ="projectPublication") String projectPublication,
             @RequestParam(required = false, value ="projectCloseDate") String projectCloseDate,
             @RequestParam(required = false, value ="availableToPublic") String availableToPublic,
-            @RequestParam(required = false, value ="archiveDue") String archiveDue,            
+            @RequestParam(required = false, value ="archiveDue") String archiveDue,
+            Principal user,
             HttpServletResponse response) {
     	
+    	if(user==null){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+    	}
     
     	try{
 	    	if(collectionId != null && !collectionId.isEmpty()){
@@ -82,8 +87,8 @@ public class CollectionController {
     @RequestMapping(value = "getCollections.do")
     public ResponseEntity<List<RsCollection>> getCollections(       
     		Principal user,
-            HttpServletResponse response){
-    	try{
+            HttpServletResponse response) throws Exception{
+    	try{    		
     		List<RsCollection> lrc = this.collectionEntityService.getCollections();    		
     		return  new ResponseEntity<List<RsCollection>>(lrc,HttpStatus.OK);
     	}catch(Exception e){

@@ -1,7 +1,6 @@
-allControllers.controller('LoginCtrl', ['$scope','$rootScope','$http',
-                                                    function ($scope,$rootScope,$http) {
+allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location',
+                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location ) {
 	
-	$scope.authenticated=$rootScope.authenticated
 	
 	var authenticate = function(credentials) {
 		if(!(credentials.username && credentials.password)){
@@ -12,21 +11,31 @@ allControllers.controller('LoginCtrl', ['$scope','$rootScope','$http',
         '&j_password=' + encodeURIComponent(credentials.password);
 		
 
-	    $http.post('login.html',details, {
+	    $http.post('views/login.html',details, {
             headers : {
                 'Content-Type': 'application/x-www-form-urlencoded'               
             }
         }).success(function(data,status) {
         	
-	      if (data.redirect) {
-	    	  $rootScope.authenticated = true;
-              window.location.href = data.redirect;
+	      if (data.name) {
+	    	  currentAuthService.setAuthenticated(true);
+	    	  currentAuthService.setUsername(data.name);
+	    	  
+	    	  if($location.path()=='/login'){
+	    		  $location.path("/");
+	    	  }else{
+	    		  var currentPageTemplate = $route.current.templateUrl;
+		    	  $templateCache.remove(currentPageTemplate);
+		    	  $route.reload();  
+	    	  }
+	    	  	    	  
           }else{
-        	  $rootScope.authenticated = false;
+        	  currentAuthService.setAuthenticated(false);
+        	  $scope.error=true;
           }
 	    
 	    }).error(function() {
-	      $rootScope.authenticated = false;	     
+	    	currentAuthService.setAuthenticated(false);	     
 	    });	    
 
 	  }
@@ -40,9 +49,9 @@ allControllers.controller('LoginCtrl', ['$scope','$rootScope','$http',
 	  
 	  $scope.logout = function() {
 		  $http.get('logout', {}).success(function() {
-		    $rootScope.authenticated = false;		   
+			  currentAuthService.setAuthenticated(false);
 		  }).error(function(data) {
-		    $rootScope.authenticated = false;
+			  currentAuthService.setAuthenticated(false);
 		  });
 		}
    

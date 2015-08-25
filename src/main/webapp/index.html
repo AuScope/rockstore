@@ -40,14 +40,14 @@
   <script src="js/rockstore/controllers/collectionsCtrl.js"></script>
   <script src="js/rockstore/controllers/subCollectionCtrl.js"></script>
   <script src="js/rockstore/controllers/sampleCtrl.js"></script>
-
+  <script src="js/rockstore/controllers/loginStatusCtrl.js"></script>
  
 </head>
 
 <body class="body-nav-fixed-menu-top" ng-app="app">
   <div class="wrapper-body">
-    <div id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="LoginCtrl">
-      <div class="menu-top menu-top-inverse">
+    <div id="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="menu-top menu-top-inverse" ng-controller="LoginStatusCtrl">
         <div class="container">
           <div class="row">
             <div class="col-sm-5 hidden-xs">
@@ -56,7 +56,8 @@
             <div class="col-sm-7 col-xs-12">
 			  <div class="pull-right">
                 <div class="dropdown dropdown-login pull-left">
-                  <a href="#/login"><button class="btn-menu-top"><i class="fa fa-user"></i> Log in </button></a>                  
+                  <a href="logout"><button class="btn-menu-top" ng-show="status.authenticated"><i class="fa fa-user"></i> Log out ,<span ng-bind="status.username"></span> </button></a>
+                  <a href="#/login"><button class="btn-menu-top" ng-show="!status.authenticated"><i class="fa fa-user"></i> Log in </button></a>                  
                 </div>
 			  </div>                           
             </div>
