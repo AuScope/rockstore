@@ -1,7 +1,9 @@
 package org.csiro.rockstore.security;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
@@ -39,7 +42,7 @@ public  class SecurityConfig extends
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {		
 		http.authorizeRequests()
-		 .antMatchers("/restrictedzz/**").authenticated()
+		 .antMatchers("/restricted/**").authenticated()
 		 .and()
 		    .formLogin()
 		    	.usernameParameter("j_username") // default is username
@@ -64,9 +67,10 @@ public  class SecurityConfig extends
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	  //auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+	 
 		auth.ldapAuthentication()
-        .userDnPatterns("ou=Users").userSearchFilter("(&(objectClass=inetOrgPerson)(uid={0}))")        
+        .userDnPatterns("ou=Users").userSearchFilter("(&(objectClass=inetOrgPerson)(uid={0}))")  
+        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(memberUid={1}))")
         .contextSource(getLdapContextSource());            
           
 		
@@ -100,10 +104,24 @@ public  class SecurityConfig extends
 			httpServletResponse.setContentType("text/html; charset=UTF-8");			
 			Gson gson = new Gson();
 			Map<String,String> result = new HashMap<String,String>();
-			result.put("name", authUser.getUsername());
-
+			
+			if(!checkRole(authUser.getAuthorities(),"ROLE_ROCKSTORE_TEST")){
+				result.put("restricted", "Missing required permission");
+				SecurityContextHolder.getContext().setAuthentication(null);
+			}else{
+				result.put("name", authUser.getUsername());
+			}
 			httpServletResponse.getWriter().write(gson.toJson(result));
 	    }  
+		
+		private boolean checkRole(Collection<? extends GrantedAuthority> authorities,String role){
+			for(GrantedAuthority g:authorities){
+				if(g.getAuthority().equals(role)){
+					return true;
+				}
+			}			
+			return false;
+		}
 	}  
 		
 	

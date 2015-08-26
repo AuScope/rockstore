@@ -1,5 +1,5 @@
-allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location',
-                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location ) {
+allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$route','$templateCache','$location','modalService',
+                                                    function ($scope,$http,currentAuthService,$route,$templateCache,$location,modalService ) {
 	
 	
 	var authenticate = function(credentials) {
@@ -17,11 +17,11 @@ allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$
             }
         }).success(function(data,status) {
         	
-	      if (data.name) {
+	      if(data.name) {
 	    	  currentAuthService.setAuthenticated(true);
 	    	  currentAuthService.setUsername(data.name);
 	    	  
-	    	  if($location.path()=='/login'){
+	    	  if($location.path()=='/login'){	    		  
 	    		  $location.path("/");
 	    	  }else{
 	    		  var currentPageTemplate = $route.current.templateUrl;
@@ -30,6 +30,12 @@ allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$
 	    	  }
 	    	  	    	  
           }else{
+        	  if(data.restricted){        	 
+    			  modalService.showModal({}, {    	            	           
+    		           headerText: "Limited Access",
+    		           bodyText: "Although your authentication is successful, you do not have the required permission"
+    	    	 });          		  		  
+              }
         	  currentAuthService.setAuthenticated(false);
         	  $scope.error=true;
           }

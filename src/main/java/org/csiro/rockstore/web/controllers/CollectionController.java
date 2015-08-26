@@ -2,15 +2,12 @@ package org.csiro.rockstore.web.controllers;
 
 
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.auth.AuthenticationException;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.utilities.NullUtilities;
@@ -20,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
