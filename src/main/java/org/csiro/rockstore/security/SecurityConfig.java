@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -38,7 +39,7 @@ public  class SecurityConfig extends
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {		
 		http.authorizeRequests()
-		 .antMatchers("/restricted/**").authenticated()
+		 .antMatchers("/restrictedzz/**").authenticated()
 		 .and()
 		    .formLogin()
 		    	.usernameParameter("j_username") // default is username
@@ -65,7 +66,7 @@ public  class SecurityConfig extends
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 	  //auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 		auth.ldapAuthentication()
-        .userDnPatterns("cn={0},ou=Users")//.userSearchFilter("(&(objectClass=inetOrgPerson))")        
+        .userDnPatterns("ou=Users").userSearchFilter("(&(objectClass=inetOrgPerson)(uid={0}))")        
         .contextSource(getLdapContextSource());            
           
 		
@@ -89,7 +90,7 @@ public  class SecurityConfig extends
 	            throws IOException, ServletException {  
 			
 			HttpSession session = httpServletRequest.getSession();
-			User authUser = (User) SecurityContextHolder.getContext()
+			LdapUserDetailsImpl authUser = (LdapUserDetailsImpl) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal();
 			session.setAttribute("username", authUser.getUsername());
 			session.setAttribute("authorities", authentication.getAuthorities());
