@@ -105,7 +105,7 @@ public  class SecurityConfig extends
 			Gson gson = new Gson();
 			Map<String,String> result = new HashMap<String,String>();
 			
-			if(!checkRole(authUser.getAuthorities(),"ROLE_ROCKSTORE_TEST")){
+			if(!checkRole(authUser.getAuthorities(),"ROLE_ROCKSTORE")){
 				result.put("restricted", "Missing required permission");
 				SecurityContextHolder.getContext().setAuthentication(null);
 			}else{
