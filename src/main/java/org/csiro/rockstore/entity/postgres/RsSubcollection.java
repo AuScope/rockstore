@@ -21,6 +21,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NotFound;
@@ -42,7 +44,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	@NamedQuery(
 			name="RsSubcollection.getAllSubCollection",
 		    query="SELECT c FROM RsSubcollection c"
-		)
+		),
+	@NamedQuery(
+			name="RsSubcollection.findSubCollectionByCollection",
+		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection WHERE c.rsCollection.collectionId = :collectionId"
+		)	
 		
 })	
 public class RsSubcollection implements java.io.Serializable {
@@ -56,7 +62,7 @@ public class RsSubcollection implements java.io.Serializable {
 	private Boolean hazardous;
 	private String source;
 	private Integer totalPallet;
-	private Set<RsSample> rsSamples = new HashSet<RsSample>(0);
+	//private Set<RsSample> rsSamples = new HashSet<RsSample>(0);
 	private SampleRangeBySubcollection sampleRangeBySubcollection;
 
 	public RsSubcollection() {
@@ -75,7 +81,7 @@ public class RsSubcollection implements java.io.Serializable {
 		this.hazardous = hazardous;
 		this.source = source;
 		this.totalPallet = totalPallet;
-		this.rsSamples = rsSamples;
+		//this.rsSamples = rsSamples;
 	}
 	
 	public RsSubcollection update(RsCollection rsCollection, String oldId,
@@ -103,8 +109,9 @@ public class RsSubcollection implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "collection_id", referencedColumnName="collection_id", nullable = false)
+	@Fetch(FetchMode.JOIN) 
 	@JsonManagedReference
 	public RsCollection getRsCollection() {
 		return this.rsCollection;
@@ -178,18 +185,19 @@ public class RsSubcollection implements java.io.Serializable {
 		this.totalPallet = totalPallet;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsSubcollection")
-	@JsonBackReference
-	public Set<RsSample> getRsSamples() {
-		return this.rsSamples;
-	}
-
-	public void setRsSamples(Set<RsSample> rsSamples) {
-		this.rsSamples = rsSamples;
-	}
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsSubcollection")
+//	@JsonBackReference
+//	public Set<RsSample> getRsSamples() {
+//		return this.rsSamples;
+//	}
+//
+//	public void setRsSamples(Set<RsSample> rsSamples) {
+//		this.rsSamples = rsSamples;
+//	}
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@NotFound(action=NotFoundAction.IGNORE)
+	@Fetch(FetchMode.JOIN)
 	@JoinColumn(insertable=false, updatable = false, name = "subcollection_id", referencedColumnName="subcollection_id")	
 	public SampleRangeBySubcollection getSampleRangeBySubcollection() {
 		return this.sampleRangeBySubcollection;

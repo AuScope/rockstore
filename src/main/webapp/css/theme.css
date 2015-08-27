@@ -4014,3 +4014,34 @@ a .fa-round:hover {
 }
 
 
+.ibox-content {
+  background-color: #ffffff;
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0px;
+}
+
+
+table.detailTbl { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+.detailTbl tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+
+.detailTbl thead th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+
+.detailTbl td, .detailTbl th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}

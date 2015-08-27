@@ -41,7 +41,10 @@
   <script src="js/rockstore/controllers/subCollectionCtrl.js"></script>
   <script src="js/rockstore/controllers/sampleCtrl.js"></script>
   <script src="js/rockstore/controllers/loginStatusCtrl.js"></script>
- 
+  <script src="js/rockstore/controllers/browseColCtrl.js"></script>
+  <!-- script src="js/rockstore/controllers/browseSubColCtrl.js"></script>
+  <script src="js/rockstore/controllers/browseSampleCtrl.js"></script-->
+
 </head>
 
 <body class="body-nav-fixed-menu-top" ng-app="app">
@@ -74,10 +77,20 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-           
-            <li>
-              <a href="#/browse"><i class="fa fa-search"></i> Browse</a>              
-            </li>     
+           <li class="dropdown">
+             <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-search"></i> Browse</a>
+             <ul class="dropdown-menu dropdown-menu-left">
+             	<li>
+                 <a href="#/browsecollections">Collections</a>
+               </li>
+               <li>
+                 <a href="#/browsesubcollections">SubCollections</a>
+               </li>
+               <li>
+                 <a href="#/browsesamples">Samples</a>
+               </li>
+             </ul>
+           </li>             
            <li class="dropdown">
               <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-table"></i> Manage Data</a>
               <ul class="dropdown-menu dropdown-menu-left">

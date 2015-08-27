@@ -1,0 +1,111 @@
+
+   
+   <div class="section section-lg section-bottom" ng-controller="CollectionCtrl">
+      <div>    
+        <div class="row mb">
+          <div class="col-md-12">
+			  <div class="col-sm-4 grid-sidebar">		         
+		          <div class="row-heading row-heading-mt-40">
+		            <div class="col-sm-12">
+		              <h3 class="title-sm text-uppercase hr-left text-theme">Search</h3>
+		            </div>
+		          </div>
+		          <div class="row">
+		            <div class="col-sm-12">
+		               <div class="icon-box bordered">		               
+		                <h3 class="title-sm text-theme">Collections</h3>
+		                <hr class="hr-divider-xs">
+		                <form class="form-horizontal">					    					      
+					      <div class="form-group has-success">
+					        <label class="col-sm-2 control-label" for="inputSuccess">Collection ID</label>
+					        <div class="col-sm-10">
+					          <input type="text" class="form-control" placeholder="Collection ID" value={{form.collectionId}} readonly>
+					         
+					        </div>
+					      </div>
+					      <div class="form-group has-success">
+					        <label class="col-sm-2 control-label" for="inputSuccess">Project</label>
+					        <div class="col-sm-10">
+					          <input type="text"  class="form-control" placeholder="Project" ng-model="form.project">
+					         
+					        </div>
+					      </div>					     			    					   
+					    </form>
+		              </div>		             
+		            </div>
+		          </div>
+		      </div>    
+		      <div class="col-sm-8 grid-posts">
+		          <!-- POST ITEM 1 -->
+		          <div class="row">
+		            <div class="col-sm-12">
+		            
+		            
+			            <div class="panel-acc panel-group panel-group-v1 panel-group-icon-v1 icon-right" id="accordion-icon-right">
+			            <!-- Start repeat -->
+						  <div class="panel panel-default panel-collapse-in">
+						    <div class="panel-body">
+						      <h4 class="panel-title"></h4>						      	
+						          <div class="wrapper-post">		                
+					                <div class="wrapper-post-text">
+					                  <h3 class="title-lg text-uppercase text-theme">Hammersley basin distall</h3>
+					                  <ul class="list-unstyled list-inline text-theme post-date-author">
+					                    <li>
+					                      <i class="fa fa-user"></i>AJW
+					                    </li>
+					                    <li>
+					                      <i class="fa fa-map-marker"></i>G2-L3
+					                    </li>
+					                    <li>
+					                      <i class="fa fa-file-o"></i>SC00001
+					                    </li>
+					                  </ul>
+					                  <br>
+					                  <p>some sort of meaningful description would be nice
+					                  </p>
+					                  <br>					                  
+					                  <a href="#content-icon-right-1" data-toggle="collapse" data-target="#content-icon-right-1" class="text-theme btn btn-primary btn-md">Details</a>					                  
+					                </div>
+					              </div>
+						    </div>
+						    <div id="content-icon-right-1" class="panel-collapse collapse">
+						      <div class="panel-body">
+						        <p class="text-theme">We will expand from here to show more information</p>
+						      </div>
+						    </div>
+						  </div>
+						   <hr class="hr-divider-xs">
+						   <!-- end repeat -->
+						</div>		           
+		            </div>
+		          </div>
+		        	 
+		          <!-- PAGINATAION -->
+		          <div class="row">
+		            <div class="col-sm-12">
+		              <ul class="pagination pagination-lg">
+		                <li class="active">
+		                  <a href="#">1</a>
+		                </li>
+		                <li>
+		                  <a href="#">2</a>
+		                </li>
+		                <li>
+		                  <a href="#">3</a>
+		                </li>
+		                <li>
+		                  <a href="#">4</a>
+		                </li>
+		                <li>
+		                  <a href="#">Next Page &raquo;</a>
+		                </li>
+		              </ul>
+		            </div>
+		          </div>
+		        </div>   
+          </div>         
+        </div>
+      </div>
+    </div>
+  
+   

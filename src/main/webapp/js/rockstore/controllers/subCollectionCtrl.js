@@ -75,7 +75,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 	                                 { field: "sampleRangeBySubcollection['maxSample']",displayName: 'Sample To',width:170 },
 	                                 { field: 'storageType',displayName: 'Storage Type',width:170 },
 	                                 { field: 'hazardous',displayName: 'Hazardous',width:170 },
-	                                 { field: 'source',displayName: 'sourcet',width:170 },
+	                                 { field: 'source',displayName: 'source',width:170 },
 	                                 { field: 'totalPallet',displayName: 'Pallet Count',width:170 }	                                 
 	                               ];
 	                              

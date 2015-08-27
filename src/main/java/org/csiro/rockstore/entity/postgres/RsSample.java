@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -132,6 +134,7 @@ public class RsSample implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "collection_id",referencedColumnName="collection_id")
+	@Fetch(FetchMode.JOIN) 
 	@JsonManagedReference
 	public RsCollection getRsCollection() {
 		return this.rsCollection;
@@ -143,6 +146,7 @@ public class RsSample implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subcollection_id",referencedColumnName="subcollection_id")
+	@Fetch(FetchMode.JOIN) 
 	@JsonManagedReference
 	public RsSubcollection getRsSubcollection() {
 		return this.rsSubcollection;

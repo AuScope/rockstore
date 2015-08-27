@@ -93,4 +93,18 @@ public class SubCollectionController {
     		throw e;
     	}
     } 
+    
+    @RequestMapping(value = "getSubCollectionsByCollection.do")
+    public ResponseEntity<List<RsSubcollection>> getSubCollectionsByCollection(    
+    		@RequestParam(required = true, value ="collectionId") String collectionId,
+    		Principal user,
+            HttpServletResponse response) {
+    	try{    		    	
+    		List<RsSubcollection> lrc = this.subCollectionEntityService.getSubCollections(collectionId);    		
+    		return  new ResponseEntity<List<RsSubcollection>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);   
+    		throw e;
+    	}
+    } 
 }

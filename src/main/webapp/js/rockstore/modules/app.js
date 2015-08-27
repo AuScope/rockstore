@@ -4,24 +4,32 @@ app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: 'views/browse.html',
-        controller: 'CollectionCtrl'
+        templateUrl: 'views/browse_collection.html'
+      
       }).
-      when('/browse', {
-        templateUrl: 'views/browse.html',
-        controller: 'CollectionCtrl'
+      when('/browsecollections', {
+        templateUrl: 'views/browse_collection.html'
+     
       }).
+      when('/browsesubcollections', {
+          templateUrl: 'views/browse_subcollection.html'
+        
+        }).
+      when('/browsesamples', {
+          templateUrl: 'views/browse_sample.html'
+         
+      }).  
       when('/collections', {
-          templateUrl: 'restricted/collections.html',
-          controller: 'CollectionCtrl'
+          templateUrl: 'restricted/collections.html'
+        
         }).
       when('/subcollections', {
-          templateUrl: 'restricted/subcollections.html',
-          controller: 'SubCollectionCtrl'
+          templateUrl: 'restricted/subcollections.html'
+        
         }).
       when('/samples', {
-          templateUrl: 'restricted/samples.html',
-          controller: 'SampleCtrl'
+          templateUrl: 'restricted/samples.html'
+        
         }).
       when('/login', {
           templateUrl: 'views/login.html'

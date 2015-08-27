@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -54,9 +55,9 @@ public class RsCollection implements java.io.Serializable {
 	private Date projectCloseDate;
 	private Boolean availableToPublic;
 	private Date archiveDue;
-	private Set<RsSample> rsSamples = new HashSet<RsSample>(0);
-	private Set<RsSubcollection> rsSubcollections = new HashSet<RsSubcollection>(
-			0);
+//	private Set<RsSample> rsSamples = new HashSet<RsSample>(0);
+//	private Set<RsSubcollection> rsSubcollections = new HashSet<RsSubcollection>(
+//			0);
 
 	public RsCollection() {
 	}
@@ -74,8 +75,8 @@ public class RsCollection implements java.io.Serializable {
 		this.projectCloseDate = projectCloseDate;
 		this.availableToPublic = availableToPublic;
 		this.archiveDue = archiveDue;
-		this.rsSamples = rsSamples;
-		this.rsSubcollections = rsSubcollections;
+//		this.rsSamples = rsSamples;
+//		this.rsSubcollections = rsSubcollections;
 	}
 	
 	public RsCollection update(String project,
@@ -189,24 +190,25 @@ public class RsCollection implements java.io.Serializable {
 		this.archiveDue = archiveDue;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsCollection")
-	@JsonBackReference
-	public Set<RsSample> getRsSamples() {
-		return this.rsSamples;
-	}
-
-	public void setRsSamples(Set<RsSample> rsSamples) {
-		this.rsSamples = rsSamples;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsCollection")
-	@JsonBackReference
-	public Set<RsSubcollection> getRsSubcollections() {
-		return this.rsSubcollections;
-	}
-
-	public void setRsSubcollections(Set<RsSubcollection> rsSubcollections) {
-		this.rsSubcollections = rsSubcollections;
-	}
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsCollection")
+//	@JsonBackReference
+//	public Set<RsSample> getRsSamples() {
+//		return this.rsSamples;
+//	}
+//
+//	public void setRsSamples(Set<RsSample> rsSamples) {
+//		this.rsSamples = rsSamples;
+//	}
+//
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsCollection")
+//	@BatchSize(size = 100) 
+//	@JsonBackReference
+//	public Set<RsSubcollection> getRsSubcollections() {
+//		return this.rsSubcollections;
+//	}
+//
+//	public void setRsSubcollections(Set<RsSubcollection> rsSubcollections) {
+//		this.rsSubcollections = rsSubcollections;
+//	}
 
 }
