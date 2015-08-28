@@ -2,12 +2,10 @@ package org.csiro.rockstore.entity.postgres;
 
 // Generated 12/08/2015 3:14:54 PM by Hibernate Tools 4.3.1
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -27,8 +24,6 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -39,11 +34,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @NamedQueries({
 	@NamedQuery(
 			name="RsSubcollection.findSubCollectionById",
-		    query="SELECT c FROM RsSubcollection c WHERE c.subcollectionId = :subcollectionId"
+		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection WHERE c.subcollectionId = :subcollectionId"
 		),
 	@NamedQuery(
 			name="RsSubcollection.getAllSubCollection",
-		    query="SELECT c FROM RsSubcollection c"
+		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection"
 		),
 	@NamedQuery(
 			name="RsSubcollection.findSubCollectionByCollection",

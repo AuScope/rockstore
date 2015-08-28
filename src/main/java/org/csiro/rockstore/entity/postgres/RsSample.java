@@ -36,18 +36,22 @@ import com.vividsolutions.jts.geom.Point;
 @NamedQueries({
 	@NamedQuery(
 			name="RsSample.findSampleById",
-		    query="SELECT c FROM RsSample c WHERE c.id = :id"
+		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection WHERE rs.id = :id"
 		),
 	@NamedQuery(
 			name="RsSample.getAllSample",
-		    query="SELECT c FROM RsSample c"
-		)
+		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection"
+		),
+	@NamedQuery(
+			name="RsSample.findSampleBySubCollection",
+		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection WHERE rs.rsSubcollection.subcollectionId = :subCollectionId"
+		)		
 		
 })	
 public class RsSample implements java.io.Serializable {
 
 	private int id;
-	private RsCollection rsCollection;
+	//private RsCollection rsCollection;
 	private RsSubcollection rsSubcollection;
 	private String igsn;
 	private String csiroSampleId;
@@ -69,13 +73,13 @@ public class RsSample implements java.io.Serializable {
 	}
 
 
-	public RsSample( RsCollection rsCollection,
+	public RsSample(
 			RsSubcollection rsSubcollection, String igsn, String csiroSampleId,
 			String sampleType, String bhid, Double depth, String datum,
 			String zone, String containerId, String externalRef,
 			String sampleCollector, Date dateSampled, Boolean sampleDispose,
 			Date dateDisposed, String staffidDisposed, Point location) {		
-		this.rsCollection = rsCollection;
+		//this.rsCollection = rsCollection;
 		this.rsSubcollection = rsSubcollection;
 		this.igsn = igsn;
 		this.csiroSampleId = csiroSampleId;
@@ -94,13 +98,13 @@ public class RsSample implements java.io.Serializable {
 		this.location = location;
 	}
 	
-	public RsSample update(RsCollection rsCollection,
+	public RsSample update(
 			RsSubcollection rsSubcollection, String igsn, String csiroSampleId,
 			String sampleType, String bhid, Double depth, String datum,
 			String zone, String containerId, String externalRef,
 			String sampleCollector, Date dateSampled, Boolean sampleDispose,
 			Date dateDisposed, String staffidDisposed, Point location) {		
-		this.setRsCollection(rsCollection);
+		//this.setRsCollection(rsCollection);
 		this.setRsSubcollection(rsSubcollection);
 		this.setIgsn(igsn);
 		this.setCsiroSampleId(csiroSampleId);
@@ -132,17 +136,17 @@ public class RsSample implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "collection_id",referencedColumnName="collection_id")
-	@Fetch(FetchMode.JOIN) 
-	@JsonManagedReference
-	public RsCollection getRsCollection() {
-		return this.rsCollection;
-	}
-
-	public void setRsCollection(RsCollection rsCollection) {
-		this.rsCollection = rsCollection;
-	}
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "collection_id",referencedColumnName="collection_id")
+//	@Fetch(FetchMode.JOIN) 
+//	@JsonManagedReference
+//	public RsCollection getRsCollection() {
+//		return this.rsCollection;
+//	}
+//
+//	public void setRsCollection(RsCollection rsCollection) {
+//		this.rsCollection = rsCollection;
+//	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subcollection_id",referencedColumnName="subcollection_id")

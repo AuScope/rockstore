@@ -4035,7 +4035,7 @@ table.detailTbl {
 }
 
 .detailTbl thead th { 
-  background: #333; 
+  background: #556062; 
   color: white; 
   font-weight: bold; 
 }
@@ -4044,4 +4044,14 @@ table.detailTbl {
   padding: 6px; 
   border: 1px solid #ccc; 
   text-align: left; 
+}
+
+
+.lightHeader thead th {  
+  font-weight: bold; 
+}
+
+.table-borderless td,
+.table-borderless th {
+    border-top: none !important; 
 }

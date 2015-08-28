@@ -47,8 +47,7 @@ public class SampleController {
     @RequestMapping(value = "sampleAddUpdate.do")
     public ResponseEntity<Object> sampleAddUpdate(            
             @RequestParam(required = false, defaultValue="0", value ="id") int id,
-            @RequestParam(required = true, value ="subcollectionId") String subcollectionId,
-            @RequestParam(required = true, value ="collectionId") String collectionId,
+            @RequestParam(required = true, value ="subcollectionId") String subcollectionId,           
             @RequestParam(required = false, value ="igsn") String igsn,
             @RequestParam(required = false, value ="csiroSampleId") String csiroSampleId,           
             @RequestParam(required = false, value ="sampleType") String sampleType,
@@ -74,13 +73,12 @@ public class SampleController {
     
     	try{
 	    	if(id != 0){//VT: if id exist, we want to update else insert
-	    		RsSubcollection rsc = this.subCollectionEntityService.search(subcollectionId);
-	    		RsCollection rc = collectionEntityService.search(collectionId);
+	    		RsSubcollection rsc = this.subCollectionEntityService.search(subcollectionId);	    		
 	    		RsSample rs = this.sampleEntityService.search(id);
 	    		
 	    		Point p = (Point)(SpatialUtilities.wktToGeometry(locationWkt));
 	    		
-	    		rs.update(rc,rsc, igsn,  csiroSampleId,
+	    		rs.update(rsc, igsn,  csiroSampleId,
 	    				 sampleType,  bhid,  depth,  datum,
 	    				 zone,  containerId,  externalRef,
 	    				 sampleCollector,NullUtilities.parseDateAllowNull(dateSampled) , sampleDispose,
@@ -92,12 +90,12 @@ public class SampleController {
 	    		
 	    		
 	    	}else{
-	    		RsCollection rc = collectionEntityService.search(collectionId);
+	    		
 	    		RsSubcollection rsc = subCollectionEntityService.search(subcollectionId);
 	    		
 	    		Point p = (Point)(SpatialUtilities.wktToGeometry(locationWkt));
 	    		
-	    		RsSample rs= new RsSample(rc,rsc, igsn,  csiroSampleId,
+	    		RsSample rs= new RsSample(rsc, igsn,  csiroSampleId,
 	    				 sampleType,  bhid,  depth,  datum,
 	    				 zone,  containerId,  externalRef,
 	    				 sampleCollector,NullUtilities.parseDateAllowNull(dateSampled) , sampleDispose,
@@ -122,6 +120,20 @@ public class SampleController {
     	try{
     		List<RsSample> lrs = this.sampleEntityService.getAllSamples();  		
     		return  new ResponseEntity<List<RsSample>>(lrs,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);   
+    		throw e;
+    	}
+    } 
+    
+    @RequestMapping(value = "getSamplesbySubCollection.do")
+    public ResponseEntity<List<RsSample>> getSamplesbySubCollection(    
+    		@RequestParam(required = true, value ="subCollectionId") String subCollectionId,
+    		Principal user,
+            HttpServletResponse response) {
+    	try{    		    	
+    		List<RsSample> lrc = this.sampleEntityService.getSampleBySubCollections(subCollectionId);    		
+    		return  new ResponseEntity<List<RsSample>>(lrc,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   
     		throw e;

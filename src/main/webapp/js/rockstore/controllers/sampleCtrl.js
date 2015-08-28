@@ -25,12 +25,11 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 		           bodyText: "Make sure you choose a valid collection id and sub-collection id"
 	    	 });
 		}
-		spinnerService.show('sample-page-spinner');
+		
 		$http.get('sampleAddUpdate.do', {
 			params:{	
 				id : $scope.form.id,
-				subcollectionId: $scope.form.rsSubcollection['subcollectionId'],
-				collectionId: $scope.form.rsCollection['collectionId'],
+				subcollectionId: $scope.form.rsSubcollection['subcollectionId'],				
 				igsn: $scope.form.igsn,
 				csiroSampleId: $scope.form.csiroSampleId,				
 				sampleType: $scope.form.sampleType,
@@ -65,19 +64,15 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 		           headerText: response.data.header,
 		           bodyText: response.data.message
 	    	 });
-		  })
-		  ['finally'](function(res){
-			  spinnerService.hide('sample-page-spinner');
-			  spinnerService._unregister('sample-page-spinner')
-		  })
+		  });
+		
 	}
 
  
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
 	$scope.gridOptions.columnDefs = [	                              
-                                 	 { field: 'id',displayName: 'id',width:50 },
-                                 	 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
+                                 	 { field: 'id',displayName: 'id',width:50 },                                 	
 	                                 { field: "rsSubcollection['subcollectionId']",displayName: 'subCollection id',width:150 },	                                 
 	                                 { field: 'igsn',displayName: 'igsn',width:150 },	                                 
 	                                 { field: 'csiroSampleId',displayName: 'CSIRO SampleId',width:150},

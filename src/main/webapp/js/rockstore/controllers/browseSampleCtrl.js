@@ -1,12 +1,15 @@
 
+
 allControllers.controller('BrowseSampleCtrl', ['$scope','$http',function ($scope,$http) {
 	
-	$scope.data=[];
+	
+	$scope.samples=[];
+	
 		
 	
-     $http.get('getCollections.do')     
+     $http.get('getSample.do')     
      .success(function(data) {
-       $scope.data = data;       
+       $scope.samples = data;       
         
      })
      .error(function(data, status) {    	
@@ -16,7 +19,7 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http',function ($scope
     	 });
        
      })
-      
+ 
 }]);
 
 

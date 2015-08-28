@@ -26,7 +26,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 		           bodyText: "Make sure you choose a valid collection id"
 	    	 });
 		}
-		spinnerService.show('subcollection-page-spinner');
+		
 		$http.get('subCollectionAddUpdate.do', {
 			params:{	
 				subcollectionId: $scope.form.subcollectionId,
@@ -53,11 +53,8 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 		           headerText: response.data.header,
 		           bodyText: response.data.message
 	    	 });
-		  })
-		  ['finally'](function(res){
-			  spinnerService.hide('subcollection-page-spinner');
-			  spinnerService._unregister('subcollection-page-spinner')
-		  })
+		  });
+		  
 	}
 
  

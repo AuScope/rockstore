@@ -1,14 +1,14 @@
 
 allControllers.controller('BrowseCollectionCtrl', ['$scope','$http',function ($scope,$http) {
 	
-	$scope.mycollections=[];
+	$scope.collections=[];
 	$scope.subcollections=[];
-	var selectedCollection=0;
+	
 		
 	
      $http.get('getCollections.do')     
      .success(function(data) {
-       $scope.mycollections = data;       
+       $scope.collections = data;       
         
      })
      .error(function(data, status) {    	
@@ -20,18 +20,16 @@ allControllers.controller('BrowseCollectionCtrl', ['$scope','$http',function ($s
      })
      
      $scope.getSubCollection=function(collectionId){
-    	 if(collectionId==selectedCollection){
+    	 if($scope.subcollections[collectionId]){
     		 return;
-    	 }else{
-    		 selectedCollection=collectionId;
-    	 }    	 
+    	 }   	 
     	 $http.get('getSubCollectionsByCollection.do',{
 			params:{	
 				collectionId: collectionId
 				}
 		})     
          .success(function(data) {
-           $scope.subcollections = data;       
+           $scope.subcollections[collectionId] = data;       
             
          })
          .error(function(data, status) {    	

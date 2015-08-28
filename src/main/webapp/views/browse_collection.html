@@ -41,10 +41,10 @@
 		            <div class="col-sm-12">
 		            
 		            	<!-- Start repeat -->
-			            <div class="panel-acc panel-group panel-group-v1 panel-group-icon-v1 icon-right" id="accordion-icon-right" ng-repeat="collection in mycollections">			            
+			            <div class="panel-acc panel-group panel-group-v1 panel-group-icon-v1 icon-right" ng-repeat="collection in collections">			            
 						  <div class="panel panel-default panel-collapse-in">
 						    <div class="panel-body">
-						      <h4 class="panel-title"></h4>						      	
+						      					      	
 						          <div class="wrapper-post">		                
 					                <div class="wrapper-post-text">
 					                  <h3 class="title-lg text-uppercase text-theme">{{collection.project}}</h3>
@@ -61,84 +61,63 @@
 					                  </ul>
 					                  <br>
    
-						                    <div class="ibox-content">						
-						                        <table class="detailTbl">
-						                            <thead>
-						                            <tr>						                                
-						                                <th>Collections</th>
-						                                <th>&nbsp</th>						                                						                               
-						                            </tr>
-						                            </thead>
-						                            <tbody>
-						                            <tr ng-show="collection.projectCloseDate">
-						                                <th>Project Close Date</th>
-						                                <td><i class="fa fa-calendar"></i> {{collection.projectCloseDate | date:'d/MMM/yyyy'}}</td>						                               
-						                            </tr>
-						                            <tr ng-show="collection.projectPublication">
-						                                <th>Project Publication</th>
-						                                <td>{{collection.projectPublication}}</td>						                                
-						                            </tr>
-						                            <tr ng-show="collection.projectResult">
-						                                <th>Project Result</th>
-						                                <td>{{collection.projectResult}}</td>						                               
-						                            </tr>
-						                             <tr ng-show="collection.staffIdFieldManager">
-						                                <th>Field Manager</th>
-						                                <td>{{collection.staffIdFieldManager}}</td>						                               
-						                            </tr>
-						                            </tbody>
-						                        </table>
-						                    </div>
-						                    
-						                    
-						                    
-						                    <div id="collapse-{{collection.id}}" class="panel-collapse collapse">
-										      <div class="panel-body">
-										      
-										      
-										       <div class="ibox-content">	
-										         <table class="table table-striped">
-													<thead>
-													<tr>
-														<th>SubCollection Id</th>
-														<th>Location</th>
-														<th>Source</th>
-														<th>Storage Type</th>
-														<th>View</th>
-													</tr>
-													</thead>
-													<tbody>
-													<tr>
-														<td>James</td>
-														<td>Matman</td>
-														<td>Chief Sandwich Eater</td>
-														<td>Matman</td>
-														<td>Chief Sandwich Eater</td>
-													</tr>
-													<tr>
-														<td>The</td>
-														<td>Tick</td>
-														<td>Crimefighter Sorta</td>
-														<td>Matman</td>
-														<td>Chief Sandwich Eater</td>
-													</tr>
-													</tbody>
-												  </table>
-												</div>
-												
-												
-												
-												
-										      </div>
-										    </div>
-						                    
-						                    
-						                    
-
-					                  <br>					                  
-					                  <a onclick="return false;" ng-click="getSubCollection(collection.collectionId)" href="#collapse-{{collection.id}}" data-toggle="collapse" data-target="#collapse-{{collection.id}}" class="text-theme btn btn-primary btn-md">Sub-Collection List</a>					                  
-					                </div>
-					              </div>
+				                    <div class="ibox-content">						
+				                        <table class="detailTbl">
+				                            <thead>
+				                            <tr>						                                
+				                                <th>Collections</th>
+				                                <th>&nbsp</th>						                                						                               
+				                            </tr>
+				                            </thead>
+				                            <tbody>
+				                            <tr ng-show="collection.projectCloseDate">
+				                                <th>Project Close Date</th>
+				                                <td><i class="fa fa-calendar"></i> {{collection.projectCloseDate | date:'d/MMM/yyyy'}}</td>						                               
+				                            </tr>
+				                            <tr ng-show="collection.projectPublication">
+				                                <th>Project Publication</th>
+				                                <td>{{collection.projectPublication}}</td>						                                
+				                            </tr>
+				                            <tr ng-show="collection.projectResult">
+				                                <th>Project Result</th>
+				                                <td>{{collection.projectResult}}</td>						                               
+				                            </tr>
+				                             <tr ng-show="collection.staffIdFieldManager">
+				                                <th>Field Manager</th>
+				                                <td>{{collection.staffIdFieldManager}}</td>						                               
+				                            </tr>
+				                            </tbody>
+				                        </table>
+				                    </div>					                    
+				                    <div id="collapse-{{collection.id}}" class="panel-collapse collapse">
+				                    
+								      <div class="panel-body">
+								       <div class="ibox-content">	
+								       	 <h4 class="panel-title">List of SubCollection</h4><br>
+								         <table class="table lightHeader">
+											<thead>
+											<tr>
+												<th>SubCollection Id</th>
+												<th>Location</th>
+												<th>Source</th>																								
+												<th>Link</th>
+											</tr>
+											</thead>
+											<tbody>
+											<tr ng-repeat="subcollection in subcollections[collection.collectionId]">
+												<td>{{subcollection.subcollectionId}}</td>
+												<td>{{subcollection.locationInStorage}}</td>
+												<td>{{subcollection.source}}</td>																								
+												<td><i class="fa fa-paper-plane-o"></i></td>
+											</tr>																						
+											</tbody>
+										  </table>
+										</div>
+								      </div>
+								    </div>				                    				                			                  
+				                  <a onclick="return false;" ng-click="getSubCollection(collection.collectionId)" href="#collapse-{{collection.id}}" data-toggle="collapse"  data-target="#collapse-{{collection.id}}" class="text-theme btn btn-primary btn-md">Sub-Collection List</a>					                  
+				                </div>
+				              </div>
 						    </div>
 						    
 						  </div>
