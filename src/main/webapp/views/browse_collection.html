@@ -99,17 +99,52 @@
 											<tr>
 												<th>SubCollection Id</th>
 												<th>Location</th>
-												<th>Source</th>																								
+												<th>Source</th>
+												<th>View</th>																				
 												<th>Link</th>
 											</tr>
 											</thead>
 											<tbody>
-											<tr ng-repeat="subcollection in subcollections[collection.collectionId]">
+											<tr ng-repeat-start="subcollection in subcollections[collection.collectionId]">
 												<td>{{subcollection.subcollectionId}}</td>
 												<td>{{subcollection.locationInStorage}}</td>
 												<td>{{subcollection.source}}</td>																								
+												<td><a onclick="return false;"  href="#" data-toggle="collapse" data-target=".collapse-{{subcollection.subcollectionId}}"><i class="fa fa-eye"></i>View</a></td>
 												<td><i class="fa fa-paper-plane-o"></i></td>
-											</tr>																						
+											</tr>	
+											<tr ng-repeat-end class="panel-collapse collapse out collapse-{{subcollection.subcollectionId}}">
+												<td colspan="5">
+													<table class="table table-borderless">
+														<tbody>
+															<tr>
+																<th>Hazardous</th>
+																<td>{{subcollection.hazardous}}</td>																
+															</tr>
+															<tr>
+																<th>Old Id</th>
+																<td>{{subcollection.oldId}}</td>																
+															</tr>
+															<tr>
+									            				<th>Container Range</th>
+									            				<td>{{subcollection.sampleRangeBySubcollection['minContainer']}} - {{subcollection.sampleRangeBySubcollection['maxContainer']}} </td>
+									            			</tr>
+									            			<tr>
+									            				<th>Sample Range</th>
+									            				<td>{{subcollection.sampleRangeBySubcollection['minSample']}} - {{subcollection.sampleRangeBySubcollection['maxSample']}}</td>
+									            			</tr>
+															<tr>
+																<th>Storage Type</th>
+																<td>{{subcollection.storageType}}</td>																
+															</tr>
+															<tr>
+																<th>Number of Pallets</th>
+																<td>{{subcollection.totalPallet}}</td>																
+															</tr>															
+														</tbody>
+													</table>
+												</td>
+											</tr>
+																																
 											</tbody>
 										  </table>
 										</div>
