@@ -1,12 +1,16 @@
 
-allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http',function ($scope,$http) {
+allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams',function ($scope,$http,MapModalService,$routeParams) {
 	
 	$scope.samples=[];
 	$scope.subcollections=[];
 	
 		
 	
-     $http.get('getSubCollections.do')     
+     $http.get('getSubCollections.do',{
+			params:{	
+				subCollectionId: $routeParams.subCollectionId
+				}
+	 })          
      .success(function(data) {
        $scope.subcollections = data;       
         
@@ -39,6 +43,11 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http',function 
         	 });
            
          })
+     }
+     
+     //VT: GOOGLE MAP MODALS
+     $scope.open = function(lat, lon,info){
+    	 MapModalService.open(lat, lon,info)
      }
    
       

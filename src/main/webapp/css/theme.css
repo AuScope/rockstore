@@ -4024,6 +4024,7 @@ a .fa-round:hover {
   border-width: 1px 0px;
 }
 
+/*Table design for browsing*/
 
 table.detailTbl { 
   width: 100%; 
@@ -4055,3 +4056,6 @@ table.detailTbl {
 .table-borderless th {
     border-top: none !important; 
 }
+
+/*CSS For modal gmap*/
+.angular-google-map-container { height: 400px;}

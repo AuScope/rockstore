@@ -50,13 +50,13 @@
 					                  <h3 class="title-lg text-uppercase text-theme">{{sample.igsn}}</h3>
 					                  <ul class="list-unstyled list-inline text-theme post-date-author">
 					                    <li>
-					                      <i class="fa fa-map-marker"></i> Location: <a>Show me</a>
+					                      <i class="fa fa-map-marker"> <a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample.igsn)">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a>
 					                    </li>
 					                    <li>
 					                      <i class="fa fa-barcode"></i> Borehole: {{sample.bhid}}
 					                    </li>
 					                    <li>
-					                      <i class="fa fa-link"></i> Sample Type: {{sample.sampleType}}
+					                      <i class="fa fa-book"></i> Sample Type: {{sample.sampleType}}
 					                    </li>					                    
 					                  </ul>
 					                  <br>
@@ -71,41 +71,132 @@
 				                            </thead>
 				                            <tbody>
 				                            <tr>
-				                                <th>Collection</th>
-				                                <td>{{sample.rsSubcollection['rsCollection']['collectionId']}}</td>						                               
+				                                <th>Collection Project</th>
+				                                <td><a href="#/browsecollections/{{sample.rsSubcollection['rsCollection']['collectionId']}}"><i class="fa fa-link"> {{sample.rsSubcollection['rsCollection']['project']}}</i></a></td>						                               
 				                            </tr>
 				                            <tr>
-				                                <th>Sub Collection</th>
-				                                <td>{{sample.rsSubcollection['subcollectionId']}}</td>						                               
+				                                <th>Location</th>
+				                                <td>{{sample.rsSubcollection['locationInStorage']}}</td>						                               
 				                            </tr>
 				                            <tr>
-					            				<th>Container</th>
-					            				<td>{{sample.containerId}}</td>
+					            				<th>Sample IGSN</th>
+					            				<td>{{sample.igsn}}</td>
 					            			</tr>
 					            			<tr>
 					            				<th>CSIRO Sample Id</th>
 					            				<td>{{sample.csiroSampleId}}</td>
 					            			</tr>
+					            			<tr>
+					            				<th>Container</th>
+					            				<td>{{sample.containerId}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Collection Id</th>
+					            				<td><a href="#/browsecollections/{{sample.rsSubcollection['rsCollection']['collectionId']}}"><i class="fa fa-link">{{sample.rsSubcollection['rsCollection']['collectionId']}}</i></a></td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Archive Due</th>
+					            				<td><i class="fa fa-calendar"></i> {{sample.rsSubcollection['rsCollection']['archiveDue'] | date:'d/MMM/yyyy'}}</td>
+					            			</tr>					            			
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Available to Public</th>
+					            				<td>{{sample.rsSubcollection['rsCollection']['availableToPublic']}}</td>
+					            			</tr>					            			
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Project Close Date</th>
+					            				<td><i class="fa fa-calendar"></i> {{sample.rsSubcollection['rsCollection']['projectCloseDate'] | date:'d/MMM/yyyy'}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Project Publication</th>
+					            				<td>{{sample.rsSubcollection['rsCollection']['projectPublication']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Result Of Project</th>
+					            				<td>{{sample.rsSubcollection['rsCollection']['projectResult']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Field Manager</th>
+					            				<td>{{sample.rsSubcollection['rsCollection']['staffIdFieldManager']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Custodian</th>
+					            				<td>{{sample.rsSubcollection['rsCollection']['staffidResponsible']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Sub Collection Id</th>
+					            				<td><a href="#/browsesubcollections/{{sample.rsSubcollection['subcollectionId']}}"><i class="fa fa-link"></i> {{sample.rsSubcollection['subcollectionId']}}</a></td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Hazardous</th>
+					            				<td><i class="fa fa-warning"></i> {{sample.rsSubcollection['hazardous']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Old Id</th>
+					            				<td>{{sample.rsSubcollection['oldId']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Source</th>
+					            				<td>{{sample.rsSubcollection['source']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Storage Type</th>
+					            				<td>{{sample.rsSubcollection['storageType']}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Number Of Pallets</th>
+					            				<td>{{sample.rsSubcollection['totalPallet']}}</td>
+					            			</tr>
 					            			
-				            				<tr class="panel-collapse collapse out collapse-{{sample.id}}">
-					            				<th>Date Disposed</th>
-					            				<td>{{sample.dateDisposed | date:'d/MMM/yyyy'}}</td>
-					            			</tr>
-					            			<tr class="panel-collapse collapse out collapse-{{sample.id}}">
-					            				<th>Date Sampled</th>
-					            				<td>{{sample.dateSampled | date:'d/MMM/yyyy'}}</td>
-					            			</tr>
-					            			<tr class="panel-collapse collapse out collapse-{{sample.id}}">
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Borehole Id</th>
+					            				<td>{{sample.bhid}}</td>
+					            			</tr>					            			
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
 					            				<th>Datum</th>
 					            				<td>{{sample.datum}}</td>
 					            			</tr>
-					            					                           
-				                            </tbody>
-				                        </table>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Depth</th>
+					            				<td>{{sample.depth}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>External Refence</th>
+					            				<td>{{sample.externalRef}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Sample Collector</th>
+					            				<td>{{sample.sampleCollector}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Sample Dispose</th>
+					            				<td>{{sample.sampleDispose}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Date Disposed</th>
+					            				<td><i class="fa fa-calendar"></i> {{sample.dateDisposed | date:'d/MMM/yyyy'}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>staffidDisposed</th>
+					            				<td>{{sample.staffidDisposed}}</td>
+					            			</tr>					            			
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Date Sampled</th>
+					            				<td><i class="fa fa-calendar"></i> {{sample.dateSampled | date:'d/MMM/yyyy'}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Sample Type</th>
+					            				<td>{{sample.sampleType}}</td>
+					            			</tr>
+					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            				<th>Zone</th>
+					            				<td>{{sample.zone}}</td>
+					            			</tr>                           
+				                         </tbody>
+				                      </table>
 				                    </div>					                    
 				                   				                    
 				                  <br>					                  
-				                  <a onclick="return false;"  href="#collapse-{{sample.id}}" data-toggle="collapse" data-target=".collapse-{{sample.id}}" class="text-theme btn btn-primary btn-md">Sample List</a>					                  
+				                  <a onclick="return false;"  href="#collapse-{{sample.id}}" data-toggle="collapse" data-target=".collapse-sampleDetail-{{sample.id}}" class="text-theme btn btn-primary btn-md">View Complete</a>					                  
 				                </div>
 				              </div>
 						    </div>

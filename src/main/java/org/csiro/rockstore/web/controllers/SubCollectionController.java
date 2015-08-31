@@ -2,6 +2,7 @@ package org.csiro.rockstore.web.controllers;
 
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -82,11 +83,19 @@ public class SubCollectionController {
       
     
     @RequestMapping(value = "getSubCollections.do")
-    public ResponseEntity<List<RsSubcollection>> getSubCollections(      
+    public ResponseEntity<List<RsSubcollection>> getSubCollections(  
+    		@RequestParam(required = false, value ="subCollectionId") String subCollectionId,
     		Principal user,
             HttpServletResponse response) {
     	try{
-    		List<RsSubcollection> lrc = this.subCollectionEntityService.getSubCollections();    		
+    		List<RsSubcollection> lrc = null;
+    		if(subCollectionId != null && !subCollectionId.isEmpty()){
+    			ArrayList<RsSubcollection> result= (new ArrayList<RsSubcollection>());
+    			result.add(this.subCollectionEntityService.search(subCollectionId));
+    			lrc = result;
+    		}else{
+    			lrc= this.subCollectionEntityService.getSubCollections();
+    		}    		    		
     		return  new ResponseEntity<List<RsSubcollection>>(lrc,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   
@@ -100,7 +109,7 @@ public class SubCollectionController {
     		Principal user,
             HttpServletResponse response) {
     	try{    		    	
-    		List<RsSubcollection> lrc = this.subCollectionEntityService.getSubCollections(collectionId);    		
+    		List<RsSubcollection> lrc = this.subCollectionEntityService.getSubCollectionsByCollection(collectionId);    		
     		return  new ResponseEntity<List<RsSubcollection>>(lrc,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   

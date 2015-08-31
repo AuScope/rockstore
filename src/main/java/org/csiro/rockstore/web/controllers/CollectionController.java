@@ -2,6 +2,7 @@ package org.csiro.rockstore.web.controllers;
 
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.csiro.rockstore.entity.postgres.RsCollection;
+import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.utilities.NullUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,11 +83,21 @@ public class CollectionController {
 	
   
     @RequestMapping(value = "getCollections.do")
-    public ResponseEntity<List<RsCollection>> getCollections(       
+    public ResponseEntity<List<RsCollection>> getCollections(
+    		@RequestParam(required = false, value ="collectionId") String collectionId,
     		Principal user,
             HttpServletResponse response) throws Exception{
     	try{    		
-    		List<RsCollection> lrc = this.collectionEntityService.getCollections();    		
+    		List<RsCollection> lrc = null;  
+    		if(collectionId != null && !collectionId.isEmpty()){
+    			ArrayList<RsCollection> result= (new ArrayList<RsCollection>());
+    			result.add(this.collectionEntityService.search(collectionId));
+    			lrc = result;
+    			
+    		}else{
+    			lrc = this.collectionEntityService.getCollections();
+    		}
+    		
     		return  new ResponseEntity<List<RsCollection>>(lrc,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);

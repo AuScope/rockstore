@@ -2,6 +2,7 @@ package org.csiro.rockstore.web.controllers;
 
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -115,10 +116,19 @@ public class SampleController {
       
     
     @RequestMapping(value = "getSample.do")
-    public ResponseEntity<List<RsSample>> getSample(                       
+    public ResponseEntity<List<RsSample>> getSample(   
+    		@RequestParam(required = false, defaultValue="0", value ="id") int id,
             HttpServletResponse response) {
     	try{
-    		List<RsSample> lrs = this.sampleEntityService.getAllSamples();  		
+    		List<RsSample> lrs =  null;
+    		if(id != 0){
+    			ArrayList<RsSample> result= (new ArrayList<RsSample>());
+    			result.add(this.sampleEntityService.search(id));
+    			lrs = result;
+    		}else{
+    			lrs = this.sampleEntityService.getAllSamples();
+    		}
+    			  		
     		return  new ResponseEntity<List<RsSample>>(lrs,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   

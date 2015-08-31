@@ -56,7 +56,7 @@
 					                      <i class="fa fa-barcode"></i> Storage Type: {{subcollection.storageType}}
 					                    </li>
 					                    <li>
-					                      <i class="fa fa-link"></i> Previous Id: {{subcollection.oldId}}
+					                      <i class="fa fa-star"></i> Previous Id: {{subcollection.oldId}}
 					                    </li>					                    
 					                  </ul>
 					                  <br>
@@ -72,7 +72,7 @@
 				                            <tbody>
 				                            <tr>
 				                                <th>Collection</th>
-				                                <td>{{subcollection.rsCollection['collectionId']}}</td>						                               
+				                                <td><a href="#/browsecollections/{{subcollection.rsCollection['collectionId']}}"><i class="fa fa-link"> {{subcollection.rsCollection['collectionId']}}</i></a></td>						                               
 				                            </tr>
 				                            <tr ng-show="subcollection.hazardous">
 				                                <th>Hazardous</th>
@@ -107,16 +107,78 @@
 											<tr>
 												<th>IGSN</th>
 												<th>Borehole</th>
-												<th><i class="fa fa-map-marker"></i> location</th>																								
+												<th><i class="fa fa-map-marker"></i> location</th>	
+												<th>View</th>																								
 												<th>Link</th>
 											</tr>
 											</thead>
 											<tbody>
-											<tr ng-repeat="sample in samples[subcollection.subcollectionId]">
+											<tr ng-repeat-start="sample in samples[subcollection.subcollectionId]">
 												<td>{{sample.igsn}}</td>
 												<td>{{sample.bhid}}</td>
-												<td>LOCATION({{sample.lat}},{{sample.lon}}),{{sample.datum}}</td>																								
-												<td><i class="fa fa-paper-plane-o"></i></td>
+												<td><a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample.igsn)"><i class="fa fa-map-marker">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></td>
+												<td><a onclick="return false;"  href="#" data-toggle="collapse" data-target=".collapse-sample-{{sample.id}}"><i class="fa fa-eye"></i>View</a></td>																							
+												<td><a href="#/browsesamples/{{sample.id}}"><i class="fa fa-link"></i> GOTO</a></td>
+											</tr>
+											<tr ng-repeat-end class="panel-collapse collapse out collapse-sample-{{sample.id}}">
+												<td colspan="5">
+													<table class="table table-borderless">
+														<tbody>
+															<tr>
+																<th>Sub-Collection Id</th>
+																<td>{{sample.subcollectionId}}</td>																
+															</tr>
+															<tr>
+																<th>CSIRO Sample Id</th>
+																<td>{{sample.csiroSampleId}}</td>																
+															</tr>
+															<tr>
+									            				<th>Sample Type</th>
+									            				<td>{{sample.sampleType}} </td>
+									            			</tr>
+									            			<tr>
+									            				<th>Depth</th>
+									            				<td>{{sample.depth}}</td>
+									            			</tr>
+															<tr>
+																<th>Datum</th>
+																<td>{{sample.datum}}</td>																
+															</tr>
+															<tr>
+																<th>Zone</th>
+																<td>{{sample.zone}}</td>																
+															</tr>
+															<tr>
+																<th>Container</th>
+																<td>{{sample.containerId}}</td>																
+															</tr>
+															<tr>
+																<th>External Reference</th>
+																<td>{{sample.externalRef}}</td>																
+															</tr>	
+															<tr>
+																<th>Sample Collector</th>
+																<td>{{sample.sampleCollector}}</td>																
+															</tr>
+															<tr>
+																<th>Date Sampled</th>
+																<td>{{sample.dateSampled | date:'d/MMM/yyyy'}}</td>																
+															</tr>
+															<tr>
+																<th>Sample Dispose?</th>
+																<td>{{sample.sampleDispose}}</td>																
+															</tr>
+															<tr>
+																<th>Date Disposed</th>
+																<td>{{sample.dateDisposed | date:'d/MMM/yyyy'}}</td>																
+															</tr>
+															<tr>
+																<th>Staff Disposed</th>
+																<td>{{sample.staffidDisposed}}</td>																
+															</tr>														
+														</tbody>
+													</table>
+												</td>
 											</tr>																						
 											</tbody>
 										  </table>

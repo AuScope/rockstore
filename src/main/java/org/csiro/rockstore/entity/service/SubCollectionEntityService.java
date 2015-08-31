@@ -51,7 +51,7 @@ public class SubCollectionEntityService {
 		return result;
 	}
 	
-	public List<RsSubcollection> getSubCollections(String collectionId){
+	public List<RsSubcollection> getSubCollectionsByCollection(String collectionId){
 		EntityManager em = JPAEntityManager.createEntityManager();
 		
 		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.findSubCollectionByCollection",RsSubcollection.class)

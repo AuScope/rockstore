@@ -41,7 +41,8 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 		})
 		.then(function(response) {			
 			if($scope.form.subcollectionId){
-				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)				
+				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)	
+				alert("record updated");
 			}else{				
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		

@@ -44,7 +44,8 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 			response.data.projectCloseDate=$filter('date')(response.data.projectCloseDate,'d/MMM/yyyy');
 			response.data.archiveDue=$filter('date')(response.data.archiveDue,'d/MMM/yyyy');			
 			if($scope.form.collectionId){
-				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)				
+				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)
+				alert("record updated");
 			}else{				
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		

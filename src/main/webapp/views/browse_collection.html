@@ -53,7 +53,7 @@
 					                      <i class="fa fa-file-o"></i> Collection: {{collection.collectionId}}
 					                    </li>
 					                    <li>
-					                      <i class="fa fa-user"></i> Staff Responsible: Victor Tey
+					                      <i class="fa fa-user"></i> Custodian: Victor Tey
 					                    </li>
 					                    <li>
 					                      <i class="fa fa-calendar"></i> Archive Due: {{collection.archiveDue | date:'d/MMM/yyyy'}}
@@ -110,7 +110,7 @@
 												<td>{{subcollection.locationInStorage}}</td>
 												<td>{{subcollection.source}}</td>																								
 												<td><a onclick="return false;"  href="#" data-toggle="collapse" data-target=".collapse-{{subcollection.subcollectionId}}"><i class="fa fa-eye"></i>View</a></td>
-												<td><i class="fa fa-paper-plane-o"></i></td>
+												<td><a href="#/browsesubcollections/{{subcollection.subcollectionId}}"><i class="fa fa-link"> GOTO</i></a></td>
 											</tr>	
 											<tr ng-repeat-end class="panel-collapse collapse out collapse-{{subcollection.subcollectionId}}">
 												<td colspan="5">

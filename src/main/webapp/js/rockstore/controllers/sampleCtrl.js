@@ -19,7 +19,7 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	}
 	
 	$scope.submit = function(){
-		if(!($scope.form.rsCollection && $scope.form.rsSubcollection)){
+		if(!($scope.form.rsSubcollection)){
 			modalService.showModal({}, {    	            	           
 		           headerText: "Collection Id or Sub-collection Id not set",
 		           bodyText: "Make sure you choose a valid collection id and sub-collection id"
@@ -52,7 +52,8 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 			response.data.dateSampled=$filter('date')(response.data.dateSampled,'d/MMM/yyyy');
 			response.data.dateDisposed=$filter('date')(response.data.dateDisposed,'d/MMM/yyyy');						
 			if($scope.form.id){//VT if ID exist, we assume it is a update else it is a insert new
-				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)				
+				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)		
+				alert("record updated");
 			}else{				
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		

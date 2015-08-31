@@ -1,0 +1,15 @@
+ <div class="modal-header">
+     <h3 class="modal-title">Sample Coordinates</h3>
+ </div>
+ <div class="modal-body">
+    <ui-gmap-google-map center='map.center' zoom='map.zoom' >
+    	<ui-gmap-marker coords="marker.coords" click="onClick()"  idkey="marker.id">
+    		<ui-gmap-window options="windowOptions" closeClick="closeClick()">
+                <div>{{info}}</div>
+            </ui-gmap-window>
+    	</ui-gmap-marker>
+    </ui-gmap-google-map>
+ </div>
+ <div class="modal-footer">
+     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>     
+ </div>

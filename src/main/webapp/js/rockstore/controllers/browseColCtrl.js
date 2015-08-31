@@ -1,12 +1,16 @@
 
-allControllers.controller('BrowseCollectionCtrl', ['$scope','$http',function ($scope,$http) {
+allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams',function ($scope,$http,$routeParams) {
 	
 	$scope.collections=[];
 	$scope.subcollections=[];
 	
 		
 	
-     $http.get('getCollections.do')     
+     $http.get('getCollections.do',{
+		params:{	
+			collectionId: $routeParams.collectionId
+			}
+	 })     
      .success(function(data) {
        $scope.collections = data;       
         

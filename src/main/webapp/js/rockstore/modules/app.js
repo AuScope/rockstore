@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute','allControllers','ui.grid','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners']);
+var app = angular.module('app', ['ngRoute','allControllers','ui.grid','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners','uiGmapgoogle-maps']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -11,11 +11,23 @@ app.config(['$routeProvider',
         templateUrl: 'views/browse_collection.html'
      
       }).
+      when('/browsecollections/:collectionId', {
+          templateUrl: 'views/browse_collection.html'
+       
+        }).
       when('/browsesubcollections', {
           templateUrl: 'views/browse_subcollection.html'
         
         }).
+      when('/browsesubcollections/:subCollectionId', {
+        templateUrl: 'views/browse_subcollection.html'
+      
+        }). 
       when('/browsesamples', {
+        templateUrl: 'views/browse_sample.html'
+       
+      }).    
+      when('/browsesamples/:id', {
           templateUrl: 'views/browse_sample.html'
          
       }).  
@@ -30,7 +42,7 @@ app.config(['$routeProvider',
       when('/samples', {
           templateUrl: 'restricted/samples.html'
         
-        }).
+        }).      
       when('/login', {
           templateUrl: 'views/login.html'
          
@@ -42,6 +54,14 @@ app.config(['$routeProvider',
     
     
   }]);
+
+app.config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        //    key: 'your api key',
+        //v: '3.20', //defaults to latest 3.X anyhow
+        libraries: 'weather,geometry,visualization'
+    });
+})
 
 app.service('DropDownValueService', function() {
     this.getUsers = function() {
@@ -163,11 +183,31 @@ app.service('currentAuthService', function() {
         getStatus : function(){
         	return status;
         }
-    };
-		    
-		    
+    };	    
     
 });
+
+app.service('MapModalService',['$modal',function ($modal) {
+	//VT: GOOGLE MAP MODALS
+     this.open = function (lat, lon,info) {
+
+       var modalInstance = $modal.open({
+         animation: true,
+         templateUrl: 'widget/GoogleMapModal.html',
+         controller: 'MapModalInstanceCtrl',
+         size: 'lg',
+         resolve: {
+           marker: function () {
+             return {
+            	 latitude :lat,
+            	 longitude : lon,
+            	 info : info 
+             }
+           }
+         }
+       });
+     };
+}])
 
 
 
