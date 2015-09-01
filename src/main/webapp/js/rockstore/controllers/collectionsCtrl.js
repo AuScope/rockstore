@@ -2,9 +2,9 @@
 allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
                                                     function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
 	
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
+	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
+	
 	$scope.gridOptions.data = [];
-
 	$scope.users = DropDownValueService.getUsers();	
 	$scope.booleans = DropDownValueService.getBoolean();
 	
@@ -61,9 +61,6 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 		  
 	}
 
- 
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
-	
 	$scope.gridOptions.columnDefs = [	                                
                                  	 { field: 'id',displayName: 'id',width:50 },
 	                                 { field: 'collectionId',displayName: 'collection id',width:150 },

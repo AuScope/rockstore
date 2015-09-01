@@ -1,9 +1,12 @@
 
-allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams',function ($scope,$http,MapModalService,$routeParams) {
+allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams','SearchCollectionService','DropDownValueService',
+                                                      function ($scope,$http,MapModalService,$routeParams,SearchCollectionService,DropDownValueService) {
 	
 	$scope.samples=[];
 	$scope.subcollections=[];
-	
+	$scope.booleans = DropDownValueService.getBoolean();
+	$scope.locations = DropDownValueService.getLocations();
+	$scope.storageTypes = DropDownValueService.getStorageType();
 		
 	
      $http.get('getSubCollections.do',{
@@ -13,7 +16,6 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
 	 })          
      .success(function(data) {
        $scope.subcollections = data;       
-        
      })
      .error(function(data, status) {    	
     	 modalService.showModal({}, {    	            	           
@@ -48,6 +50,15 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
      //VT: GOOGLE MAP MODALS
      $scope.open = function(lat, lon,info){
     	 MapModalService.open(lat, lon,info)
+     }
+     
+     $scope.openSearch = function(){
+    	 var promise = SearchCollectionService.open();
+    	 promise.then(function(selectedItem) {
+    		 $scope.searchCollectionId= selectedItem;
+    		}, function(reason) {
+    		  alert('Failed: ' + reason);
+    		});
      }
    
       

@@ -1,9 +1,10 @@
 
-allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams',function ($scope,$http,$routeParams) {
+allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams','DropDownValueService',function ($scope,$http,$routeParams,DropDownValueService) {
 	
 	$scope.collections=[];
 	$scope.subcollections=[];
-	
+	$scope.users = DropDownValueService.getUsers();	
+	$scope.booleans = DropDownValueService.getBoolean();
 		
 	
      $http.get('getCollections.do',{

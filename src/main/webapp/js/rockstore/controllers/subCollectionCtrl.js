@@ -1,7 +1,7 @@
-allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
-	
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
+allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchCollectionService',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchCollectionService) {
+		
+	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };	
 	$scope.gridOptions.data = [];
 	
 	$scope.booleans = DropDownValueService.getBoolean();
@@ -14,17 +14,19 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 	$scope.resetForm = function(){
 		$scope.form ={						
 				locationInStorage : $scope.form.locationInStorage,
-				hazardous : $scope.form.hazardous,				
+				hazardous : $scope.form.hazardous,		
+				rsCollection : $scope.form.rsCollection?$scope.form.rsCollection:[]
 		    }
 		$scope.gridApi.selection.clearSelectedRows();
 	}
 	
 	$scope.submit = function(){
-		if(!($scope.form.rsCollection)){
+		if(!$scope.form.rsCollection || !$scope.form.rsCollection['collectionId'] ){
 			modalService.showModal({}, {    	            	           
 		           headerText: "Collection Id not set",
 		           bodyText: "Make sure you choose a valid collection id"
 	    	 });
+			return;
 		}
 		
 		$http.get('subCollectionAddUpdate.do', {
@@ -58,8 +60,6 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 		  
 	}
 
- 
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
 	$scope.gridOptions.columnDefs = [	                              
                                  	 { field: 'id',displayName: 'id',width:50 },
@@ -105,6 +105,16 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
      
    };
 
-   
+   $scope.openSearch = function(){
+  	 var promise = SearchCollectionService.open();
+  	 promise.then(function(selectedItem) { 
+		 if(!$scope.form.rsCollection){
+			$scope.form.rsCollection=[];
+		 }
+  			$scope.form.rsCollection['collectionId']=selectedItem;
+  		}, function(reason) {
+  		  alert('Failed: ' + reason);
+  		});
+   }
    
 }]);

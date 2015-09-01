@@ -1,0 +1,101 @@
+ <div class="modal-header">
+     <h4 class="modal-title">Search Sub Collection</h4>
+ </div>
+ <div class="modal-body">
+ 
+    <div class="container">
+      <div class="row mb">
+      
+		<div class="col-md-4">
+           
+            <div class="panel panel-primary text-theme">
+              <div class="panel-heading">
+                <h3 class="panel-title">Collection</h3>
+              </div>
+              <div class="panel-body">
+               <form class="form-horizontal">
+	              <div class="form-group">
+			        <label class="control-label col-sm-3">Project</label>	
+			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Project" ng-model="form.project"></div>		         
+			      </div>
+			      <div class="form-group">
+			        <label  class="control-label col-sm-3">Field Manager</label>
+			        <div class="col-sm-9"><select class="form-control" ng-model="form.staffIdFieldManager" ng-options="user.value as user.display for user in users"></select></div>			          					         
+			      </div>
+			      <div class="form-group">
+			        <label  class="control-label col-sm-3">Staff Responsible</label>
+			        <div class="col-sm-9"><select class="form-control" ng-model="form.staffidResponsible" ng-options="user.value as user.display for user in users"></select></div>	
+			      </div>
+			      <div class="form-group">
+			        <label  class="control-label col-sm-3">Project Publication</label>			       
+			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Project Publication" ng-model="form.projectPublication"></div>		         			        
+			      </div>	
+			      
+	            </form>
+              </div>
+            </div>
+          </div>  
+          
+          <div class="col-md-4">
+           
+            <div class="panel panel-primary text-theme">
+              <div class="panel-heading">
+                <h3 class="panel-title">Sub Collection</h3>
+              </div>
+              <div class="panel-body">
+               <form class="form-horizontal">
+	              <div class="form-group">
+			       <label class="col-sm-3 control-label">Old ID</label>	
+			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Original ID" ng-model="form.oldId"></div>		         
+			      </div>
+			      <div class="form-group">
+			       <label class="col-sm-3 control-label">Storage location</label>
+			        <div class="col-sm-9"><select class="form-control" ng-model="form.locationInStorage" ng-options="location as location for location in locations"></select></div>			          					         
+			      </div>
+			      <div class="form-group">
+			        <label class="col-sm-3 control-label">Storage Type</label>
+			        <div class="col-sm-9"><select class="form-control" ng-model="form.storageType" ng-options="storageType as storageType for storageType in storageTypes"></select></div>	
+			      </div>
+			      <div class="form-group">
+			        <label class="col-sm-3 control-label">Hazardous</label>			       
+			        <div class="col-sm-9"><select class="form-control" ng-model="form.hazardous" ng-options="boolean.value as boolean.YesNo for boolean in booleans"></select></div>		         			        
+			      </div>	
+			      <div class="form-group">
+			        <label class="col-sm-3 control-label">Source</label>			       
+			        <div class="col-sm-9"><input type="text" class="form-control" placeholder="Source" ng-model="form.source"></div>		         			        
+			      </div>			     	      
+	            </form>
+              </div>
+            </div>
+          </div>            
+      </div>
+      <div class="row">
+      <div class="col-md-7"></div>
+      	<button type="submit" class="btn btn-primary text-theme-xs col-md-offset-9" ng-click="search">Search</button>
+      </div>       	
+      <div class="row mb">
+      	 <div class="col-md-9">
+          	<div class="panel-heading">Sub Collections</div>
+          	<spinner name="searchSubCollection.grid" ng-cloak="" >
+		   	   <div class="overlay"></div>
+			   <div class="spinner">
+			     <div class="double-bounce1"></div>
+			     <div class="double-bounce2"></div>
+			   </div>
+			   <div class="please-wait">Please Wait...</div>
+		   </spinner>	
+          	<div id="searchCollectionGrid"  ui-grid="gridOptions" ui-grid-selection ui.grid.resizeColumns class="searchSubCollectionResult-grid" ></div>	
+          </div> 
+      </div>
+      	
+      
+      
+    </div>
+    	
+    	
+ </div>
+ <div class="modal-footer">
+ 	<button class="btn btn-red pull-left" type="button" ng-click="cancel()">Cancel</button>  
+	 <button class="btn btn-primary pull-right" type="button" ng-click="ok()">OK</button>  
+	 <p class="col-sm-6 pull-right">Selected Collection: {{selectedSubCollection}}</p>
+ </div>

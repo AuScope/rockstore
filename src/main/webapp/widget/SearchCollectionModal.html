@@ -1,0 +1,61 @@
+ <div class="modal-header">
+     <h3 class="modal-title">Search Collection</h3>
+ </div>
+ <div class="modal-body">
+ 
+    <div class="container">
+      <div class="row mb">
+      
+		<div class="col-md-6">
+            <h3 class="title-md hr-left text-theme">Collection</h3>
+            <div class="panel panel-primary text-theme">
+              <div class="panel-heading">
+                <h3 class="panel-title">Search</h3>
+              </div>
+              <div class="panel-body">
+               <form class="form-horizontal">
+	              <div class="form-group">
+			        <label class="control-label col-sm-3">Project</label>	
+			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Project" ng-model="form.project"></div>		         
+			      </div>
+			      <div class="form-group">
+			        <label  class="control-label col-sm-3">Field Manager</label>
+			        <div class="col-sm-9"><select class="form-control" ng-model="form.staffIdFieldManager" ng-options="user.value as user.display for user in users"></select></div>			          					         
+			      </div>
+			      <div class="form-group">
+			        <label  class="control-label col-sm-3">Staff Responsible</label>
+			        <div class="col-sm-9"><select class="form-control" ng-model="form.staffidResponsible" ng-options="user.value as user.display for user in users"></select></div>	
+			      </div>
+			      <div class="form-group">
+			        <label  class="control-label col-sm-3">Project Publication</label>			       
+			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Project Publication" ng-model="form.projectPublication"></div>		         			        
+			      </div>	
+			      <button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="search">Search</button>		      
+	            </form>
+              </div>
+            </div>
+          </div>                
+      </div>
+      <div class="row">
+      	 <div class="col-md-9">
+          	<div class="panel-heading">Collections</div>
+          	<spinner name="searchCollection.grid" ng-cloak="" >
+		   	   <div class="overlay"></div>
+			   <div class="spinner">
+			     <div class="double-bounce1"></div>
+			     <div class="double-bounce2"></div>
+			   </div>
+			   <div class="please-wait">Please Wait...</div>
+		   </spinner>	
+          	<div id="searchCollectionGrid"  ui-grid="gridOptions" ui-grid-selection ui.grid.resizeColumns class="searchCollectionResult-grid" ></div>	
+          </div>        
+      </div>      
+    </div>
+    	
+    	
+ </div>
+ <div class="modal-footer">
+ 	<button class="btn btn-red pull-left" type="button" ng-click="cancel()">Cancel</button>  
+	 <button class="btn btn-primary pull-right" type="button" ng-click="ok()">OK</button>  
+	 <p class="col-sm-6 pull-right">Selected Collection: {{selectedCollection}}</p>
+ </div>

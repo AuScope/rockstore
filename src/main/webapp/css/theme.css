@@ -1003,7 +1003,7 @@ a:focus {
 .btn-red {
   color: white;
   border-color: #FE5555;
-  background-color: #FE5555;
+  background-color: #f0481e;
 }
 .btn-red:hover {
   color: white;
@@ -3946,7 +3946,14 @@ a .fa-round:hover {
     height: 500px;
   }
 
-
+.searchCollectionResult-grid {
+	width: 100%;
+    height: 350px;
+}  
+.searchSubCollectionResult-grid {
+	width: 100%;
+    height: 350px;
+}  
 .spinner {
   width: 100px;
   height: 100px;

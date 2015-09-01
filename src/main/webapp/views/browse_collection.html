@@ -4,37 +4,52 @@
       <div>    
         <div class="row mb">
           <div class="col-md-12">
-			  <div class="col-sm-4 grid-sidebar">		         
+			   <div class="col-sm-4 grid-sidebar">		         
 		          <div class="row-heading row-heading-mt-40">
 		            <div class="col-sm-12">
-		              <h3 class="title-sm text-uppercase hr-left text-theme">Search</h3>
+		              <h3 class="title-sm text-uppercase hr-left text-theme">Sub-Collection</h3>
 		            </div>
 		          </div>
-		          <div class="row">
-		            <div class="col-sm-12">
-		               <div class="icon-box bordered">		               
-		                <h3 class="title-sm text-theme">Collections</h3>
-		                <hr class="hr-divider-xs">
-		                <form class="form-horizontal">					    					      
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Collection ID</label>
-					        <div class="col-sm-10">
-					          <input type="text" class="form-control" placeholder="Collection ID">
-					         
-					        </div>
-					      </div>
-					      <div class="form-group has-success">
-					        <label class="col-sm-2 control-label" for="inputSuccess">Project</label>
-					        <div class="col-sm-10">
-					          <input type="text"  class="form-control" placeholder="Project">
-					         
-					        </div>
-					      </div>					     			    					   
-					    </form>
-		              </div>		             
-		            </div>
-		          </div>
-		      </div>    
+		          <div class="row mb">
+			        <div class="col-md-12">
+			          <div class="wrapper-form-box">
+			            <h3 class="title-sm">Search</h3>
+			            <form class="form-horizontal">
+			              <div class="form-group">			                
+			              	<label for="inputEmail" class="control-label col-sm-3">Project</label>
+			                  <div class="col-sm-9">
+								<input type="text" class="form-control" placeholder="Collection ID">						           					            						         
+			                  </div>			                  
+			              </div>
+			              <div class="form-group">			                
+			              	<label for="inputEmail" class="control-label col-sm-3">Field Manager</label>
+			                  <div class="col-sm-9">
+								<select class="form-control" ng-model="form.staffIdFieldManager" ng-options="user.value as user.display for user in users"></select>					           					            						         
+			                  </div>			                  
+			              </div>
+			              <div class="form-group">			                
+			              	<label for="inputEmail" class="control-label col-sm-3">Staff Responsible</label>
+			                  <div class="col-sm-9">
+								<select class="form-control" ng-model="form.staffidResponsible" ng-options="user.value as user.display for user in users"></select>						           					            						         
+			                  </div>			                  
+			              </div>
+			              <div class="form-group">			                
+			              	<label for="inputEmail" class="control-label col-sm-3">Project Publication</label>
+			                  <div class="col-sm-9">
+								<input type="text"  class="form-control" placeholder="Project Publication" ng-model="form.projectPublication">					           					            						         
+			                  </div>			                  
+			              </div>
+			              <div class="form-group">	
+			              	<div class="col-sm-12">		                			              			                
+								<button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="search">Search</button>		
+							</div>					           					            						         			                		                  
+			              </div>			              	             			             
+			            </form>
+			          </div>
+			        </div>
+			      </div>
+		      </div>  
+		      
 		      <div class="col-sm-8 grid-posts">
 		          <!-- POST ITEM 1 -->
 		          <div class="row">

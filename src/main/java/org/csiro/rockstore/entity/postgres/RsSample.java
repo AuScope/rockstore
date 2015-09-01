@@ -298,12 +298,22 @@ public class RsSample implements java.io.Serializable {
 	
 	@Transient
 	public Double getLon() {
-		return this.getLocation().getX();
+		if(this.getLocation()!=null){
+			return this.getLocation().getX();
+		}else{
+			return null;
+		}
+		
 	}
 	
 	@Transient
 	public Double getLat() {
-		return this.getLocation().getY();
+		if(this.getLocation()!=null){
+			return this.getLocation().getY();
+		}else{
+			return null;
+		}
+		
 	}
 
 	public void setLocation(Point location) {

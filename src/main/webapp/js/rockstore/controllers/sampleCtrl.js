@@ -1,8 +1,9 @@
-allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
+allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchSubCollectionService',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchSubCollectionService) {
 	
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
+	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };	
 	$scope.gridOptions.data = [];
+	
 	$scope.users = DropDownValueService.getUsers();
 	$scope.sampleTypes = DropDownValueService.getSampleType();
 	$scope.booleans = DropDownValueService.getBoolean();
@@ -11,19 +12,19 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	$scope.form ={};
 	
 	$scope.resetForm = function(){
-		$scope.form ={						
-				locationInStorage : $scope.form.locationInStorage,
-				hazardous : $scope.form.hazardous,				
+		$scope.form ={										
+				rsSubcollection:  $scope.form.rsSubcollection?$scope.form.rsSubcollection:[]
 		    }
 		$scope.gridApi.selection.clearSelectedRows();
 	}
 	
 	$scope.submit = function(){
-		if(!($scope.form.rsSubcollection)){
+		if(!$scope.form.rsSubcollection || !$scope.form.rsSubcollection['subcollectionId'] ){
 			modalService.showModal({}, {    	            	           
-		           headerText: "Collection Id or Sub-collection Id not set",
-		           bodyText: "Make sure you choose a valid collection id and sub-collection id"
+		           headerText: "Sub-collection Id not set",
+		           bodyText: "Make sure you choose a valid sub-collection id"
 	    	 });
+			return;
 		}
 		
 		$http.get('sampleAddUpdate.do', {
@@ -44,7 +45,7 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 				sampleDispose : $scope.form.sampleDispose,
 				dateDisposed : $scope.form.dateDisposed,
 				staffidDisposed : $scope.form.staffidDisposed,
-				locationWkt : "POINT ("+$scope.form.lon + " "+ $scope.form.lat +")"
+				locationWkt : $scope.form.lon&&$scope.form.lat? "POINT ("+$scope.form.lon + " "+ $scope.form.lat +")":""
 				
 				}
 		})
@@ -68,9 +69,6 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 		  });
 		
 	}
-
- 
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
 	$scope.gridOptions.columnDefs = [	                              
                                  	 { field: 'id',displayName: 'id',width:50 },                                 	
@@ -123,6 +121,19 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
      })
      
    };	
+   
+   
+   $scope.openSearch = function(){
+	  	 var promise = SearchSubCollectionService.open();
+	  	 promise.then(function(selectedItem) { 
+			 if(!$scope.form.rsSubcollection){
+				$scope.form.rsSubcollection=[];
+			 }
+	  			$scope.form.rsSubcollection['subcollectionId']=selectedItem;
+	  		}, function(reason) {
+	  		  alert('Failed: ' + reason);
+	  		});
+	   }
 
    
    

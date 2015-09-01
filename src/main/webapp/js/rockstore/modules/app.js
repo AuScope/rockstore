@@ -209,7 +209,43 @@ app.service('MapModalService',['$modal',function ($modal) {
      };
 }])
 
+app.service('SearchCollectionService',['$modal','$q',function ($modal,$q) {
+	//VT: GOOGLE MAP MODALS
+     this.open = function () {
+    	 return $q(function(resolve, reject) {
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/SearchCollectionModal.html',
+    	         controller: 'SearchCollectionCtrl',
+    	         size: 'lg'         
+    	       });
+    		 
+    	       modalInstance.result.then(function (selectedItem) {
+    	 	      resolve(selectedItem);
+    	 	    });
+    	 },1000);
 
+     };
+}])
+
+app.service('SearchSubCollectionService',['$modal','$q',function ($modal,$q) {
+	//VT: GOOGLE MAP MODALS
+     this.open = function () {
+    	 return $q(function(resolve, reject) {
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/SearchSubCollectionModal.html',
+    	         controller: 'SearchSubCollectionCtrl',
+    	         size: 'lg'         
+    	       });
+    		 
+    	       modalInstance.result.then(function (selectedItem) {
+    	 	      resolve(selectedItem);
+    	 	    });
+    	 },1000);
+
+     };
+}])
 
 app.directive('jqdatepicker', function () {
     return {

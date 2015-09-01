@@ -46,9 +46,11 @@
 					      </div>					      
 					      <div class="form-group has-success">
 					        <label class="col-sm-3 control-label" for="inputSuccess">Collection ID</label>
-					        <div class="col-sm-9">
-					          <input type="text"  class="form-control" placeholder="Collection ID" ng-model="form.rsCollection['collectionId']">
-					         
+					        <div class="col-sm-9">					          
+					          <div class="input-group">
+		                  		<input type="text" class="form-control" placeholder="Collection ID" ng-model="form.rsCollection['collectionId']" readonly>
+					           	<span class="input-group-addon" ng-click="openSearch()"><a href="#" onclick="return false;"><i class="fa fa-search"></i></a></span>						            
+						      </div>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">

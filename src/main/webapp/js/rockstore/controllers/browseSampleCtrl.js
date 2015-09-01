@@ -1,9 +1,10 @@
 
 
-allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams',function ($scope,$http,MapModalService,$routeParams) {
+allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService',function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService) {
 	
 	
 	$scope.samples=[];
+	$scope.expansionCSSDefault='out';
 	
 		
 	var getSamples = function(){
@@ -13,7 +14,11 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
 					}
 		 })     
 	     .success(function(data) {
-	       $scope.samples = data;       
+	       $scope.samples = data;
+	       
+	       if($routeParams.id){
+	    	   $scope.expansionCSSDefault='in';
+	       }
 	        
 	     })
 	     .error(function(data, status) {    	
@@ -30,6 +35,15 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
      //VT: GOOGLE MAP MODALS
      $scope.open = function(lat, lon,info){
     	 MapModalService.open(lat, lon,info)
+     }
+     
+     $scope.openSearch = function(){
+    	 var promise = SearchSubCollectionService.open();
+    	 promise.then(function(selectedItem) {
+    		 $scope.searchSubCollectionId= selectedItem;
+    		}, function(reason) {
+    		  alert('Failed: ' + reason);
+    		});
      }
      
 }]);
