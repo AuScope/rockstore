@@ -56,7 +56,7 @@ public class CollectionController {
     
     	try{
 	    	if(collectionId != null && !collectionId.isEmpty()){
-	    		RsCollection rc = this.collectionEntityService.search(collectionId);
+	    		RsCollection rc = this.collectionEntityService.searchByCollectionId(collectionId);
 	    		rc.update(projectId, staffFieldManager,  staffResponsible,
 	       			 projectResult,  projectPublication, NullUtilities.parseDateAllowNull(projectCloseDate),
 	       			 Boolean.parseBoolean(availableToPublic),NullUtilities.parseDateAllowNull(archiveDue));
@@ -91,14 +91,64 @@ public class CollectionController {
     		List<RsCollection> lrc = null;  
     		if(collectionId != null && !collectionId.isEmpty()){
     			ArrayList<RsCollection> result= (new ArrayList<RsCollection>());
-    			result.add(this.collectionEntityService.search(collectionId));
+    			result.add(this.collectionEntityService.searchByCollectionId(collectionId));
     			lrc = result;
     			
     		}else{
-    			lrc = this.collectionEntityService.getCollections();
+    			lrc = this.collectionEntityService.getAllCollections();
     		}
     		
     		return  new ResponseEntity<List<RsCollection>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
+    } 
+    
+    
+    
+    @RequestMapping(value = "searchCollections.do")
+    public ResponseEntity<List<RsCollection>> searchCollections(    		
+             @RequestParam(required = false, value ="project") String project,
+             @RequestParam(required = false, value ="staffIdFieldManager") String staffIdFieldManager,
+             @RequestParam(required = false, value ="staffidResponsible") String staffidResponsible,            
+             @RequestParam(required = false, value ="projectPublication") String projectPublication,
+             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
+             @RequestParam(required = false, value ="pageSize") int pageSize, 
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		
+    		List<RsCollection> lrc = null;  
+    		
+    		lrc = this.collectionEntityService.searchCollections(project,staffIdFieldManager,staffidResponsible,projectPublication,pageNumber,pageSize);
+    		
+    		
+    		return  new ResponseEntity<List<RsCollection>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
+    } 
+    
+    @RequestMapping(value = "searchCollectionsCount.do")
+    public ResponseEntity<Long> searchCollectionsCount(    		
+             @RequestParam(required = false, value ="project") String project,
+             @RequestParam(required = false, value ="staffIdFieldManager") String staffIdFieldManager,
+             @RequestParam(required = false, value ="staffidResponsible") String staffidResponsible,            
+             @RequestParam(required = false, value ="projectPublication") String projectPublication,
+             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
+             @RequestParam(required = false, value ="pageSize") int pageSize, 
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		
+    		
+    		
+    		Long count = this.collectionEntityService.searchCollectionsCount(project,staffIdFieldManager,staffidResponsible,projectPublication,pageNumber,pageSize);
+    		
+    		
+    		return  new ResponseEntity<Long>(count,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);
     		throw e;

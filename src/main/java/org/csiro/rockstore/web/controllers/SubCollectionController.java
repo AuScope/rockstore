@@ -56,7 +56,7 @@ public class SubCollectionController {
     	try{
 	    	if(subcollectionId != null && !subcollectionId.isEmpty()){
 	    		RsSubcollection rsc = this.subCollectionEntityService.search(subcollectionId);
-	    		RsCollection rc = collectionEntityService.search(collectionId);
+	    		RsCollection rc = collectionEntityService.searchByCollectionId(collectionId);
 	    		rsc.update(rc, oldId,locationInStorage, storageType, hazardous,
 	    					 source,  totalPallet);
 	    		
@@ -65,7 +65,7 @@ public class SubCollectionController {
 	    		return  new ResponseEntity<Object>(rsc,HttpStatus.OK);  
 	    		
 	    	}else{
-	    		RsCollection rc = collectionEntityService.search(collectionId);
+	    		RsCollection rc = collectionEntityService.searchByCollectionId(collectionId);
 	    		RsSubcollection rsc= new RsSubcollection(rc,  oldId,
 	    				  locationInStorage,  storageType,  hazardous,
 	    					 source,  totalPallet,null);
@@ -115,5 +115,55 @@ public class SubCollectionController {
     		logger.warn(e);   
     		throw e;
     	}
+    } 
+    
+    
+    
+    @RequestMapping(value = "searchSubCollections.do")
+    public ResponseEntity<List<RsSubcollection>> searchCollections(    		
+    		 @RequestParam(required = false, value ="collectionId") String collectionId,
+             @RequestParam(required = false, value ="locationInStorage") String locationInStorage,                  
+             @RequestParam(required = false, value ="storageType") String storageType,            
+             @RequestParam(required = false, value ="source") String source,   
+             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
+             @RequestParam(required = false, value ="pageSize") int pageSize, 
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		
+    		List<RsSubcollection> lrc = null;  
+    		
+    		lrc = this.subCollectionEntityService.searchSubCollections(collectionId,locationInStorage,storageType,source,pageNumber,pageSize);
+    		
+    		
+    		return  new ResponseEntity<List<RsSubcollection>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
+    } 
+    
+    @RequestMapping(value = "searchSubCollectionsCount.do")
+    public ResponseEntity<Long> searchCollectionsCount(    		
+    		 @RequestParam(required = false, value ="collectionId") String collectionId,
+             @RequestParam(required = false, value ="locationInStorage") String locationInStorage,                  
+             @RequestParam(required = false, value ="storageType") String storageType,                     
+             @RequestParam(required = false, value ="source") String source,   
+             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
+             @RequestParam(required = false, value ="pageSize") int pageSize, 
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		
+    		
+    		
+    		Long count = this.subCollectionEntityService.searchSubCollectionsCount(collectionId,locationInStorage,storageType,source,pageNumber,pageSize);
+    		
+    		
+    		return  new ResponseEntity<Long>(count,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
     } 
 }
