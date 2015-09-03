@@ -1,6 +1,8 @@
 
-allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams','SearchCollectionService','DropDownValueService','modalService',
-                                                      function ($scope,$http,MapModalService,$routeParams,SearchCollectionService,DropDownValueService,modalService) {
+allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams','SearchCollectionService','DropDownValueService','modalService','currentAuthService',
+                                                      function ($scope,$http,MapModalService,$routeParams,SearchCollectionService,DropDownValueService,modalService,currentAuthService) {
+	
+	$scope.status = currentAuthService.getStatus();
 	
 	$scope.samples=[];
 	$scope.subcollections=[];
@@ -13,10 +15,10 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
 	$scope.totalItem = 0;
 	$scope.currentPages = 1;
 		
-     var getSubCollection = function(collectionId){
+     var getSubCollection = function(subCollectionId){
     	 $http.get('getSubCollections.do',{
  			params:{	
- 				subCollectionId: $routeParams.subCollectionId
+ 				subCollectionId: subCollectionId
  				}
 	 	 })          
 	      .success(function(data) {
@@ -32,13 +34,15 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
      }
      
      
-     $scope.searchSubCollection = function(){
+     $scope.searchSubCollection = function(page){
+    	 $scope.currentPages = page;//VT page is reset to 1 on new search
     	 var params ={	
     			collectionId: $scope.form.collectionId,
+    			oldId : $scope.form.oldId,
     			locationInStorage:$scope.form.locationInStorage,
     			storageType: $scope.form.storageType, 			
  				source : $scope.form.source,
- 				pageNumber:$scope.currentPages,
+ 				pageNumber:page,
  				pageSize:10
  				}
  		
@@ -74,13 +78,13 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
      }
      
      $scope.pageChanged = function() {
- 		$scope.searchSubCollection();
+ 		$scope.searchSubCollection($scope.currentPages);
  	  };
      
      if($routeParams.subCollectionId){
-    	 getSubCollection($routeParams.subCollectionId	);
+    	 getSubCollection($routeParams.subCollectionId);
  	 }else{
- 		$scope.searchSubCollection();
+ 		$scope.searchSubCollection(1);
  	 }
      
      $scope.getSamples=function(subCollectionId){
@@ -119,6 +123,10 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
     		});
      }
    
+     $scope.resetForm = function(){
+    	 $scope.form={};
+    	 getSubCollection();
+     }
       
 }]);
 

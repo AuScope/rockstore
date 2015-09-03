@@ -1,8 +1,9 @@
 
 
-allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService',
-                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService) {
+allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService','currentAuthService',
+                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService,currentAuthService) {
 	
+	$scope.status = currentAuthService.getStatus();
 	
 	$scope.samples=[];
 	$scope.expansionCSSDefault='out';
@@ -12,10 +13,10 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
 	$scope.currentPages = 1;
 	
 		
-	var getSamples = function(){
+	var getSamples = function(id){
 		 $http.get('getSample.do',{
 				params:{	
-					id: $routeParams.id
+					id: id
 					}
 		 })     
 	     .success(function(data) {
@@ -35,15 +36,16 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
 	     })
 	}
 	
-	
-	$scope.searchSample = function(){
+	//VT:page determines the page to search and set the current page
+	$scope.searchSample = function(page){
+		$scope.currentPages = page;
 	   	 var params ={	
    			subcollectionId: $scope.form.subcollectionId,
    			igsn:$scope.form.igsn,
    			csiroSampleId: $scope.form.csiroSampleId, 			
    			bhid : $scope.form.bhid,
    			externalRef : $scope.form.externalRef,
-			pageNumber:$scope.currentPages,
+			pageNumber:page,
 			pageSize:10
 		 }
 		
@@ -81,13 +83,13 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
 	
 	
 	$scope.pageChanged = function() {
- 		$scope.searchSample();
+ 		$scope.searchSample($scope.currentPages);
  	  };
      
      if($routeParams.id){
     	 getSamples($routeParams.id);
  	 }else{
- 		$scope.searchSample();
+ 		$scope.searchSample(1);
  	 }
      
      
@@ -103,6 +105,11 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
     		}, function(reason) {
     		  alert('Failed: ' + reason);
     		});
+     }
+     
+     $scope.resetForm = function(){
+    	 $scope.form={};
+    	 getSamples();
      }
      
 }]);

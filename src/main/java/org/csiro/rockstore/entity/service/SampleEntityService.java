@@ -71,7 +71,7 @@ public class SampleEntityService {
 
 	public List<RsSample> searchSample(String subcollectionId, String igsn,
 			String csiroSampleId, String bhid, String externalRef,
-			int pageNumber, int pageSize) {
+			Integer pageNumber, Integer pageSize) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		
@@ -85,8 +85,10 @@ public class SampleEntityService {
 	
 		TypedQuery<RsSample> typedQuery = em.createQuery(select);
 		
-	    typedQuery.setFirstResult((pageNumber - 1)*pageSize);
-	    typedQuery.setMaxResults(pageSize);
+		if(pageNumber != null && pageSize != null){
+		    typedQuery.setFirstResult((pageNumber - 1)*pageSize);
+		    typedQuery.setMaxResults(pageSize);
+		}
 	    
 		
 	    List<RsSample> result = typedQuery.getResultList();
@@ -95,9 +97,8 @@ public class SampleEntityService {
 		return result;
 	}
 
-	public Long searchSampleCount(String subcollectionId, String igsn,
-			String csiroSampleId, String bhid, String externalRef,
-			int pageNumber, int pageSize) {
+	public Long searchSampleCount(String subcollectionId, String igsn,String csiroSampleId,
+			String bhid, String externalRef) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		

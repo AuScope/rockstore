@@ -1,5 +1,5 @@
-allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchSubCollectionService',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchSubCollectionService) {
+allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchSubCollectionService','$routeParams',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchSubCollectionService,$routeParams) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };	
 	$scope.gridOptions.data = [];
@@ -121,6 +121,19 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
      })
      
    };	
+   
+   if($routeParams.id){
+	   $http.get('getSample.do',{
+		   params:{
+			   id : $routeParams.id
+		   }
+	   })     
+	   .success(function(data) {
+		   $scope.form = data[0];
+		   $scope.form.dateSampled=$filter('date')($scope.form.dateSampled,'d/MMM/yyyy');
+		   $scope.form.dateDisposed=$filter('date')($scope.form.dateDisposed,'d/MMM/yyyy');
+	   })
+   }
    
    
    $scope.openSearch = function(){

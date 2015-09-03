@@ -6,7 +6,7 @@
     <div class="container">
       <div class="row mb">
       
-		<div class="col-md-4">
+		<div class="col-md-8">
            
             <div class="panel panel-primary text-theme">
               <div class="panel-heading">
@@ -19,32 +19,6 @@
 			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Project" ng-model="form.project"></div>		         
 			      </div>
 			      <div class="form-group">
-			        <label  class="control-label col-sm-3">Field Manager</label>
-			        <div class="col-sm-9"><select class="form-control" ng-model="form.staffIdFieldManager" ng-options="user.value as user.display for user in users"></select></div>			          					         
-			      </div>
-			      <div class="form-group">
-			        <label  class="control-label col-sm-3">Staff Responsible</label>
-			        <div class="col-sm-9"><select class="form-control" ng-model="form.staffidResponsible" ng-options="user.value as user.display for user in users"></select></div>	
-			      </div>
-			      <div class="form-group">
-			        <label  class="control-label col-sm-3">Project Publication</label>			       
-			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Project Publication" ng-model="form.projectPublication"></div>		         			        
-			      </div>	
-			      
-	            </form>
-              </div>
-            </div>
-          </div>  
-          
-          <div class="col-md-4">
-           
-            <div class="panel panel-primary text-theme">
-              <div class="panel-heading">
-                <h3 class="panel-title">Sub Collection</h3>
-              </div>
-              <div class="panel-body">
-               <form class="form-horizontal">
-	              <div class="form-group">
 			       <label class="col-sm-3 control-label">Old ID</label>	
 			        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Original ID" ng-model="form.oldId"></div>		         
 			      </div>
@@ -63,16 +37,13 @@
 			      <div class="form-group">
 			        <label class="col-sm-3 control-label">Source</label>			       
 			        <div class="col-sm-9"><input type="text" class="form-control" placeholder="Source" ng-model="form.source"></div>		         			        
-			      </div>			     	      
+			      </div>	
+			      <button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="searchSubCollection()">Search</button>			      
 	            </form>
               </div>
             </div>
-          </div>            
-      </div>
-      <div class="row">
-      <div class="col-md-7"></div>
-      	<button type="submit" class="btn btn-primary text-theme-xs col-md-offset-9" ng-click="search">Search</button>
-      </div>       	
+          </div>    
+      </div>          	
       <div class="row mb">
       	 <div class="col-md-9">
           	<div class="panel-heading">Sub Collections</div>

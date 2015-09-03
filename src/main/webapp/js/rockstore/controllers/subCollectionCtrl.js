@@ -1,5 +1,5 @@
-allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchCollectionService',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchCollectionService) {
+allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchCollectionService','$routeParams',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchCollectionService,$routeParams) {
 		
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };	
 	$scope.gridOptions.data = [];
@@ -104,6 +104,17 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
      })
      
    };
+   
+   if($routeParams.subCollectionId){
+	   $http.get('getSubCollections.do',{
+		   params:{
+			   subCollectionId : $routeParams.subCollectionId
+		   }
+	   })     
+	   .success(function(data) {
+	  	 	$scope.form = data[0];
+	   })
+   }
 
    $scope.openSearch = function(){
   	 var promise = SearchCollectionService.open();

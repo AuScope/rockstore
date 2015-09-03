@@ -56,6 +56,7 @@ allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValue
 	$scope.users = DropDownValueService.getUsers();	
 	$scope.booleans = DropDownValueService.getBoolean();
 	$scope.gridOptions.data = [];
+	$scope.form ={};
 	
 	$scope.gridOptions.columnDefs = [	                                                                 	
 	                                 { field: 'collectionId',displayName: 'collection id',width:150 },
@@ -79,34 +80,45 @@ allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValue
     	 $scope.selectedCollection = selectedRow.collectionId
      });
      
-     spinnerService.show('searchCollection.grid');
-     $http.get('getCollections.do')     
-     .success(function(data) {
-       $scope.gridOptions.data = data;
-       spinnerService.hide('searchCollection.grid')
-       spinnerService._unregister('searchCollection.grid')
-        
-     })
-     .error(function(data, status) {    	
-    	 modalService.showModal({}, {    	            	           
-	           headerText: "Error loading data:" + status ,
-	           bodyText: "Please contact cg-admin@csiro.au if this persist"
-    	 });
-       
-        spinnerService.hide('searchCollection.grid')
-        spinnerService._unregister('searchCollection.grid')
-     })
-     
    };
+   
+   $scope.searchCollection = function(){
+		 spinnerService.show('searchCollection.grid');
+		 var params ={	
+					project: $scope.form.project,
+					staffIdFieldManager:$scope.form.staffIdFieldManager,
+					staffidResponsible: $scope.form.staffidResponsible,
+					projectPublication : $scope.form.projectPublication
+		 }
+			
+			//VT: Actual results
+		$http.get('searchCollections.do',{
+			params:params
+		 })   
+ 	     .success(function(data) {
+ 	    	 $scope.gridOptions.data = data;
+ 	         spinnerService.hide('searchCollection.grid') 	              	        
+ 	     })
+ 	     .error(function(data, status) {    	
+ 	    	 modalService.showModal({}, {    	            	           
+ 		           headerText: "Error loading data:" + status ,
+ 		           bodyText: "Please contact cg-admin@csiro.au if this persist"
+ 		        	   
+ 	    	 });
+ 	    	spinnerService.hide('searchCollection.grid') 	      
+ 	     })
+	 }
 	
 	
 
 	 $scope.ok = function () {
+		 spinnerService._unregister('searchCollection.grid')
 		 $modalInstance.close($scope.selectedCollection);
 	 };
 	 
 	 $scope.cancel = function () {
-		    $modalInstance.dismiss('cancel');
+		 spinnerService._unregister('searchCollection.grid')
+		 $modalInstance.dismiss('cancel');
 	 };
 	  
 });
@@ -122,13 +134,14 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
 	$scope.users = DropDownValueService.getUsers();	
 	$scope.booleans = DropDownValueService.getBoolean();
 	
-
 	$scope.gridOptions.data = [];	
+	$scope.form ={};
 	
 	$scope.gridOptions.columnDefs = [	                              
                                  	 { field: 'id',displayName: 'id',width:50 },
 	                                 { field: 'subcollectionId',displayName: 'subCollection id',width:150 },
 	                                 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
+	                                 { field: "rsCollection['project']",displayName: 'Project', width:150 },
 	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 
 	                                 { field: 'oldId',displayName: 'old ID',width:130},
 	                                 { field: "sampleRangeBySubcollection['minContainer']",displayName: 'Container From',width:180},
@@ -150,33 +163,51 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
     	var selectedRow=jQuery.extend(true, {}, $scope.gridApi.selection.getSelectedRows()[0]);    	
     	 $scope.selectedSubCollection = selectedRow.subcollectionId;
      });
-     
-     spinnerService.show('searchSubCollection.grid');
-     $http.get('getSubCollections.do') 
-     .success(function(data) {
-       $scope.gridOptions.data = data;
-       spinnerService.hide('searchSubCollection.grid')
-       spinnerService._unregister('searchSubCollection.grid')
-     })
-     .error(function(data, status) {
-    	 modalService.showModal({}, {    	            	           
-	           headerText: "Error loading data:" + status ,
-	           bodyText: "Please contact cg-admin@csiro.au if this persist"
-    	 });
-        spinnerService.hide('searchSubCollection.grid')
-        spinnerService._unregister('searchSubCollection.grid')
-     })
-     
+        
    };
+   
+   $scope.searchSubCollection = function(){
+	   spinnerService.show('searchSubCollection.grid');
+	   var params ={	
+   			collectionId: $scope.form.collectionId,
+   			project : $scope.form.project,
+   			oldId : $scope.form.oldId,
+   			locationInStorage:$scope.form.locationInStorage,
+   			storageType: $scope.form.storageType, 			
+			source : $scope.form.source,
+			pageNumber:$scope.currentPages,
+			pageSize:10
+		}
+		
+		//VT: Actual results
+		$http.get('searchSubCollections.do',{
+			params:params
+		 })     
+	     .success(function(data) {
+	    	 $scope.gridOptions.data = data;
+		     spinnerService.hide('searchSubCollection.grid')
+	        
+	     })
+	     .error(function(data, status) {    	
+	    	 modalService.showModal({}, {    	            	           
+		           headerText: "Error loading data:" + status ,
+		           bodyText: "Please contact cg-admin@csiro.au if this persist"
+	    	 });
+	    	 spinnerService.hide('searchSubCollection.grid')
+	     })
+   }
 	
 	
 
 	 $scope.ok = function () {
+		 spinnerService._unregister('searchSubCollection.grid')
 		 $modalInstance.close($scope.selectedSubCollection);
+		 
 	 };
 	 
 	 $scope.cancel = function () {
-		    $modalInstance.dismiss('cancel');
+		 spinnerService._unregister('searchSubCollection.grid')
+		 $modalInstance.dismiss('cancel');
 	 };
 	  
 });

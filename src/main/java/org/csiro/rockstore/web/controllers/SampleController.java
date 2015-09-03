@@ -158,16 +158,15 @@ public class SampleController {
             @RequestParam(required = false, value ="csiroSampleId") String csiroSampleId,                       
             @RequestParam(required = false, value ="bhid") String bhid,                     
             @RequestParam(required = false, value ="externalRef") String externalRef,            
-            @RequestParam(required = false, value ="pageNumber") int pageNumber, 
-            @RequestParam(required = false, value ="pageSize") int pageSize, 
+            @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
+            @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
             HttpServletResponse response) throws Exception{
     	try{    		
     		List<RsSample> lrc = null;  
     		
     		lrc = this.sampleEntityService.searchSample(subcollectionId,igsn,csiroSampleId,bhid,externalRef,pageNumber,pageSize);
-    		
-    		
+
     		return  new ResponseEntity<List<RsSample>>(lrc,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);
@@ -183,15 +182,12 @@ public class SampleController {
              @RequestParam(required = false, value ="csiroSampleId") String csiroSampleId,                       
              @RequestParam(required = false, value ="bhid") String bhid,                     
              @RequestParam(required = false, value ="externalRef") String externalRef, 
-             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
-             @RequestParam(required = false, value ="pageSize") int pageSize, 
+             @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
+             @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
             HttpServletResponse response) throws Exception{
-    	try{    		
-    		
-    		
-    		Long count = this.sampleEntityService.searchSampleCount(subcollectionId,igsn,csiroSampleId,bhid,externalRef,pageNumber,pageSize);
-    		    		
+    	try{    		    		
+    		Long count = this.sampleEntityService.searchSampleCount(subcollectionId,igsn,csiroSampleId,bhid,externalRef);    		    		
     		return  new ResponseEntity<Long>(count,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);

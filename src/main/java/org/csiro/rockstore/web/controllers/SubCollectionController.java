@@ -122,17 +122,19 @@ public class SubCollectionController {
     @RequestMapping(value = "searchSubCollections.do")
     public ResponseEntity<List<RsSubcollection>> searchCollections(    		
     		 @RequestParam(required = false, value ="collectionId") String collectionId,
+    		 @RequestParam(required = false, value ="project") String project,
+    		 @RequestParam(required = false, value ="oldId") String oldId,
              @RequestParam(required = false, value ="locationInStorage") String locationInStorage,                  
              @RequestParam(required = false, value ="storageType") String storageType,            
              @RequestParam(required = false, value ="source") String source,   
-             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
-             @RequestParam(required = false, value ="pageSize") int pageSize, 
+             @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
+             @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
             HttpServletResponse response) throws Exception{
     	try{    		
     		List<RsSubcollection> lrc = null;  
     		
-    		lrc = this.subCollectionEntityService.searchSubCollections(collectionId,locationInStorage,storageType,source,pageNumber,pageSize);
+    		lrc = this.subCollectionEntityService.searchSubCollections(collectionId,project,oldId,locationInStorage,storageType,source,pageNumber,pageSize);
     		
     		
     		return  new ResponseEntity<List<RsSubcollection>>(lrc,HttpStatus.OK);
@@ -146,17 +148,19 @@ public class SubCollectionController {
     @RequestMapping(value = "searchSubCollectionsCount.do")
     public ResponseEntity<Long> searchCollectionsCount(    		
     		 @RequestParam(required = false, value ="collectionId") String collectionId,
+    		 @RequestParam(required = false, value ="project") String project,
+    		 @RequestParam(required = false, value ="oldId") String oldId,
              @RequestParam(required = false, value ="locationInStorage") String locationInStorage,                  
              @RequestParam(required = false, value ="storageType") String storageType,                     
              @RequestParam(required = false, value ="source") String source,   
-             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
-             @RequestParam(required = false, value ="pageSize") int pageSize, 
+             @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
+             @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
             HttpServletResponse response) throws Exception{
     	try{    		
     		
     		
-    		Long count = this.subCollectionEntityService.searchSubCollectionsCount(collectionId,locationInStorage,storageType,source,pageNumber,pageSize);
+    		Long count = this.subCollectionEntityService.searchSubCollectionsCount(collectionId,project,oldId,locationInStorage,storageType,source);
     		
     		
     		return  new ResponseEntity<Long>(count,HttpStatus.OK);

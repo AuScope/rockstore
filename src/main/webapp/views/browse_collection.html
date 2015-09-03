@@ -41,8 +41,9 @@
 			              </div>
 			              <div class="form-group">	
 			              	<div class="col-sm-12">		                			              			                
-								<button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="searchCollection()">Search</button>		
-							</div>					           					            						         			                		                  
+								<button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="searchCollection(1)">Search</button>
+								<button class="btn btn-red text-theme-xs pull-left" ng-click="resetForm()">Reset Form</button>			
+							</div>		           					            						         			                		                 
 			              </div>			              	             			             
 			            </form>
 			          </div>
@@ -70,8 +71,11 @@
 					                    <li>
 					                      <i class="fa fa-user"></i> Custodian: Victor Tey
 					                    </li>
-					                    <li>
+					                    <li ng-show="collection.archiveDue">
 					                      <i class="fa fa-calendar"></i> Archive Due: {{collection.archiveDue | date:'d/MMM/yyyy'}}
+					                    </li>
+					                    <li ng-show="status.authenticated">
+					                      <a href="#/collections/{{collection.collectionId}}"><i class="fa fa-wrench"> Edit</i></a>
 					                    </li>					                    
 					                  </ul>
 					                  <br>

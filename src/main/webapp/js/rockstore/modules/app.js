@@ -14,15 +14,15 @@ app.config(['$routeProvider',
       when('/browsecollections/:collectionId', {
           templateUrl: 'views/browse_collection.html'
        
-        }).
+      }).
       when('/browsesubcollections', {
           templateUrl: 'views/browse_subcollection.html'
         
-        }).
+      }).
       when('/browsesubcollections/:subCollectionId', {
         templateUrl: 'views/browse_subcollection.html'
       
-        }). 
+      }). 
       when('/browsesamples', {
         templateUrl: 'views/browse_sample.html'
        
@@ -34,19 +34,30 @@ app.config(['$routeProvider',
       when('/collections', {
           templateUrl: 'restricted/collections.html'
         
-        }).
+      }).
+      when('/collections/:collectionId', {
+        templateUrl: 'restricted/collections.html'
+      
+      }).  
       when('/subcollections', {
           templateUrl: 'restricted/subcollections.html'
         
-        }).
+      }).
+      when('/subcollections/:subCollectionId', {
+          templateUrl: 'restricted/subcollections.html'
+        
+      }).
       when('/samples', {
           templateUrl: 'restricted/samples.html'
         
-        }).      
+      }).
+      when('/samples/:id', {
+          templateUrl: 'restricted/samples.html'
+        
+      }).
       when('/login', {
-          templateUrl: 'views/login.html'
-         
-        }).     
+          templateUrl: 'views/login.html'        
+      }).     
       otherwise({
         redirectTo: '/'
       });

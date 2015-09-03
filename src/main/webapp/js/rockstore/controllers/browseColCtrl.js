@@ -1,5 +1,8 @@
 
-allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams','DropDownValueService','modalService',function ($scope,$http,$routeParams,DropDownValueService,modalService) {
+allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams','DropDownValueService','modalService','currentAuthService',
+                                                   function ($scope,$http,$routeParams,DropDownValueService,modalService,currentAuthService) {
+	
+	$scope.status = currentAuthService.getStatus();
 	
 	$scope.collections=[];
 	$scope.subcollections=[];
@@ -30,14 +33,14 @@ allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParam
 	     })
 	}
 	
-	$scope.searchCollection = function(){
-		
+	$scope.searchCollection = function(page){
+		$scope.currentPages = page;//VT page is reset to 1 on new search
 		var params ={	
 				project: $scope.form.project,
 				staffIdFieldManager:$scope.form.staffIdFieldManager,
 				staffidResponsible: $scope.form.staffidResponsible,
 				projectPublication : $scope.form.projectPublication,
-				pageNumber:$scope.currentPages,
+				pageNumber:page,
 				pageSize:10
 				}
 		
@@ -73,14 +76,14 @@ allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParam
 	}
 	
 	$scope.pageChanged = function() {
-		$scope.searchCollection();
+		$scope.searchCollection($scope.currentPages);
 	  };
 	
     
 	if($routeParams.collectionId){
 		getCollection($routeParams.collectionId	);
 	}else{
-		$scope.searchCollection();
+		$scope.searchCollection(1);
 	}
 	
 	
@@ -108,6 +111,10 @@ allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParam
          })
      }
    
+     $scope.resetForm = function(){
+    	 $scope.form={};
+    	 getCollection();
+     }
       
 }]);
 

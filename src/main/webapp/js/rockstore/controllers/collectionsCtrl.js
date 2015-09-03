@@ -1,6 +1,6 @@
 
-allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
+allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','$routeParams',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,$routeParams) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
@@ -105,6 +105,20 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
      })
      
    };
+   
+   
+   if($routeParams.collectionId){
+	   $http.get('getCollections.do',{
+		   params:{
+	    	 collectionId : $routeParams.collectionId
+		   }
+	   })     
+	   .success(function(data) {		   
+		   $scope.form = data[0];
+		   $scope.form.projectCloseDate=$filter('date')($scope.form.projectCloseDate,'d/MMM/yyyy');
+		   $scope.form.archiveDue=$filter('date')($scope.form.archiveDue,'d/MMM/yyyy');
+	   })
+   }
 
    
    

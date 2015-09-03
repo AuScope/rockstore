@@ -114,8 +114,8 @@ public class CollectionController {
              @RequestParam(required = false, value ="staffIdFieldManager") String staffIdFieldManager,
              @RequestParam(required = false, value ="staffidResponsible") String staffidResponsible,            
              @RequestParam(required = false, value ="projectPublication") String projectPublication,
-             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
-             @RequestParam(required = false, value ="pageSize") int pageSize, 
+             @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
+             @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
             HttpServletResponse response) throws Exception{
     	try{    		
@@ -137,15 +137,15 @@ public class CollectionController {
              @RequestParam(required = false, value ="project") String project,
              @RequestParam(required = false, value ="staffIdFieldManager") String staffIdFieldManager,
              @RequestParam(required = false, value ="staffidResponsible") String staffidResponsible,            
-             @RequestParam(required = false, value ="projectPublication") String projectPublication,
-             @RequestParam(required = false, value ="pageNumber") int pageNumber, 
-             @RequestParam(required = false, value ="pageSize") int pageSize, 
+             @RequestParam(required = false, value ="projectPublication") String projectPublication, 
+             @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
+             @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
             HttpServletResponse response) throws Exception{
     	try{    		
     		
     		
-    		Long count = this.collectionEntityService.searchCollectionsCount(project,staffIdFieldManager,staffidResponsible,projectPublication,pageNumber,pageSize);
+    		Long count = this.collectionEntityService.searchCollectionsCount(project,staffIdFieldManager,staffidResponsible,projectPublication);
     		
     		
     		return  new ResponseEntity<Long>(count,HttpStatus.OK);

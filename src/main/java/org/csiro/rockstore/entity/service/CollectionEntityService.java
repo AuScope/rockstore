@@ -62,7 +62,7 @@ public class CollectionEntityService {
 	}
 	
 	public List<RsCollection> searchCollections(String project, String staffIdFieldManager, String staffidResponsible,
-				String projectPublication, int pageNumber, int pageSize) {
+				String projectPublication, Integer pageNumber, Integer pageSize) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		
@@ -77,8 +77,10 @@ public class CollectionEntityService {
 	
 		TypedQuery<RsCollection> typedQuery = em.createQuery(select);
 		
-	    typedQuery.setFirstResult((pageNumber - 1)*pageSize);
-	    typedQuery.setMaxResults(pageSize);
+		if(pageNumber != null && pageSize != null ){
+		    typedQuery.setFirstResult((pageNumber - 1)*pageSize);
+		    typedQuery.setMaxResults(pageSize);
+		}
 	    
 		
 	    List<RsCollection> result = typedQuery.getResultList();
@@ -89,7 +91,7 @@ public class CollectionEntityService {
 
 	public Long searchCollectionsCount(String project,
 			String staffIdFieldManager, String staffidResponsible,
-			String projectPublication, int pageNumber, int pageSize) {
+			String projectPublication) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		

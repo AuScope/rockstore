@@ -68,8 +68,8 @@ public class SubCollectionEntityService {
 		return result;
 	}
 
-	public List<RsSubcollection> searchSubCollections(String collectionId,
-			String locationInStorage, String storageType, String source, int pageNumber, int pageSize) {
+	public List<RsSubcollection> searchSubCollections(String collectionId,String project,String oldId,
+			String locationInStorage, String storageType, String source, Integer pageNumber, Integer pageSize) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		
@@ -77,25 +77,25 @@ public class SubCollectionEntityService {
 		CriteriaQuery<RsSubcollection> criteriaQuery = criteriaBuilder.createQuery(RsSubcollection.class);
 		Root<RsSubcollection> from = criteriaQuery.from(RsSubcollection.class);
 
-		List<Predicate> predicates =this.predicateBuilder(collectionId,locationInStorage,storageType,source, criteriaBuilder,from);
+		List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source, criteriaBuilder,from);
 			
 		CriteriaQuery<RsSubcollection> select = criteriaQuery.select(from).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 	
 		TypedQuery<RsSubcollection> typedQuery = em.createQuery(select);
 		
-	    typedQuery.setFirstResult((pageNumber - 1)*pageSize);
-	    typedQuery.setMaxResults(pageSize);
-	    
-		
+		if(pageNumber != null && pageSize != null){
+			typedQuery.setFirstResult((pageNumber - 1)*pageSize);
+		    typedQuery.setMaxResults(pageSize);
+		}
+
 	    List<RsSubcollection> result = typedQuery.getResultList();
 		
 		em.close();
 		return result;
 	}
 
-	public Long searchSubCollectionsCount(String collectionId,
-			String locationInStorage, String storageType, 
-			String source, int pageNumber, int pageSize) {
+	public Long searchSubCollectionsCount(String collectionId,String project,String oldId,
+			String locationInStorage, String storageType, String source) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		
@@ -105,7 +105,7 @@ public class SubCollectionEntityService {
 		 Root<RsSubcollection> from = countQuery.from(RsSubcollection.class);
 		
 		
-		 List<Predicate> predicates =this.predicateBuilder(collectionId,locationInStorage,storageType,source, criteriaBuilder,from);
+		 List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source, criteriaBuilder,from);
 
 		CriteriaQuery<Long> select = countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 	
@@ -116,15 +116,23 @@ public class SubCollectionEntityService {
 	}
 	
 	
-	private List<Predicate> predicateBuilder(String collectionId,String locationInStorage,String storageType,String source,CriteriaBuilder criteriaBuilder,Root<RsSubcollection> from){
+	private List<Predicate> predicateBuilder(String collectionId,String project,String oldId,String locationInStorage,String storageType,String source,CriteriaBuilder criteriaBuilder,Root<RsSubcollection> from){
 		
-		 Path<RsCollection> path = from.join("rsCollection").get("collectionId");
+		 Path<RsCollection> path = from.join("rsCollection");
 		 from.fetch("rsCollection");
 		
 		
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (collectionId != null && !collectionId.isEmpty()) {
-			predicates.add(criteriaBuilder.equal(path, collectionId.toUpperCase()));
+			predicates.add(criteriaBuilder.equal(path.get("collectionId"), collectionId.toUpperCase()));
+		}
+		
+		if (project != null && !project.isEmpty()) {
+			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(path.get("project")),  "%"+ project.toUpperCase() +"%"));
+		}
+		
+		if (oldId != null && !oldId.isEmpty()) {
+			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(from.get("oldId")),  "%"+ oldId.toUpperCase() +"%"));
 		}
 
 		if (locationInStorage != null && !locationInStorage.isEmpty()) {
