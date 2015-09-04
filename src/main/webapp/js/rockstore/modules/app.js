@@ -57,7 +57,11 @@ app.config(['$routeProvider',
       }).
       when('/login', {
           templateUrl: 'views/login.html'        
-      }).     
+      }).
+      when('/usersettings', {
+          templateUrl: 'views/usersettings.html'
+        
+      }).
       otherwise({
         redirectTo: '/'
       });

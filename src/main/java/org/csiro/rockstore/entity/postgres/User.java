@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -15,12 +17,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "users")
-public class Users implements java.io.Serializable {
+@NamedQueries({	
+	@NamedQuery(
+			name="User.getAuthenticated",
+		    query="SELECT c FROM User c"
+	),
+	@NamedQuery(
+			name="User.findUserByName",
+		    query="SELECT c FROM User c where c.contactName =:contactName" 
+	)	
+		
+})	
+public class User implements java.io.Serializable {
 
 	private int sourceId;
-	private String organization;
-	private String sourceDescription;
-	private String sourceLink;
+	private String organization;	
 	private String contactName;
 	private String phone;
 	private String email;
@@ -28,25 +39,22 @@ public class Users implements java.io.Serializable {
 	private String city;
 	private String state;
 	private String zipCode;
-	private Integer metadataId;
 
-	public Users() {
+
+	public User() {
 	}
 
-	public Users(String organization, String contactName) {
+	public User(String organization, String contactName) {
 		
 		this.organization = organization;
 		this.contactName = contactName;
 	}
 
-	public Users(String organization, String sourceDescription,
-			String sourceLink, String contactName, String phone, String email,
-			String address, String city, String state, String zipCode,
-			Integer metadataId) {
+	public User(String organization,
+			 String contactName, String phone, String email,
+			String address, String city, String state, String zipCode) {
 		
-		this.organization = organization;
-		this.sourceDescription = sourceDescription;
-		this.sourceLink = sourceLink;
+		this.organization = organization;		
 		this.contactName = contactName;
 		this.phone = phone;
 		this.email = email;
@@ -54,11 +62,11 @@ public class Users implements java.io.Serializable {
 		this.city = city;
 		this.state = state;
 		this.zipCode = zipCode;
-		this.metadataId = metadataId;
+		
 	}
 
 	@Id
-	@Column(name = "source_id", unique = true, nullable = false)
+	@Column(name = "source_id", updatable=false, unique = true, nullable = false)
 	@SequenceGenerator(name="users_source_id_seq",sequenceName="users_source_id_seq", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="users_source_id_seq")
 	public int getSourceId() {
@@ -78,25 +86,9 @@ public class Users implements java.io.Serializable {
 		this.organization = organization;
 	}
 
-	@Column(name = "source_description")
-	public String getSourceDescription() {
-		return this.sourceDescription;
-	}
+	
 
-	public void setSourceDescription(String sourceDescription) {
-		this.sourceDescription = sourceDescription;
-	}
-
-	@Column(name = "source_link")
-	public String getSourceLink() {
-		return this.sourceLink;
-	}
-
-	public void setSourceLink(String sourceLink) {
-		this.sourceLink = sourceLink;
-	}
-
-	@Column(name = "contact_name", nullable = false)
+	@Column(name = "contact_name",unique = true, nullable = false)
 	public String getContactName() {
 		return this.contactName;
 	}
@@ -159,13 +151,6 @@ public class Users implements java.io.Serializable {
 		this.zipCode = zipCode;
 	}
 
-	@Column(name = "metadata_id")
-	public Integer getMetadataId() {
-		return this.metadataId;
-	}
 
-	public void setMetadataId(Integer metadataId) {
-		this.metadataId = metadataId;
-	}
 
 }
