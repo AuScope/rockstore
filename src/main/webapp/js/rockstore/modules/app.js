@@ -62,6 +62,10 @@ app.config(['$routeProvider',
           templateUrl: 'views/usersettings.html'
         
       }).
+      when('/staffsettings', {
+          templateUrl: 'views/staffsettings.html'
+        
+      }).
       otherwise({
         redirectTo: '/'
       });
@@ -78,16 +82,39 @@ app.config(function(uiGmapGoogleMapApiProvider) {
     });
 })
 
-app.service('DropDownValueService', function() {
+app.service('DropDownValueService', ['$q','$http',function($q,$http) {
+	
     this.getUsers = function() {
-           return [{
-        	   value:'lala@gmail.com', 
-        	   display:'Jeremy Jones'
-        	},{
-        		value:'hohoho@hotmail.com', 
-        		display:'Warren Buffet'
-        	}];
-        };
+    	return $q(function(resolve, reject) {
+    		$http.get('getUsers.do')     
+    	     .success(function(data) {
+    	       resolve(data);       
+    	        
+    	     })
+    	     .error(function(data, status) {    	
+    	    	 reject(data,status);    	       
+    	     }) 
+   	 	},1000);
+    };
+    	    	    
+        
+    this.getStaffs = function() {    	
+    	return $q(function(resolve, reject) {
+    		$http.get('getStaffs.do')     
+    	     .success(function(data) {
+    	       resolve(data);       
+    	        
+    	     })
+    	     .error(function(data, status) {    	
+    	    	 reject(data,status);    	       
+    	     })
+   		 
+   	      
+   	 	},1000);       
+     };   
+     
+     
+     
  
     this.getBoolean = function() {
             return [{
@@ -100,15 +127,7 @@ app.service('DropDownValueService', function() {
         };
         
         
-    this.getExternalUsers = function() {
-        return [{
-        	value:'xxxx@gmail.com', 
-        	display:'Andy Lau'
-        },{
-        	value:'yyyy@hotmail.com', 
-        	display:'John Lennon'
-        }];
-     };  
+   
      
      this.getLocations = function() {
          return ['G1-L2','G2-L3','G4-L5'];
@@ -126,7 +145,7 @@ app.service('DropDownValueService', function() {
     	  return ['EPSG:4326','GDA84'];
       }
         
-});
+}]);
 
 app.service('modalService', ['$modal',function ($modal) {
 
@@ -261,6 +280,60 @@ app.service('SearchSubCollectionService',['$modal','$q',function ($modal,$q) {
 
      };
 }])
+
+
+app.service('ViewUserInfoService',['$modal','$q','modalService','currentAuthService',function ($modal,$q,modalService,currentAuthService) {
+	//VT: GOOGLE MAP MODALS
+     this.viewUser = function(userName){
+    	 
+    	 if(currentAuthService.getStatus().authenticated){
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/ViewUserInfoModal.html',
+    	         controller: 'ViewUserInfoCtrl',
+    	         size: 'lg',
+    	         resolve: {
+    	             params: function () {
+    	               return {
+    	              	 name :userName	              	
+    	               }
+    	             }
+    	           }
+    	       });
+    	 }else{
+    		 modalService.showModal({}, {    	            	           
+  	           headerText: "Unauthorized Access",
+  	           bodyText: "You have to be logged in to view the user details"
+    		 });	   
+    	 }
+    	 
+    	
+     }
+     
+     this.viewStaff = function(userName){
+    	 if(currentAuthService.getStatus().authenticated){
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/ViewUserInfoModal.html',
+    	         controller: 'ViewStaffInfoCtrl',
+    	         size: 'lg',
+    	         resolve: {
+    	        	 params: function () {
+    	               return {
+    	              	 name :userName	              	
+    	               }
+    	             }
+    	           }
+    	       });
+    	 }else{
+    		 modalService.showModal({}, {    	            	           
+    	           headerText: "Unauthorized Access",
+    	           bodyText: "You have to be logged in to view the user details"
+      		 });	   
+    	 }    	 
+     }
+}])
+
 
 app.directive('jqdatepicker', function () {
     return {

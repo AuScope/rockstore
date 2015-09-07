@@ -4066,3 +4066,9 @@ table.detailTbl {
 
 /*CSS For modal gmap*/
 .angular-google-map-container { height: 400px;}
+
+a[ng-click]{
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: blue;
+}

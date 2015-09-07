@@ -37,7 +37,7 @@ public class ListManagerEntityService {
 	public void delete(Staff staff){
 		EntityManager em = JPAEntityManager.createEntityManager();
 		em.getTransaction().begin();
-		em.remove(staff);
+		em.remove(em.contains(staff) ? staff : em.merge(staff));
 		em.getTransaction().commit();
 	    em.close();
 	    
@@ -47,10 +47,51 @@ public class ListManagerEntityService {
 	public void delete(User user){
 		EntityManager em = JPAEntityManager.createEntityManager();
 		em.getTransaction().begin();
-		em.remove(user);
+		em.remove(em.contains(user) ? user : em.merge(user));
 		em.flush();
 		em.getTransaction().commit();
 	    em.close();
+	    
+	}
+	
+	public Staff deleteStaffByName(String staffname){
+		EntityManager em = JPAEntityManager.createEntityManager();
+		em.getTransaction().begin();
+		
+		List<Staff> result = em.createNamedQuery("Staff.findStaffByName",Staff.class)
+			    .setParameter("contactName", staffname)
+			    .getResultList();
+		Staff staff = result.get(0);
+		if(!result.isEmpty()){
+			em.remove(staff);
+		}
+		//em.remove(em.contains(user) ? user : em.merge(user));
+		em.flush();
+		em.getTransaction().commit();
+	    em.close();
+	    
+	    return staff;
+	    
+	}
+	
+	
+	public User deleteUserByName(String username){
+		EntityManager em = JPAEntityManager.createEntityManager();
+		em.getTransaction().begin();
+		
+		List<User> result = em.createNamedQuery("User.findUserByName",User.class)
+			    .setParameter("contactName", username)
+			    .getResultList();
+		User user = result.get(0);
+		if(!result.isEmpty()){
+			em.remove(user);
+		}
+		//em.remove(em.contains(user) ? user : em.merge(user));
+		em.flush();
+		em.getTransaction().commit();
+	    em.close();
+	    
+	    return user;
 	    
 	}
 	

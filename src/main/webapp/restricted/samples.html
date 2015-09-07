@@ -117,7 +117,7 @@
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Sample Collector</label>
 					        <div class="col-sm-8">					          
-					          <select class="form-control" ng-model="form.sampleCollector" ng-options="user.value as user.display for user in users"></select>							          
+					          <select class="form-control" ng-model="form.sampleCollector" ng-options="user.contactName as [user.contactName,user.organization].join(' - ') for user in users"></select>							          
 					        </div>
 					      </div>
 					      <div class="form-group has-success">
@@ -141,7 +141,7 @@
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Staff Disposed ID</label>
 					        <div class="col-sm-8">					          
-					          <select class="form-control" ng-model="form.staffidDisposed" ng-options="user.value as user.display for user in users"></select>
+					          <select class="form-control" ng-model="form.staffidDisposed" ng-options="staff.contactName as [staff.contactName,staff.organization].join(' - ') for staff in staffs"></select>
 					        </div>
 					      </div>
 					      <div class="form-group has-success">					       

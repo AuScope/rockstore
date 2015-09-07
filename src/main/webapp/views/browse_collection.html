@@ -24,13 +24,13 @@
 			              <div class="form-group">			                
 			              	<label for="inputEmail" class="control-label col-sm-3">Field Manager</label>
 			                  <div class="col-sm-9">
-								<select class="form-control" ng-model="form.staffIdFieldManager" ng-options="user.value as user.display for user in users"></select>					           					            						         
+								<select class="form-control" ng-model="form.staffIdFieldManager" ng-options="user.contactName as [user.contactName,user.organization].join(' - ') for user in users"></select>					           					            						         
 			                  </div>			                  
 			              </div>
 			              <div class="form-group">			                
 			              	<label for="inputEmail" class="control-label col-sm-3">Staff Responsible</label>
 			                  <div class="col-sm-9">
-								<select class="form-control" ng-model="form.staffidResponsible" ng-options="user.value as user.display for user in users"></select>						           					            						         
+								<select class="form-control" ng-model="form.staffidResponsible" ng-options="staff.contactName as [staff.contactName,staff.organization].join(' - ') for staff in staffs"></select>						           					            						         
 			                  </div>			                  
 			              </div>
 			              <div class="form-group">			                
@@ -67,9 +67,9 @@
 					                  <ul class="list-unstyled list-inline text-theme post-date-author">
 					                    <li>
 					                      <i class="fa fa-file-o"></i> Collection: {{collection.collectionId}}
-					                    </li>
+					                    </li>					                   
 					                    <li>
-					                      <i class="fa fa-user"></i> Custodian: Victor Tey
+					                      <i  class="fa fa-user"></i><a ng-click="viewStaff(collection.staffidResponsible)"> Custodian: {{collection.staffidResponsible}}</a>
 					                    </li>
 					                    <li ng-show="collection.archiveDue">
 					                      <i class="fa fa-calendar"></i> Archive Due: {{collection.archiveDue | date:'d/MMM/yyyy'}}
@@ -103,7 +103,7 @@
 				                            </tr>
 				                             <tr ng-show="collection.staffIdFieldManager">
 				                                <th>Field Manager</th>
-				                                <td>{{collection.staffIdFieldManager}}</td>						                               
+				                                <td><a ng-click="viewUser(collection.staffIdFieldManager)">{{collection.staffIdFieldManager}}</a></td>						                               
 				                            </tr>
 				                            </tbody>
 				                        </table>

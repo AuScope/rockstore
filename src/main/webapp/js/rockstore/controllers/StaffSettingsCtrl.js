@@ -1,5 +1,5 @@
 
-allControllers.controller('UserSettingsCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
+allControllers.controller('StaffSettingsCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService',
                                                     function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
@@ -15,12 +15,12 @@ allControllers.controller('UserSettingsCtrl', ['$scope','$rootScope','$http','Dr
 		$scope.gridApi.selection.clearSelectedRows();
 	}
 	
-	var getUsers = function(){
-		 $http.get('getUsers.do')     
+	var getStaffs = function(){
+		 $http.get('getStaffs.do')     
 	     .success(function(data) {
 	       $scope.gridOptions.data = data;
-	       spinnerService.hide('usersettings.grid')
-	       spinnerService._unregister('usersettings.grid')
+	       spinnerService.hide('staffsettings.grid')
+	       spinnerService._unregister('staffsettings.grid')
 	        
 	     })
 	     .error(function(data, status) {    	
@@ -29,8 +29,8 @@ allControllers.controller('UserSettingsCtrl', ['$scope','$rootScope','$http','Dr
 		           bodyText: "Please contact cg-admin@csiro.au if this persist"
 	    	 });
 	       
-	        spinnerService.hide('usersettings.grid')
-	        spinnerService._unregister('usersettings.grid')
+	        spinnerService.hide('staffsettings.grid')
+	        spinnerService._unregister('staffsettings.grid')
 	     })
 	}
 	
@@ -49,7 +49,7 @@ allControllers.controller('UserSettingsCtrl', ['$scope','$rootScope','$http','Dr
 	    	 });
 			 return;
 		}
-		$http.get('addUser.do', {
+		$http.get('addStaff.do', {
 			params:{	
 				organization: $scope.form.organization,
 				contactName: $scope.form.contactName,
@@ -74,13 +74,13 @@ allControllers.controller('UserSettingsCtrl', ['$scope','$rootScope','$http','Dr
 	}
 	
 	$scope.removeUser = function(){
-		$http.get('deleteUser.do', {
+		$http.get('deleteStaff.do', {
 			params:{					
 				contactName: $scope.form.contactName,				
 				}
 		})
 		.then(function(response) {								
-			getUsers();
+			getStaffs();
 			$scope.resetForm();					
 		  }, function(response,status) {
 			  modalService.showModal({}, {    	            	           
@@ -113,8 +113,8 @@ allControllers.controller('UserSettingsCtrl', ['$scope','$rootScope','$http','Dr
     	 $scope.form = selectedRow
      });
      
-     spinnerService.show('usersettings.grid');
-     getUsers();
+     spinnerService.show('staffsettings.grid');
+     getStaffs();
      
    };
    

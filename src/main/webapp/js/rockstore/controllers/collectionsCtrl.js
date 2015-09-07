@@ -5,8 +5,33 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
 	$scope.gridOptions.data = [];
-	$scope.users = DropDownValueService.getUsers();	
+	
+	DropDownValueService.getUsers()
+	.then(function(data) {
+		 $scope.users= data;
+	}, function(data, status) {
+		 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieve user list",
+	           bodyText: data
+		 });
+	});
+	
+	
+	DropDownValueService.getStaffs()
+	.then(function(data) {
+		 $scope.staffs= data;
+	}, function(data, status) {
+		modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieve staff list",
+	           bodyText: data
+		 });
+	});
+	
+	
+	
 	$scope.booleans = DropDownValueService.getBoolean();
+	
+	
 	
 	
 	$scope.form ={};

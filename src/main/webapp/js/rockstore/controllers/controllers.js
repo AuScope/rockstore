@@ -48,12 +48,88 @@ allControllers.controller('MapModalInstanceCtrl', function ($scope, $modalInstan
 	  
 });
 
+allControllers.controller('ViewUserInfoCtrl', function ($scope, $modalInstance, params, modalService,$http) {
+	
+	$scope.form={};
+	$scope.title = "User Information"
 
-allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValueService, $modalInstance,$filter,spinnerService,$http) {
+	$http.get('getUserByName.do',{
+		params : {
+			contactName : params.name
+		}
+	})     
+    .success(function(data) {
+    	$scope.form = data;      
+       
+    })
+    .error(function(data, status) {    	
+    	 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving user list",
+	           bodyText: data
+		 });	       
+    }) 
+    $scope.ok = function () {	
+		 $modalInstance.close();		 
+	 };
+	  
+});
+
+allControllers.controller('ViewStaffInfoCtrl', function ($scope, $modalInstance, params, modalService,$http) {
+	
+	$scope.form={};
+	$scope.title = "Staff Information"
+
+	$http.get('getStaffByName.do',{
+		params : {
+			contactName : params.name
+		}
+	})     
+    .success(function(data) {
+    	$scope.form = data;      
+       
+    })
+    .error(function(data, status) {    	
+    	 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving user list",
+	           bodyText: data
+		 });	       
+    }) 
+    
+    
+    $scope.ok = function () {	
+		 $modalInstance.close();		 
+	 };
+	
+	  
+});
+
+
+allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValueService, $modalInstance,$filter,spinnerService,$http,modalService) {
 	
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
 	
-	$scope.users = DropDownValueService.getUsers();	
+	DropDownValueService.getUsers()
+	.then(function(data) {
+		 $scope.users= data;
+	}, function(data, status) {
+		 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving user list",
+	           bodyText: data
+		 });
+	});
+	
+	
+	DropDownValueService.getStaffs()
+	.then(function(data) {
+		 $scope.staffs= data;
+	}, function(data, status) {
+		modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving staff list",
+	           bodyText: data
+		 });
+	});
+	
+	
 	$scope.booleans = DropDownValueService.getBoolean();
 	$scope.gridOptions.data = [];
 	$scope.form ={};

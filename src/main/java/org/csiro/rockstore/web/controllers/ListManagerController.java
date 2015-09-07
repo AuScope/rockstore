@@ -48,13 +48,12 @@ public class ListManagerController {
     		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating","unauthenticaed Access"),HttpStatus.BAD_REQUEST);
     	}
 		
-    	try{    		
-    		User user = this.listManagerEntityService.searchUser(contactName);
-    		this.listManagerEntityService.delete(user);;    		
+    	try{    		    		
+    		User user = this.listManagerEntityService.deleteUserByName(contactName);;    		
     		return  new ResponseEntity<Object>(user,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   
-    		throw e;
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating",e.getMessage()),HttpStatus.BAD_REQUEST);
     	}
     } 
     
@@ -67,12 +66,12 @@ public class ListManagerController {
     		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating","unauthenticaed Access"),HttpStatus.BAD_REQUEST);
     	}
     	try{    		    	
-    		Staff staff = this.listManagerEntityService.searchStaff(contactName);
-    		this.listManagerEntityService.delete(staff);;    		
+    		
+    		Staff staff = this.listManagerEntityService.deleteStaffByName(contactName);;    		
     		return  new ResponseEntity<Object>(staff,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   
-    		throw e;
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating",e.getMessage()),HttpStatus.BAD_REQUEST);
     	}
     } 
 
@@ -98,7 +97,7 @@ public class ListManagerController {
     		return  new ResponseEntity<Object>(user,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   
-    		throw e;
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating",e.getMessage()),HttpStatus.BAD_REQUEST);
     	}
     } 
     
@@ -125,7 +124,7 @@ public class ListManagerController {
     		return  new ResponseEntity<Object>(staff,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   
-    		throw e;
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating",e.getMessage()),HttpStatus.BAD_REQUEST);
     	}
     } 
       
@@ -151,6 +150,44 @@ public class ListManagerController {
     	try{    		    	
     		List<Staff> staffs = this.listManagerEntityService.getAllStaff(authUser);    		
     		return  new ResponseEntity<List<Staff>>(staffs,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);   
+    		throw e;
+    	}
+    } 
+    
+    
+    @RequestMapping(value = "getUserByName.do")
+    public ResponseEntity<Object> getUserByName( 
+    		@RequestParam(required = true, value ="contactName") String contactName,
+    		Principal authUser,
+            HttpServletResponse response) {
+    	
+    	if(authUser == null){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating","unauthenticaed Access"),HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	try{    		    	
+    		User user = this.listManagerEntityService.searchUser(contactName);		
+    		return  new ResponseEntity<Object>(user,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);   
+    		throw e;
+    	}
+    } 
+    
+    @RequestMapping(value = "getStaffByName.do")
+    public ResponseEntity<Object> getStaffByName(   
+    		@RequestParam(required = true, value ="contactName") String contactName,
+    		Principal authUser,
+            HttpServletResponse response) {
+    	if(authUser == null){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Error updating","unauthenticaed Access"),HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	try{    		    	
+    		Staff staff = this.listManagerEntityService.searchStaff(contactName);    		
+    		return  new ResponseEntity<Object>(staff,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);   
     		throw e;

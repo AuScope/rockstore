@@ -109,7 +109,7 @@
 					            				<th>Container</th>
 					            				<td>{{sample.containerId}}</td>
 					            			</tr>
-					            			<tr class="panel-collapse collapse out collapse-sampleDetail-{{sample.id}}">
+					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Collection Id</th>
 					            				<td><a href="#/browsecollections/{{sample.rsSubcollection['rsCollection']['collectionId']}}"><i class="fa fa-link">{{sample.rsSubcollection['rsCollection']['collectionId']}}</i></a></td>
 					            			</tr>
@@ -135,11 +135,11 @@
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Field Manager</th>
-					            				<td>{{sample.rsSubcollection['rsCollection']['staffIdFieldManager']}}</td>
+					            				<td><a ng-click="viewUser(sample.rsSubcollection['rsCollection']['staffIdFieldManager'])">{{sample.rsSubcollection['rsCollection']['staffIdFieldManager']}}</a></td>
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Custodian</th>
-					            				<td>{{sample.rsSubcollection['rsCollection']['staffidResponsible']}}</td>
+					            				<td><a ng-click="viewStaff(sample.rsSubcollection['rsCollection']['staffidResponsible'])">{{sample.rsSubcollection['rsCollection']['staffidResponsible']}}</a></td>
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sub Collection Id</th>
@@ -188,7 +188,7 @@
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sample Dispose</th>
-					            				<td>{{sample.sampleDispose}}</td>
+					            				<td><a ng-click="viewUser(sample.sampleDispose)">{{sample.sampleDispose}}</a></td>
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Date Disposed</th>
@@ -196,7 +196,7 @@
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>staffidDisposed</th>
-					            				<td>{{sample.staffidDisposed}}</td>
+					            				<td><a ng-click="viewStaff(sample.staffidDisposed)">{{sample.staffidDisposed}}</a></td>
 					            			</tr>					            			
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Date Sampled</th>

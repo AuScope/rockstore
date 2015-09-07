@@ -4,7 +4,27 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };	
 	$scope.gridOptions.data = [];
 	
-	$scope.users = DropDownValueService.getUsers();
+	DropDownValueService.getUsers()
+	.then(function(data) {
+		 $scope.users= data;
+	}, function(data, status) {
+		 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieve user list",
+	           bodyText: data
+		 });
+	});
+	
+	
+	DropDownValueService.getStaffs()
+	.then(function(data) {
+		 $scope.staffs= data;
+	}, function(data, status) {
+		modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieve staff list",
+	           bodyText: data
+		 });
+	});
+	
 	$scope.sampleTypes = DropDownValueService.getSampleType();
 	$scope.booleans = DropDownValueService.getBoolean();
 	$scope.datums = DropDownValueService.getDatum();

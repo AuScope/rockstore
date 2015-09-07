@@ -1,7 +1,7 @@
 
 
-allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService','currentAuthService',
-                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService,currentAuthService) {
+allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService','currentAuthService','ViewUserInfoService',
+                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService,currentAuthService,ViewUserInfoService) {
 	
 	$scope.status = currentAuthService.getStatus();
 	
@@ -110,6 +110,14 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
      $scope.resetForm = function(){
     	 $scope.form={};
     	 getSamples();
+     }
+     
+     $scope.viewStaff = function(name){
+    	 ViewUserInfoService.viewStaff(name);
+     }
+     
+     $scope.viewUser = function(name){
+    	 ViewUserInfoService.viewUser(name);
      }
      
 }]);

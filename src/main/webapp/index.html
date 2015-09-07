@@ -47,6 +47,7 @@
   <script src="js/rockstore/controllers/browseSubColCtrl.js"></script>
   <script src="js/rockstore/controllers/browseSampleCtrl.js"></script>
   <script src="js/rockstore/controllers/UserSettingsCtrl.js"></script>
+  <script src="js/rockstore/controllers/StaffSettingsCtrl.js"></script>
   
 
 </head>
@@ -109,9 +110,17 @@
                 </li>
               </ul>
             </li>
-            <li>
-            	<a href="#/usersettings"><i class="fa fa-cogs"></i> Settings</a>
-            </li>
+             <li class="dropdown">
+              <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-table"></i> Settings</a>
+              <ul class="dropdown-menu dropdown-menu-left">
+              	<li>
+                  <a href="#/usersettings">User Management</a>
+                </li>
+                <li>
+                  <a href="#/staffsettings">Staff Management</a>
+                </li>           
+              </ul>
+            </li>           
             <li>
             	<a href="xxx.html"><i class="fa fa-info"></i> About Us</a>
             </li>
