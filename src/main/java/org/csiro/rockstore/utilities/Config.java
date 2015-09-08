@@ -31,5 +31,22 @@ public class Config {
 			return prop.getProperty("ldap.password");
 		}
 	}
+	
+	public static String getLdapUrl() throws FileNotFoundException{
+		if(prop.isEmpty()){
+			throw new FileNotFoundException("Unable to locate property file");
+		}else{
+			return prop.getProperty("ldap.url");
+		}
+	}
+	
+	public static String getUserDN() throws FileNotFoundException{
+		if(prop.isEmpty()){
+			throw new FileNotFoundException("Unable to locate property file");
+		}else{
+			return prop.getProperty("ldap.userdn");
+		}
+	}
+
 
 }

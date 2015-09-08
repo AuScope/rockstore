@@ -79,9 +79,9 @@ public  class SecurityConfig extends
 	
 	private LdapContextSource getLdapContextSource() throws Exception {
         LdapContextSource cs = new LdapContextSource();
-        cs.setUrl("ldap://pool.ldap.csiro.au:389");
+        cs.setUrl(Config.getLdapUrl());
         cs.setBase("DC=nexus,DC=csiro,DC=au");
-        cs.setUserDn("CN=sa-rockstore,OU=CSIRO Materials Science and Engineering,OU=Special Accounts,DC=nexus,DC=csiro,DC=au");
+        cs.setUserDn(Config.getUserDN());
         
         Hashtable<String, Object> env = new Hashtable<String, Object>();
         env.put(Context.REFERRAL, "follow");
@@ -118,6 +118,7 @@ public  class SecurityConfig extends
 		
 	} 
 	
+//VT: Configuration option for cgsrv4 ldap. Keeping it for reference and incase we need to roll back.
 	
 //	@Autowired
 //	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
