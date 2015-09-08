@@ -76,7 +76,7 @@
 					       <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Project Close Date</label>
 					        <div class="col-sm-8">
-					          <input type="text" id="ProjectCloseDate" class="form-control" placeholder="Project Close Date"  ng-model="form.projectCloseDate" jqdatepicker>
+					          <input type="text" id="ProjectCloseDate" class="form-control" placeholder="Project Close Date" ng-change="updateArchiveDue(form.projectCloseDate)" ng-model="form.projectCloseDate" jqdatepicker>
 					         
 					        </div>
 					      </div>

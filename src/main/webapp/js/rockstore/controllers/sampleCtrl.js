@@ -51,7 +51,6 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 			params:{	
 				id : $scope.form.id,
 				subcollectionId: $scope.form.rsSubcollection['subcollectionId'],				
-				igsn: $scope.form.igsn,
 				csiroSampleId: $scope.form.csiroSampleId,				
 				sampleType: $scope.form.sampleType,
 				bhid: $scope.form.bhid,

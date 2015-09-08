@@ -144,6 +144,12 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 		   $scope.form.archiveDue=$filter('date')($scope.form.archiveDue,'d/MMM/yyyy');
 	   })
    }
+   
+   $scope.updateArchiveDue = function(projectCloseDate){
+	   var pcd = new Date(projectCloseDate);
+	   pcd.setDate(pcd.getDate() + 5);
+	   $scope.form.archiveDue = $filter('date')(pcd,'d/MMM/yyyy');
+   }
 
    
    

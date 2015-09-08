@@ -11,10 +11,10 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsSample;
-
+import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class SampleEntityService {
@@ -78,7 +78,7 @@ public class SampleEntityService {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();				
 		CriteriaQuery<RsSample> criteriaQuery = criteriaBuilder.createQuery(RsSample.class);
 		Root<RsSample> from = criteriaQuery.from(RsSample.class);
-
+					
 		List<Predicate> predicates =this.predicateBuilder(subcollectionId,igsn,csiroSampleId,bhid,externalRef, criteriaBuilder,from);
 			
 		CriteriaQuery<RsSample> select = criteriaQuery.select(from).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
@@ -120,7 +120,7 @@ public class SampleEntityService {
 	
 	private List<Predicate> predicateBuilder(String subcollectionId,String igsn,String csiroSampleId,String bhid,String externalRef,CriteriaBuilder criteriaBuilder,Root<RsSample> from){
 		
-		 Path<RsCollection> path = from.join("rsSubcollection").get("subcollectionId");
+		 Path<RsSubcollection> path = from.join("rsSubcollection").get("subcollectionId");
 		 from.fetch("rsSubcollection");
 		
 		

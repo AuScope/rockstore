@@ -48,8 +48,7 @@ public class SampleController {
     @RequestMapping(value = "sampleAddUpdate.do")
     public ResponseEntity<Object> sampleAddUpdate(            
             @RequestParam(required = false, defaultValue="0", value ="id") int id,
-            @RequestParam(required = true, value ="subcollectionId") String subcollectionId,           
-            @RequestParam(required = false, value ="igsn") String igsn,
+            @RequestParam(required = true, value ="subcollectionId") String subcollectionId,              
             @RequestParam(required = false, value ="csiroSampleId") String csiroSampleId,           
             @RequestParam(required = false, value ="sampleType") String sampleType,
             @RequestParam(required = false, value ="bhid") String bhid,
@@ -79,7 +78,7 @@ public class SampleController {
 	    		
 	    		Point p = (Point)(SpatialUtilities.wktToGeometry(locationWkt));
 	    		
-	    		rs.update(rsc, igsn,  csiroSampleId,
+	    		rs.update(rsc,  csiroSampleId,
 	    				 sampleType,  bhid,  depth,  datum,
 	    				 zone,  containerId,  externalRef,
 	    				 sampleCollector,NullUtilities.parseDateAllowNull(dateSampled) , sampleDispose,
@@ -96,7 +95,7 @@ public class SampleController {
 	    		
 	    		Point p = (Point)(SpatialUtilities.wktToGeometry(locationWkt));
 	    		
-	    		RsSample rs= new RsSample(rsc, igsn,  csiroSampleId,
+	    		RsSample rs= new RsSample(rsc,  csiroSampleId,
 	    				 sampleType,  bhid,  depth,  datum,
 	    				 zone,  containerId,  externalRef,
 	    				 sampleCollector,NullUtilities.parseDateAllowNull(dateSampled) , sampleDispose,

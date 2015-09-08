@@ -65,6 +65,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
                                  	 { field: 'id',displayName: 'id',width:50 },
 	                                 { field: 'subcollectionId',displayName: 'subCollection id',width:150 },
 	                                 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
+	                                 { field: 'igsn',displayName: 'igsn',width:150 },
 	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 
 	                                 { field: 'oldId',displayName: 'old ID',width:130},
 	                                 { field: "sampleRangeBySubcollection['minContainer']",displayName: 'Container From',width:180},

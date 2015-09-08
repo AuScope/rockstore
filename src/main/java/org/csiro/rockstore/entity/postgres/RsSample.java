@@ -22,6 +22,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -74,14 +76,13 @@ public class RsSample implements java.io.Serializable {
 
 
 	public RsSample(
-			RsSubcollection rsSubcollection, String igsn, String csiroSampleId,
+			RsSubcollection rsSubcollection, String csiroSampleId,
 			String sampleType, String bhid, Double depth, String datum,
 			String zone, String containerId, String externalRef,
 			String sampleCollector, Date dateSampled, Boolean sampleDispose,
 			Date dateDisposed, String staffidDisposed, Point location) {		
 		//this.rsCollection = rsCollection;
-		this.rsSubcollection = rsSubcollection;
-		this.igsn = igsn;
+		this.rsSubcollection = rsSubcollection;	
 		this.csiroSampleId = csiroSampleId;
 		this.sampleType = sampleType;
 		this.bhid = bhid;
@@ -99,14 +100,13 @@ public class RsSample implements java.io.Serializable {
 	}
 	
 	public RsSample update(
-			RsSubcollection rsSubcollection, String igsn, String csiroSampleId,
+			RsSubcollection rsSubcollection, String csiroSampleId,
 			String sampleType, String bhid, Double depth, String datum,
 			String zone, String containerId, String externalRef,
 			String sampleCollector, Date dateSampled, Boolean sampleDispose,
 			Date dateDisposed, String staffidDisposed, Point location) {		
 		//this.setRsCollection(rsCollection);
-		this.setRsSubcollection(rsSubcollection);
-		this.setIgsn(igsn);
+		this.setRsSubcollection(rsSubcollection);		
 		this.setCsiroSampleId(csiroSampleId);
 		this.setSampleType(sampleType);
 		this.setBhid(bhid);
@@ -160,7 +160,8 @@ public class RsSample implements java.io.Serializable {
 		this.rsSubcollection = rsSubcollection;
 	}
 
-	@Column(name = "igsn", length = 200)
+	@Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 50)
+	@Generated(GenerationTime.INSERT)
 	public String getIgsn() {
 		return this.igsn;
 	}

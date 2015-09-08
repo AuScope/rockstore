@@ -72,7 +72,7 @@
 					                      <i class="fa fa-barcode"></i> Storage Type: {{subcollection.storageType}}
 					                    </li>
 					                    <li>
-					                      <i class="fa fa-star"></i> Previous Id: {{subcollection.oldId}}
+					                      <i class="fa fa-star"></i> IGSN: {{subcollection.igsn}}
 					                    </li>	
 					                    <li ng-show="status.authenticated">
 					                      <a href="#/subcollections/{{subcollection.subcollectionId}}"><i class="fa fa-wrench"> Edit</i></a>
@@ -112,6 +112,10 @@
 				                             <tr>
 				                                <th>Source</th>
 				                                <td>{{subcollection.source}}</td>						                               
+				                            </tr>
+				                            <tr>
+				                                <th>Old Id</th>
+				                                <td>{{subcollection.oldId}}</td>						                               
 				                            </tr>
 				                            </tbody>
 				                        </table>
