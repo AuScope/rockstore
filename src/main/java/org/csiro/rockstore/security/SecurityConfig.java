@@ -3,14 +3,17 @@ package org.csiro.rockstore.security;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.naming.Context;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.csiro.rockstore.utilities.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.support.LdapContextSource;
@@ -64,26 +67,30 @@ public  class SecurityConfig extends
 		  return repository;
 		}
 	
-	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 	 
 		auth.ldapAuthentication()
-        .userDnPatterns("ou=Users").userSearchFilter("(&(objectClass=inetOrgPerson)(uid={0}))")  
-        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(memberUid={1}))")
-        .contextSource(getLdapContextSource());            
-          
+        .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
+        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
+        .contextSource(getLdapContextSource());              
 		
-	}	
+	}
 	
 	private LdapContextSource getLdapContextSource() throws Exception {
         LdapContextSource cs = new LdapContextSource();
-        cs.setUrl("ldaps://cg-admin.arrc.csiro.au:636");
-        cs.setBase("dc=arrc,dc=csiro,dc=au");     
+        cs.setUrl("ldap://pool.ldap.csiro.au:389");
+        cs.setBase("DC=nexus,DC=csiro,DC=au");
+        cs.setUserDn("CN=sa-rockstore,OU=CSIRO Materials Science and Engineering,OU=Special Accounts,DC=nexus,DC=csiro,DC=au");
+        
+        Hashtable<String, Object> env = new Hashtable<String, Object>();
+        env.put(Context.REFERRAL, "follow");
+        cs.setBaseEnvironmentProperties(env);
+        cs.setPassword(Config.getLdapPassword());       
         cs.afterPropertiesSet();
+        
         return cs;
     }
-	
 	
 	protected class CustomSuccessHandler implements AuthenticationSuccessHandler{
 		
@@ -104,25 +111,75 @@ public  class SecurityConfig extends
 			httpServletResponse.setContentType("text/html; charset=UTF-8");			
 			Gson gson = new Gson();
 			Map<String,String> result = new HashMap<String,String>();
-			
-			if(!checkRole(authUser.getAuthorities(),"ROLE_ROCKSTORE")){
-				result.put("restricted", "Missing required permission");
-				SecurityContextHolder.getContext().setAuthentication(null);
-			}else{
-				result.put("name", authUser.getUsername());
-			}
+			result.put("name", authUser.getUsername());			
 			httpServletResponse.getWriter().write(gson.toJson(result));
 	    }  
 		
-		private boolean checkRole(Collection<? extends GrantedAuthority> authorities,String role){
-			for(GrantedAuthority g:authorities){
-				if(g.getAuthority().equals(role)){
-					return true;
-				}
-			}			
-			return false;
-		}
-	}  
+		
+	} 
+	
+	
+//	@Autowired
+//	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//	 
+//		auth.ldapAuthentication()
+//        .userDnPatterns("ou=Users").userSearchFilter("(&(objectClass=inetOrgPerson)(uid={0}))")  
+//        .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(memberUid={1}))")
+//        .contextSource(getLdapContextSource());            
+//          
+//		
+//	}	
+//	
+//	private LdapContextSource getLdapContextSource() throws Exception {
+//        LdapContextSource cs = new LdapContextSource();
+//        cs.setUrl("ldaps://cg-admin.arrc.csiro.au:636");
+//        cs.setBase("dc=arrc,dc=csiro,dc=au");     
+//        cs.afterPropertiesSet();
+//        return cs;
+//    }
+//	
+//	protected class CustomSuccessHandler implements AuthenticationSuccessHandler{
+//	
+//	@Override  
+//    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,  
+//                                        HttpServletResponse httpServletResponse,  
+//                                        Authentication authentication)  
+//            throws IOException, ServletException {  
+//		
+//		HttpSession session = httpServletRequest.getSession();
+//		LdapUserDetailsImpl authUser = (LdapUserDetailsImpl) SecurityContextHolder.getContext()
+//				.getAuthentication().getPrincipal();
+//		session.setAttribute("username", authUser.getUsername());
+//		session.setAttribute("authorities", authentication.getAuthorities());
+//
+//		// set our response to OK status
+//		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+//		httpServletResponse.setContentType("text/html; charset=UTF-8");			
+//		Gson gson = new Gson();
+//		Map<String,String> result = new HashMap<String,String>();
+//		
+//		if(!checkRole(authUser.getAuthorities(),"ROLE_ROCKSTORE")){
+//			result.put("restricted", "Missing required permission");
+//			SecurityContextHolder.getContext().setAuthentication(null);
+//		}else{
+//			result.put("name", authUser.getUsername());
+//		}
+//		httpServletResponse.getWriter().write(gson.toJson(result));
+//    }  
+//	
+//	private boolean checkRole(Collection<? extends GrantedAuthority> authorities,String role){
+//		for(GrantedAuthority g:authorities){
+//			if(g.getAuthority().equals(role)){
+//				return true;
+//			}
+//		}			
+//		return false;
+//	}
+//}  
+	
+	
+	
+
 		
 	
 }
