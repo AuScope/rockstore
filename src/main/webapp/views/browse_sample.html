@@ -143,7 +143,7 @@
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sub Collection Id</th>
-					            				<td><a href="#/browsesubcollections/{{sample.rsSubcollection['subcollectionId']}}"><i class="fa fa-link"></i> {{sample.rsSubcollection['subcollectionId']}}</a></td>
+					            				<td><a href="#/browsesubcollections/{{sample.rsSubcollection['igsn']}}"><i class="fa fa-link"></i> {{sample.rsSubcollection['subcollectionId']}}</a></td>
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Hazardous</th>
@@ -188,7 +188,7 @@
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sample Dispose</th>
-					            				<td><a ng-click="viewUser(sample.sampleDispose)">{{sample.sampleDispose}}</a></td>
+					            				<td>{{sample.sampleDispose}}</td>
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Date Disposed</th>

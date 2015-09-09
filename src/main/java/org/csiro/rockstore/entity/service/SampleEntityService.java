@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -78,6 +80,10 @@ public class SampleEntityService {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();				
 		CriteriaQuery<RsSample> criteriaQuery = criteriaBuilder.createQuery(RsSample.class);
 		Root<RsSample> from = criteriaQuery.from(RsSample.class);
+		
+		Fetch<RsSample,RsSubcollection> fetch = from.fetch("rsSubcollection");
+		fetch.fetch("rsCollection");
+		fetch.fetch("sampleRangeBySubcollection",JoinType.LEFT);
 					
 		List<Predicate> predicates =this.predicateBuilder(subcollectionId,igsn,csiroSampleId,bhid,externalRef, criteriaBuilder,from);
 			
@@ -119,14 +125,10 @@ public class SampleEntityService {
 	}
 	
 	private List<Predicate> predicateBuilder(String subcollectionId,String igsn,String csiroSampleId,String bhid,String externalRef,CriteriaBuilder criteriaBuilder,Root<RsSample> from){
-		
-		 Path<RsSubcollection> path = from.join("rsSubcollection").get("subcollectionId");
-		 from.fetch("rsSubcollection");
-		
-		
+				
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (subcollectionId != null && !subcollectionId.isEmpty()) {
-			predicates.add(criteriaBuilder.equal(path, subcollectionId.toUpperCase()));
+			predicates.add(criteriaBuilder.equal(from.get("rsSubcollection").get("subcollectionId"), subcollectionId.toUpperCase()));
 		}					
 		
 		if (igsn != null && !igsn.isEmpty()) {
@@ -143,12 +145,18 @@ public class SampleEntityService {
 		
 		if (externalRef != null && !externalRef.isEmpty()) {
 			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(from.get("externalRef")),  "%"+ externalRef.toUpperCase() +"%"));
-		}
-		
-		
-		
+		}		
 		
 		return predicates;
+	}
+
+	public RsSample searchByIGSN(String igsn) {
+		EntityManager em = JPAEntityManager.createEntityManager();
+		RsSample result = em.createNamedQuery("RsSample.findSampleByIGSN",RsSample.class)
+	    .setParameter("igsn", igsn)
+	    .getSingleResult();
+		em.close();
+		return result;
 	}
 	
 }

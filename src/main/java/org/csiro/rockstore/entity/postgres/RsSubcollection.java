@@ -33,15 +33,19 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	@NamedQuery(
 			name="RsSubcollection.findSubCollectionById",
 		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection WHERE c.subcollectionId = :subcollectionId"
-		),
+	),
 	@NamedQuery(
 			name="RsSubcollection.getAllSubCollection",
 		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection"
-		),
+	),
 	@NamedQuery(
 			name="RsSubcollection.findSubCollectionByCollection",
 		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection WHERE c.rsCollection.collectionId = :collectionId"
-		)	
+	),
+	@NamedQuery(
+			name="RsSubcollection.findSubCollectionByIGSN",
+		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection WHERE c.igsn = :igsn"
+	)
 		
 })	
 public class RsSubcollection implements java.io.Serializable {

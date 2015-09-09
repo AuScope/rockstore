@@ -174,6 +174,27 @@ public class SampleController {
 
     } 
     
+    @RequestMapping(value = "getSampleByIGSN.do")
+    public ResponseEntity<List<RsSample>> getSampleByIGSN(  
+    		@RequestParam(required = false, value ="igsn") String igsn,
+    		Principal user,
+            HttpServletResponse response) {
+    	try{    		    					
+    		List<RsSample> lrs =  null;
+    		if(igsn != null && !igsn.isEmpty()){
+    			ArrayList<RsSample> result= (new ArrayList<RsSample>());
+    			result.add(this.sampleEntityService.searchByIGSN(igsn));
+    			lrs = result;
+    		}else{
+    			lrs = this.sampleEntityService.getAllSamples();
+    		}    			  		
+    		return  new ResponseEntity<List<RsSample>>(lrs,HttpStatus.OK);    		
+    	}catch(Exception e){
+    		logger.warn(e);   
+    		throw e;
+    	}
+    }
+    
     @RequestMapping(value = "searchSampleCount.do")
     public ResponseEntity<Long> searchSampleCount(    		
     		 @RequestParam(required = false, value ="subcollectionId") String subcollectionId,           

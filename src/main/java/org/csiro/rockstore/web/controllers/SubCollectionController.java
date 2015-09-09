@@ -103,6 +103,28 @@ public class SubCollectionController {
     	}
     } 
     
+    @RequestMapping(value = "getSubCollectionsByIGSN.do")
+    public ResponseEntity<List<RsSubcollection>> getSubCollectionsByIGSN(  
+    		@RequestParam(required = false, value ="igsn") String igsn,
+    		Principal user,
+            HttpServletResponse response) {
+    	try{    		    					    		    		
+    		List<RsSubcollection> lrc = null;
+    		if(igsn != null && !igsn.isEmpty()){
+    			ArrayList<RsSubcollection> result= (new ArrayList<RsSubcollection>());
+    			result.add(this.subCollectionEntityService.searchByIGSN(igsn));
+    			lrc = result;
+    		}else{
+    			lrc= this.subCollectionEntityService.getSubCollections();
+    		}    		    		
+    		return  new ResponseEntity<List<RsSubcollection>>(lrc,HttpStatus.OK);
+    		    		
+    	}catch(Exception e){
+    		logger.warn(e);   
+    		throw e;
+    	}
+    }
+    
     @RequestMapping(value = "getSubCollectionsByCollection.do")
     public ResponseEntity<List<RsSubcollection>> getSubCollectionsByCollection(    
     		@RequestParam(required = true, value ="collectionId") String collectionId,

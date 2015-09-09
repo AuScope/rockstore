@@ -15,10 +15,10 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
 	$scope.totalItem = 0;
 	$scope.currentPages = 1;
 		
-     var getSubCollection = function(subCollectionId){
-    	 $http.get('getSubCollections.do',{
+     var getSubCollection = function(igsn){
+    	 $http.get('getSubCollectionsByIGSN.do',{
  			params:{	
- 				subCollectionId: subCollectionId
+ 				igsn: igsn
  				}
 	 	 })          
 	      .success(function(data) {
@@ -81,8 +81,8 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
  		$scope.searchSubCollection($scope.currentPages);
  	  };
      
-     if($routeParams.subCollectionId){
-    	 getSubCollection($routeParams.subCollectionId);
+     if($routeParams.igsn){
+    	 getSubCollection($routeParams.igsn);
  	 }else{
  		$scope.searchSubCollection(1);
  	 }

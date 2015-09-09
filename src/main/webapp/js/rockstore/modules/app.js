@@ -19,7 +19,7 @@ app.config(['$routeProvider',
           templateUrl: 'views/browse_subcollection.html'
         
       }).
-      when('/browsesubcollections/:subCollectionId', {
+      when('/browsesubcollections/:igsn', {
         templateUrl: 'views/browse_subcollection.html'
       
       }). 
@@ -27,7 +27,7 @@ app.config(['$routeProvider',
         templateUrl: 'views/browse_sample.html'
        
       }).    
-      when('/browsesamples/:id', {
+      when('/browsesamples/:igsn', {
           templateUrl: 'views/browse_sample.html'
          
       }).  

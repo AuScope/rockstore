@@ -141,7 +141,7 @@
 												<td>{{sample.bhid}}</td>
 												<td><a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample.igsn)"><i class="fa fa-map-marker">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></td>
 												<td><a onclick="return false;"  href="#" data-toggle="collapse" data-target=".collapse-sample-{{sample.id}}"><i class="fa fa-eye"></i>View</a></td>																							
-												<td><a href="#/browsesamples/{{sample.id}}"><i class="fa fa-link"></i> GOTO</a></td>
+												<td><a href="#/browsesamples/{{sample.igsn}}"><i class="fa fa-link"></i> GOTO</a></td>
 											</tr>
 											<tr ng-repeat-end class="panel-collapse collapse out collapse-sample-{{sample.id}}">
 												<td colspan="5">

@@ -13,16 +13,16 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
 	$scope.currentPages = 1;
 	
 		
-	var getSamples = function(id){
-		 $http.get('getSample.do',{
+	var getSamples = function(igsn){
+		 $http.get('getSampleByIGSN.do',{
 				params:{	
-					id: id
-					}
+					igsn: igsn
+				}
 		 })     
 	     .success(function(data) {
 	       $scope.samples = data;
 	       
-	       if($routeParams.id){
+	       if($routeParams.igsn){
 	    	   $scope.expansionCSSDefault='in';
 	       }
 	        
@@ -86,8 +86,8 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
  		$scope.searchSample($scope.currentPages);
  	  };
      
-     if($routeParams.id){
-    	 getSamples($routeParams.id);
+     if($routeParams.igsn){
+    	 getSamples($routeParams.igsn);
  	 }else{
  		$scope.searchSample(1);
  	 }

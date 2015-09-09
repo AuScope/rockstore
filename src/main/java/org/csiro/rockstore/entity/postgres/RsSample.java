@@ -39,15 +39,19 @@ import com.vividsolutions.jts.geom.Point;
 	@NamedQuery(
 			name="RsSample.findSampleById",
 		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection WHERE rs.id = :id"
-		),
+	),
 	@NamedQuery(
 			name="RsSample.getAllSample",
 		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection"
-		),
+	),
 	@NamedQuery(
 			name="RsSample.findSampleBySubCollection",
 		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection WHERE rs.rsSubcollection.subcollectionId = :subCollectionId"
-		)		
+	),
+	@NamedQuery(
+			name="RsSample.findSampleByIGSN",
+		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection WHERE rs.igsn = :igsn"
+	)
 		
 })	
 public class RsSample implements java.io.Serializable {

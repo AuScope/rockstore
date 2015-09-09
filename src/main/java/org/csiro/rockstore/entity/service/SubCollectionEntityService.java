@@ -7,12 +7,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
+import org.csiro.rockstore.entity.postgres.SampleRangeBySubcollection;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -76,7 +79,10 @@ public class SubCollectionEntityService {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();				
 		CriteriaQuery<RsSubcollection> criteriaQuery = criteriaBuilder.createQuery(RsSubcollection.class);
 		Root<RsSubcollection> from = criteriaQuery.from(RsSubcollection.class);
-
+		
+		from.fetch("rsCollection");
+		from.fetch("sampleRangeBySubcollection",JoinType.LEFT);
+					
 		List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source, criteriaBuilder,from);
 			
 		CriteriaQuery<RsSubcollection> select = criteriaQuery.select(from).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
@@ -102,8 +108,7 @@ public class SubCollectionEntityService {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		
 		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-		 Root<RsSubcollection> from = countQuery.from(RsSubcollection.class);
-		
+		 Root<RsSubcollection> from = countQuery.from(RsSubcollection.class);		
 		
 		 List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source, criteriaBuilder,from);
 
@@ -118,17 +123,13 @@ public class SubCollectionEntityService {
 	
 	private List<Predicate> predicateBuilder(String collectionId,String project,String oldId,String locationInStorage,String storageType,String source,CriteriaBuilder criteriaBuilder,Root<RsSubcollection> from){
 		
-		 Path<RsCollection> path = from.join("rsCollection");
-		 from.fetch("rsCollection");
-		
-		
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (collectionId != null && !collectionId.isEmpty()) {
-			predicates.add(criteriaBuilder.equal(path.get("collectionId"), collectionId.toUpperCase()));
+			predicates.add(criteriaBuilder.equal(from.get("rsCollection").get("collectionId"), collectionId.toUpperCase()));
 		}
 		
 		if (project != null && !project.isEmpty()) {
-			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(path.get("project")),  "%"+ project.toUpperCase() +"%"));
+			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(from.get("rsCollection").get("project")),  "%"+ project.toUpperCase() +"%"));
 		}
 		
 		if (oldId != null && !oldId.isEmpty()) {
@@ -148,9 +149,16 @@ public class SubCollectionEntityService {
 		}
 		
 		
-		
-		
 		return predicates;
+	}
+
+	public RsSubcollection searchByIGSN(String igsn) {
+		EntityManager em = JPAEntityManager.createEntityManager();
+		RsSubcollection result = em.createNamedQuery("RsSubcollection.findSubCollectionByIGSN",RsSubcollection.class)
+	    .setParameter("igsn", igsn)
+	    .getSingleResult();
+		em.close();
+		return result;
 	}
 	
 }
