@@ -116,9 +116,11 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
      }
      
      $scope.openSearch = function(){
+    	 $scope.toggleFilter=false;
     	 var promise = SearchCollectionService.open();
     	 promise.then(function(selectedItem) {
     		 $scope.form.collectionId= selectedItem;
+    		 $scope.toggleFilter=true;
     		}, function(reason) {
     		  alert('Failed: ' + reason);
     		});
@@ -127,6 +129,7 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
      $scope.resetForm = function(){
     	 $scope.form={};
     	 getSubCollection();
+    	 $scope.toggleFilter=false;
      }
       
 }]);

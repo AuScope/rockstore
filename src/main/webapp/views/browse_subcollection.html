@@ -1,57 +1,66 @@
 
    
-   <div class="section section-lg section-bottom" ng-controller="BrowseSubCollectionCtrl">
-      <div>    
+  <div class="section section-lg section-bottom" ng-controller="BrowseSubCollectionCtrl">
+     <div>  
+     	  <button ng-click="toggleFilter=true" ng-hide="toggleFilter" class="filter-expander nga-default nga-stagger nga-slide-up">
+            <i class="fa fa-search fa-lg white"></i>Search
+         </button>
+     	  <div class="filter-panel nga-default nga-stagger nga-rotate-down" ng-show="toggleFilter">
+     		<div>		         
+	          <div class="row-heading row-heading-mt-40">
+	            <div class="col-sm-12">
+	              <h3 class="title-sm text-uppercase hr-left text-theme"><i class="fa fa-search fa-lg white"></i>Sub Collection		             
+		              	<i ng-click="toggleFilter=false" class="pull-right pointer-cursor fa fa-close fa-lg white"> &nbsp</i>             	          
+		              </h3>	
+	            </div>
+	          </div>
+	          <div class="row mb">
+		        <div class="col-md-12">
+		          <div class="wrapper-form-box">
+		            <h3 class="title-sm">Search</h3>
+		            <form class="form-horizontal">
+		              <div class="form-group">			                
+		              	<label class="control-label col-sm-3">Collection</label>
+		                  <div class="col-sm-9">
+		                  	<div class="input-group">
+		                  		<input type="text" class="form-control" placeholder="Collection ID" value={{form.collectionId}} readonly>
+					           	<span class="input-group-addon" ng-click="openSearch()"><a href="#" onclick="return false;"><i class="fa fa-search"></i></a></span>						            
+					         </div>
+		                  </div>			                  
+		              </div>
+		              <div class="form-group">
+				       <label class="col-sm-3 control-label">Old ID</label>	
+				        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Original ID" ng-model="form.oldId"></div>		         
+				      </div>
+				      <div class="form-group">
+				       <label class="col-sm-3 control-label">Storage location</label>
+				        <div class="col-sm-9"><select class="form-control" ng-model="form.locationInStorage" ng-options="location as location for location in locations"></select></div>			          					         
+				      </div>
+				      <div class="form-group">
+				        <label class="col-sm-3 control-label">Storage Type</label>
+				        <div class="col-sm-9"><select class="form-control" ng-model="form.storageType" ng-options="storageType as storageType for storageType in storageTypes"></select></div>	
+				      </div>					      
+				      <div class="form-group">
+				        <label class="col-sm-3 control-label">Source</label>			       
+				        <div class="col-sm-9"><input type="text" class="form-control" placeholder="Source" ng-model="form.source"></div>		         			        
+				      </div>
+				      <div class="form-group">	
+		              	<div class="col-sm-12">		                			              			                
+							<button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="searchSubCollection(1)">Search</button>		
+							<button class="btn btn-red text-theme-xs pull-left" ng-click="resetForm()">Reset Form</button>		
+						</div>					           					            						         			                		                  
+		              </div>					             			             
+		            </form>
+		          </div>
+		        </div>
+		      </div>
+	      </div>   	
+     	</div>
+
         <div class="row mb">
           <div class="col-md-12">
-			  <div class="col-sm-4 grid-sidebar">		         
-		          <div class="row-heading row-heading-mt-40">
-		            <div class="col-sm-12">
-		              <h3 class="title-sm text-uppercase hr-left text-theme">Sub-Collection</h3>
-		            </div>
-		          </div>
-		          <div class="row mb">
-			        <div class="col-md-12">
-			          <div class="wrapper-form-box">
-			            <h3 class="title-sm">Search</h3>
-			            <form class="form-horizontal">
-			              <div class="form-group">			                
-			              	<label class="control-label col-sm-3">Collection</label>
-			                  <div class="col-sm-9">
-			                  	<div class="input-group">
-			                  		<input type="text" class="form-control" placeholder="Collection ID" value={{form.collectionId}} readonly>
-						           	<span class="input-group-addon" ng-click="openSearch()"><a href="#" onclick="return false;"><i class="fa fa-search"></i></a></span>						            
-						         </div>
-			                  </div>			                  
-			              </div>
-			              <div class="form-group">
-					       <label class="col-sm-3 control-label">Old ID</label>	
-					        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Original ID" ng-model="form.oldId"></div>		         
-					      </div>
-					      <div class="form-group">
-					       <label class="col-sm-3 control-label">Storage location</label>
-					        <div class="col-sm-9"><select class="form-control" ng-model="form.locationInStorage" ng-options="location as location for location in locations"></select></div>			          					         
-					      </div>
-					      <div class="form-group">
-					        <label class="col-sm-3 control-label">Storage Type</label>
-					        <div class="col-sm-9"><select class="form-control" ng-model="form.storageType" ng-options="storageType as storageType for storageType in storageTypes"></select></div>	
-					      </div>					      
-					      <div class="form-group">
-					        <label class="col-sm-3 control-label">Source</label>			       
-					        <div class="col-sm-9"><input type="text" class="form-control" placeholder="Source" ng-model="form.source"></div>		         			        
-					      </div>
-					      <div class="form-group">	
-			              	<div class="col-sm-12">		                			              			                
-								<button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="searchSubCollection(1)">Search</button>		
-								<button class="btn btn-red text-theme-xs pull-left" ng-click="resetForm()">Reset Form</button>		
-							</div>					           					            						         			                		                  
-			              </div>					             			             
-			            </form>
-			          </div>
-			        </div>
-			      </div>
-		      </div>      
-		      <div class="col-sm-8 grid-posts">
+			       
+		      <div class="col-sm-6 col-sm-offset-3 grid-posts">
 		          <!-- POST ITEM 1 -->
 		          <div class="row">
 		            <div class="col-sm-12">

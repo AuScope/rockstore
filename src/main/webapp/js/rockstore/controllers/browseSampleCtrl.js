@@ -55,7 +55,7 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
 		 })     
 	     .success(function(data) {
 	       $scope.samples = data;       
-	        
+	       $scope.toggleFilter=false; 
 	     })
 	     .error(function(data, status) {    	
 	    	 modalService.showModal({}, {    	            	           
@@ -110,6 +110,7 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
      $scope.resetForm = function(){
     	 $scope.form={};
     	 getSamples();
+    	 $scope.toggleFilter=false;
      }
      
      $scope.viewStaff = function(name){

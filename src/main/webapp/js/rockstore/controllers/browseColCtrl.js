@@ -135,6 +135,7 @@ allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParam
      $scope.resetForm = function(){
     	 $scope.form={};
     	 getCollection();
+    	 $scope.toggleFilter=false;
      }
      
      $scope.viewStaff = function(name){
