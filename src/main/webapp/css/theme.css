@@ -4168,6 +4168,20 @@ button.filter-expander {
 }
 
 /* nganimation for filter panel */
-/* http://theoinglis.github.io/ngAnimate.css/#/ */
 
+.filter-panel.ng-hide-remove {
+	animation : slideInLeft 1s;
+}
+
+.filter-panel.ng-hide {
+	animation : slideOutLeft 1s;
+}
+
+.filter-expander.ng-hide-remove {
+	animation : slideInDown 1s;
+}
+
+.filter-expander.ng-hide {
+	animation : slideOutUp 1s;
+}
  
