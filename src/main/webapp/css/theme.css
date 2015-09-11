@@ -27,6 +27,22 @@ body.body-nav-fixed-menu-top {
   background-color: white;
 }
 
+@media (min-width: 768px) {
+  .body-boxed .section-intro-index .item .container,
+  .body-boxed .section-intro-shop .item .container,
+  .body-boxed .section-intro-app .container,
+  .body-boxed .section-call-to .container {
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+  body.body-nav-fixed {
+    padding-top: 92px;
+  }
+  body.body-nav-fixed-menu-top {
+    padding-top: 127px;
+  }
+}
+
 /* ROW - COLUMN SETTINGS
    ================================================== */
 .row-heading {
@@ -47,6 +63,19 @@ body.body-nav-fixed-menu-top {
 }
 .row + .row-heading.row-heading-mt-40 {
   margin-top: 40px;
+}
+
+@media (max-width: 767px) {
+  [class^="col"] + [class^="col"] {
+    margin-top: 40px;
+  }
+  .row + .row {
+    margin-top: 40px;
+  }
+  .section-call-to [class^="col"] + [class^="col"],
+  .section-heading-page [class^="col"] + [class^="col"] {
+    margin-top: 16px;
+  }
 }
 
 /* TYPOGRAPHY
@@ -2881,7 +2910,7 @@ a .fa-round:hover {
   display: none;
 }
 #nav .navbar-brand > img {
-  width: 120px;
+  width: auto;
   margin: 0;
   padding: 0;
   height: 100%;
