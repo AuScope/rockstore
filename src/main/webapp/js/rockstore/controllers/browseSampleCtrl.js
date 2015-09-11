@@ -99,9 +99,11 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
      }
      
      $scope.openSearch = function(){
+    	 $scope.toggleFilter=false;
     	 var promise = SearchSubCollectionService.open();
     	 promise.then(function(selectedItem) {
     		 $scope.form.subcollectionId= selectedItem;
+    		 $scope.toggleFilter=true;
     		}, function(reason) {
     		  alert('Failed: ' + reason);
     		});
