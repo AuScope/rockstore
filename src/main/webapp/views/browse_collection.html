@@ -1,15 +1,10 @@
 
    
    <div class="section section-lg section-bottom" ng-controller="BrowseCollectionCtrl">
-      <div>  
-            
-      
+      <div>                    
           <button ng-click="toggleFilter=true" ng-hide="toggleFilter" class="filter-expander">
              <i class="fa fa-search fa-lg white"></i>Search
           </button>
-      
-         
-      
       	  <div class="filter-panel" ng-show="toggleFilter">
       		<div>		         
 		          <div class="row-heading row-heading-mt-40">
@@ -60,11 +55,7 @@
 			      </div>
 		      </div>  	
       	   </div>
-      	
-      	
-      	
-      	
-        
+
         <div class="row mb">        
           <div class="col-md-12">
 		      <div class="col-sm-6 col-sm-offset-3 grid-posts">
@@ -79,21 +70,17 @@
 						      					      	
 						          <div class="wrapper-post animated zoomIn">		                
 					                <div class="wrapper-post-text">
-					                  <h3 class="title-lg text-uppercase text-theme">{{collection.project}}</h3>
-					                  <ul class="list-unstyled list-inline text-theme post-date-author">
-					                    <li>
-					                      <i class="fa fa-file-o"></i> Collection: {{collection.collectionId}}
-					                    </li>					                   
-					                    <li>
-					                      <i  class="fa fa-user"></i><a ng-click="viewStaff(collection.staffidResponsible)"> Custodian: {{collection.staffidResponsible}}</a>
-					                    </li>
-					                    <li ng-show="collection.archiveDue">
-					                      <i class="fa fa-calendar"></i> Archive Due: {{collection.archiveDue | date:'d/MMM/yyyy'}}
-					                    </li>
-					                    <li ng-show="status.authenticated">
-					                      <a href="#/collections/{{collection.collectionId}}"><i class="fa fa-wrench"> Edit</i></a>
-					                    </li>					                    
-					                  </ul>
+					                  <h3 class="title-lg text-uppercase text-theme">{{collection.project}}
+					                   <a href="#/collections/{{collection.collectionId}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
+					                  </h3><br>
+					                  <div class="row">
+					                  	<div class="col-sm-6"><i class="fa fa-file-o"></i> Collection : {{collection.collectionId}}</div>
+					                  	<div class="col-sm-6"><i class="fa fa-user"></i> Custodian : <a ng-click="viewStaff(collection.staffidResponsible)">{{collection.staffidResponsible}}</a></div>
+					                  </div>
+					                  <div class="row">
+					                  	<div class="col-sm-6"><i class="fa fa-calendar"></i> Archive Due : {{collection.archiveDue | date:'d/MMM/yyyy'}}</div>
+					                  	<div class="col-sm-6"><i class="fa fa-calendar"></i> Project Close : {{collection.archiveDue | date:'d/MMM/yyyy'}}</div>
+					                  </div>
 					                  <br>
    
 				                    <div class="ibox-content">						
@@ -104,11 +91,7 @@
 				                                <th>&nbsp</th>						                                						                               
 				                            </tr>
 				                            </thead>
-				                            <tbody>
-				                            <tr ng-show="collection.projectCloseDate">
-				                                <th>Project Close Date</th>
-				                                <td><i class="fa fa-calendar"></i> {{collection.projectCloseDate | date:'d/MMM/yyyy'}}</td>						                               
-				                            </tr>
+				                            <tbody>				                           
 				                            <tr ng-show="collection.projectPublication">
 				                                <th>Project Publication</th>
 				                                <td>{{collection.projectPublication}}</td>						                                

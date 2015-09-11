@@ -74,22 +74,23 @@
 						      					      	
 						          <div class="wrapper-post animated zoomIn">		                
 					                <div class="wrapper-post-text">
-					                  <h3 class="title-lg text-uppercase text-theme">{{sample.igsn}}</h3>
-					                  <ul class="list-unstyled list-inline text-theme post-date-author">
-					                    <li>
-					                      <i class="fa fa-map-marker"> <a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample.igsn)">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a>
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-barcode"></i> Borehole: {{sample.bhid}}
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-book"></i> Sample Type: {{sample.sampleType}}
-					                    </li>
-					                    <li ng-show="status.authenticated">
-					                      <a href="#/samples/{{sample.id}}"><i class="fa fa-wrench"> Edit</i></a>
-					                    </li>					                    
-					                  </ul>
-					                  <br>
+					                
+					                 <h3 class="title-lg text-uppercase text-theme">{{sample.igsn}}
+					                   <a href="#/samples/{{sample.id}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
+					                  </h3><br>
+					                  <div class="row">
+					                  	<div class="col-sm-6"><i class="fa fa-map-marker"> <a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample.igsn)">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></div>
+					                  	<div class="col-sm-6"><i class="fa fa-barcode"></i> Borehole : {{sample.bhid}}</div>
+					                  </div>
+					                  <div class="row">
+					                  	<div class="col-sm-6"><i class="fa fa-book"></i> Sample Type : {{sample.sampleType}}</div>
+					                  	<div class="col-sm-6"><i class="fa fa-calendar"></i> Date Sampled : {{sample.dateSampled | date:'d/MMM/yyyy'}}</div>
+					                  </div>
+					                  <br>	
+					                
+					                
+					                
+					                  
    
 				                    <div class="ibox-content">						
 				                        <table id="SampleDetailTbl-{{sample.id}}" class="detailTbl">
@@ -208,11 +209,7 @@
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>staffidDisposed</th>
 					            				<td><a ng-click="viewStaff(sample.staffidDisposed)">{{sample.staffidDisposed}}</a></td>
-					            			</tr>					            			
-					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
-					            				<th>Date Sampled</th>
-					            				<td><i class="fa fa-calendar"></i> {{sample.dateSampled | date:'d/MMM/yyyy'}}</td>
-					            			</tr>
+					            			</tr>					            								            			
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sample Type</th>
 					            				<td>{{sample.sampleType}}</td>

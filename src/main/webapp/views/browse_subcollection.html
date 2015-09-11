@@ -72,24 +72,21 @@
 						      					      	
 						          <div class="wrapper-post animated zoomIn">		                
 					                <div class="wrapper-post-text">
-					                  <h3 class="title-lg text-uppercase text-theme">{{subcollection.subcollectionId}}</h3>
-					                  <ul class="list-unstyled list-inline text-theme post-date-author">
-					                    <li>
-					                      <i class="fa fa-map-marker"></i> Location: {{subcollection.locationInStorage}}
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-barcode"></i> Storage Type: {{subcollection.storageType}}
-					                    </li>
-					                    <li>
-					                      <i class="fa fa-star"></i> IGSN: {{subcollection.igsn}}
-					                    </li>	
-					                    <li ng-show="status.authenticated">
-					                      <a href="#/subcollections/{{subcollection.subcollectionId}}"><i class="fa fa-wrench"> Edit</i></a>
-					                    </li>				                    
-					                  </ul>
-					                  <br>
+					                
+					                	 <h3 class="title-lg text-uppercase text-theme">{{subcollection.igsn}}
+						                   <a href="#/subcollections/{{subcollection.subcollectionId}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
+						                  </h3><br>
+						                  <div class="row">
+						                  	<div class="col-sm-6"><i class="fa fa-map-marker"></i> Location : {{subcollection.locationInStorage}}</div>
+						                  	<div class="col-sm-6"><i class="fa fa-barcode"></i> Storage Type : {{subcollection.storageType}}</div>
+						                  </div>
+						                  <div class="row">
+						                  	<div class="col-sm-6"><i class="fa fa-star"></i> Subcollection Id : {{subcollection.subcollectionId}}</div>
+						                  	<div class="col-sm-6"><i class="fa fa-warning"></i> {{subcollection.hazardous}}</div>
+						                  </div>
+						                  <br>						                					                					                  
    
-				                    <div class="ibox-content">						
+				                     <div class="ibox-content">						
 				                        <table class="detailTbl">
 				                            <thead>
 				                            <tr>						                                
@@ -101,11 +98,7 @@
 				                            <tr>
 				                                <th>Collection</th>
 				                                <td><a href="#/browsecollections/{{subcollection.rsCollection['collectionId']}}"><i class="fa fa-link"> {{subcollection.rsCollection['collectionId']}}</i></a></td>						                               
-				                            </tr>
-				                            <tr>
-				                                <th>Hazardous</th>
-				                                <td><i class="fa fa-warning"></i> {{subcollection.hazardous}}</td>						                               
-				                            </tr>
+				                            </tr>				                            
 				                            <tr>
 					            				<th>Container Range</th>
 					            				<td>{{subcollection.sampleRangeBySubcollection['minContainer']}} - {{subcollection.sampleRangeBySubcollection['maxContainer']}} </td>
