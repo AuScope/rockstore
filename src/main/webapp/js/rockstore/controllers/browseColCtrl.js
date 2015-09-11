@@ -71,7 +71,7 @@ allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParam
 		 })     
 	     .success(function(data) {
 	       $scope.collections = data;       
-	        
+	       $scope.toggleFilter=false;
 	     })
 	     .error(function(data, status) {    	
 	    	 modalService.showModal({}, {    	            	           

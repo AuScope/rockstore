@@ -4101,3 +4101,89 @@ a[ng-click]{
     text-decoration: underline;
     text-decoration-color: blue;
 }
+
+
+.pointer-cursor {
+	cursor: pointer;
+}
+
+/* Filter panel css */
+
+.filter-panel {
+  background: #2d2f33;
+  display: block;
+  height: 100%;
+  overflow: auto;
+  position: fixed;
+  left: 5;
+  font-size: 15px;  
+  width: 30em;
+  z-index: 2000;  
+  padding-top: 25px;
+  padding-right: 10px;
+  padding-left: 10px;
+  top : 160px;
+ 
+}
+
+.filter-panel label {
+	color: #ffffff;
+}
+
+.filter-panel h3 {
+	color: #ffffff;	
+	padding-left: 16px
+}
+
+
+button.filter-expander {
+  background: none repeat scroll 0 0 #2d2f33;
+  color: #FFFFFF;
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  height: 30px;
+  top : 160px;
+  padding: 1em 1.6em 2em;
+  position: absolute;
+ 
+  width: 130px;
+  z-index: 12;
+ 
+}
+
+/* nganimation for filter panel */
+
+.animate-enter, 
+.animate-leave { 
+    -webkit-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 500ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    position: relative;
+    display: block;
+} 
+ 
+.animate-leave.animate-leave-active,
+.animate-enter {
+    -webkit-transform: skewX(45deg) skewY(30deg);
+    -moz-transform: skewX(45deg) skewY(30deg);
+    -ms-transform: skewX(45deg) skewY(30deg);
+    -o-transform: skewX(45deg) skewY(30deg);
+    transform: skewX(45deg) skewY(30deg);
+    opacity: 0;
+    height: 0px;
+}        
+ 
+.animate-enter.animate-enter-active,
+.animate-leave {
+    -webkit-transform: skewX(0deg) skewY(0deg);
+    -moz-transform: skewX(0deg) skewY(0deg);
+    -ms-transform: skewX(0deg) skewY(0deg);
+    -o-transform: skewX(0deg) skewY(0deg);
+    transform: skewX(0deg) skewY(0deg);
+    opacity: 1;
+    height: 30px;
+}
+ 

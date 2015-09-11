@@ -4,6 +4,7 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
 	
 	$scope.status = currentAuthService.getStatus();
 	
+	
 	$scope.samples=[];
 	$scope.subcollections=[];
 	$scope.booleans = DropDownValueService.getBoolean();
@@ -52,7 +53,7 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
  		 })     
  	     .success(function(data) {
  	       $scope.subcollections = data;       
- 	        
+ 	       $scope.toggleFilter=false;
  	     })
  	     .error(function(data, status) {    	
  	    	 modalService.showModal({}, {    	            	           
