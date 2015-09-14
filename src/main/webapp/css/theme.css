@@ -4184,4 +4184,10 @@ button.filter-expander {
 .filter-expander.ng-hide {
 	animation : slideOutUp 1s;
 }
+
+
+/**/
+.div-hover-background:hover {
+  background-color: #eff8fc;
+}
  

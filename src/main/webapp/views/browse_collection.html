@@ -121,54 +121,43 @@
 								      <div class="panel-body">
 								       <div class="ibox-content">	
 								       	 <h4 class="panel-title">List of SubCollection</h4><br>
-								         <table class="table lightHeader">
+								         <table class="table lightHeader table-hover">
 											<thead>
 											<tr>
+												<th><span class="fa fa-plus-circle"></span></th>
 												<th>SubCollection Id</th>
 												<th>Location</th>
-												<th>Source</th>
-												<th>View</th>																				
-												<th>Link</th>
+												<th>Source</th>																												
+												<th>IGSN</th>
 											</tr>
 											</thead>
 											<tbody>
 											<tr ng-repeat-start="subcollection in subcollections[collection.collectionId]">
-												<td>{{subcollection.subcollectionId}}</td>
+												<td><a onclick="return false;"  href="#" data-toggle="collapse" data-target=".collapse-{{subcollection.subcollectionId}}"><span class="fa fa-expand"></span></a></td>
+												<td><a href="#/browsesubcollections/{{subcollection.igsn}}"><i class="fa fa-link"> {{subcollection.subcollectionId}}</i></a></td>
 												<td>{{subcollection.locationInStorage}}</td>
-												<td>{{subcollection.source}}</td>																								
-												<td><a onclick="return false;"  href="#" data-toggle="collapse" data-target=".collapse-{{subcollection.subcollectionId}}"><i class="fa fa-eye"></i>View</a></td>
-												<td><a href="#/browsesubcollections/{{subcollection.igsn}}"><i class="fa fa-link"> GOTO</i></a></td>
+												<td>{{subcollection.source}}</td>
+												<td><a href="#/browsesubcollections/{{subcollection.igsn}}"><i class="fa fa-link"> {{subcollection.igsn}}</i></a></td>																																				
+												
 											</tr>	
 											<tr ng-repeat-end class="panel-collapse collapse out collapse-{{subcollection.subcollectionId}}">
-												<td colspan="5">
-													<table class="table table-borderless">
-														<tbody>
-															<tr>
-																<th>Hazardous</th>
-																<td>{{subcollection.hazardous}}</td>																
-															</tr>
-															<tr>
-																<th>Old Id</th>
-																<td>{{subcollection.oldId}}</td>																
-															</tr>
-															<tr>
-									            				<th>Container Range</th>
-									            				<td>{{subcollection.sampleRangeBySubcollection['minContainer']}} - {{subcollection.sampleRangeBySubcollection['maxContainer']}} </td>
-									            			</tr>
-									            			<tr>
-									            				<th>Sample Range</th>
-									            				<td>{{subcollection.sampleRangeBySubcollection['minSample']}} - {{subcollection.sampleRangeBySubcollection['maxSample']}}</td>
-									            			</tr>
-															<tr>
-																<th>Storage Type</th>
-																<td>{{subcollection.storageType}}</td>																
-															</tr>
-															<tr>
-																<th>Number of Pallets</th>
-																<td>{{subcollection.totalPallet}}</td>																
-															</tr>															
-														</tbody>
-													</table>
+												<td colspan="5">													
+													<div class="row">
+														<div class="col-sm-6 div-hover-background"><h3><i class="fa fa-warning"></i>{{subcollection.hazardous}}</h3><small>Hazardous</small></div>
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.oldId}}</h3><small>Old Id</small></div>			
+													</div>	
+													<div class="row">
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.sampleRangeBySubcollection['minContainer']}}</h3><small>Container From</small></div>
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.sampleRangeBySubcollection['maxContainer']}}</h3><small>Container To</small></div>																	
+													</div>
+													<div class="row">
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.sampleRangeBySubcollection['minSample']}}</h3><small>Sample From</small></div>
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.sampleRangeBySubcollection['maxSample']}}</h3><small>Sample To</small></div>																	
+													</div>
+													<div class="row">
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.storageType}}</h3><small>Storage Type</small></div>
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.totalPallet}}</h3><small>Number of Pallets</small></div>			
+													</div>																																							
 												</td>
 											</tr>
 																																
