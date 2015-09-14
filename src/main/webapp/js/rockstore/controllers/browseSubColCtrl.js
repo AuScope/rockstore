@@ -1,8 +1,10 @@
 
-allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams','SearchCollectionService','DropDownValueService','modalService','currentAuthService',
-                                                      function ($scope,$http,MapModalService,$routeParams,SearchCollectionService,DropDownValueService,modalService,currentAuthService) {
+allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams','SearchCollectionService','DropDownValueService','modalService','currentAuthService','$location',
+                                                      function ($scope,$http,MapModalService,$routeParams,SearchCollectionService,DropDownValueService,modalService,currentAuthService,$location) {
 	
 	$scope.status = currentAuthService.getStatus();
+	
+	$scope.getCurrentUrlPath =$location.absUrl().replace($routeParams.igsn,'') + "/";
 	
 	
 	$scope.samples=[];

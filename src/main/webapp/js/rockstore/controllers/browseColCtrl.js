@@ -1,8 +1,12 @@
 
-allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams','DropDownValueService','modalService','currentAuthService','ViewUserInfoService',
-                                                   function ($scope,$http,$routeParams,DropDownValueService,modalService,currentAuthService,ViewUserInfoService) {
+allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams','DropDownValueService','modalService','currentAuthService','ViewUserInfoService','$location',
+                                                   function ($scope,$http,$routeParams,DropDownValueService,modalService,currentAuthService,ViewUserInfoService,$location) {
 	
 	$scope.status = currentAuthService.getStatus();
+	
+	
+	$scope.getCurrentUrlPath =$location.absUrl().replace($routeParams.collectionId,'') + "/";
+
 	
 	$scope.collections=[];
 	$scope.subcollections=[];

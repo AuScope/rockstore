@@ -1,9 +1,11 @@
 
 
-allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService','currentAuthService','ViewUserInfoService',
-                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService,currentAuthService,ViewUserInfoService) {
+allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService','currentAuthService','ViewUserInfoService','$location',
+                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService,currentAuthService,ViewUserInfoService,$location) {
 	
 	$scope.status = currentAuthService.getStatus();
+	
+	$scope.getCurrentUrlPath =$location.absUrl().replace($routeParams.igsn,'') + "/";
 	
 	$scope.samples=[];
 	$scope.expansionCSSDefault='out';

@@ -60,7 +60,7 @@
         <div class="row mb">
           <div class="col-md-12">
 			       
-		      <div class="col-sm-6 col-sm-offset-3 grid-posts">
+		       <div class="col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3 grid-posts">
 		          <!-- POST ITEM 1 -->
 		          <div class="row">
 		            <div class="col-sm-12">
@@ -73,18 +73,28 @@
 						          <div class="wrapper-post animated zoomIn">		                
 					                <div class="wrapper-post-text">
 					                
-					                	 <h3 class="title-lg text-uppercase text-theme">{{subcollection.igsn}}
-						                   <a href="#/subcollections/{{subcollection.subcollectionId}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
-						                  </h3><br>
-						                  <div class="row">
-						                  	<div class="col-sm-6"><i class="fa fa-map-marker"></i> Location : {{subcollection.locationInStorage}}</div>
-						                  	<div class="col-sm-6"><i class="fa fa-barcode"></i> Storage Type : {{subcollection.storageType}}</div>
-						                  </div>
-						                  <div class="row">
-						                  	<div class="col-sm-6"><i class="fa fa-star"></i> Subcollection Id : {{subcollection.subcollectionId}}</div>
-						                  	<div class="col-sm-6"><i class="fa fa-warning"></i> {{subcollection.hazardous}}</div>
-						                  </div>
-						                  <br>						                					                					                  
+					                	 <div class="row">
+					                    	<div class="col-sm-2">
+					                    		<qrcode  version="5" error-correction-level="L" data="{{getCurrentUrlPath + subcollection.igsn}}" download size="100"></qrcode>
+					                    	</div>
+					                    	<div class="col-sm-10">
+					                    		 <h3 class="title-lg text-uppercase text-theme">{{subcollection.igsn}}
+								                   <a href="#/subcollections/{{subcollection.subcollectionId}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
+								                  </h3><br>
+								                  <div class="row">
+								                  	<div class="col-sm-6"><i class="fa fa-map-marker"></i> Location : {{subcollection.locationInStorage}}</div>
+								                  	<div class="col-sm-6"><i class="fa fa-barcode"></i> Storage Type : {{subcollection.storageType}}</div>
+								                  </div>
+								                  <div class="row">
+								                  	<div class="col-sm-6"><i class="fa fa-star"></i> Subcollection Id : {{subcollection.subcollectionId}}</div>
+								                  	<div class="col-sm-6"><i class="fa fa-warning"></i> {{subcollection.hazardous}}</div>
+								                  </div>
+								                  <br>				                    	
+					                    	</div>					                    
+					                      </div>
+					                
+					                
+					                	 					                					                					                  
    
 				                     <div class="ibox-content">						
 				                        <table class="detailTbl">

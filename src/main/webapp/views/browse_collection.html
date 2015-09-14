@@ -58,7 +58,7 @@
 
         <div class="row mb">        
           <div class="col-md-12">
-		      <div class="col-sm-6 col-sm-offset-3 grid-posts">
+		      <div class="col-sm-10 col-md-8 col-lg-6 col-sm-offset-1 col-md-offset-2 col-lg-offset-3 grid-posts">
 		          <!-- POST ITEM 1 -->
 		          <div class="row">
 		            <div class="col-sm-12">
@@ -70,18 +70,27 @@
 						      					      	
 						          <div class="wrapper-post animated zoomIn">		                
 					                <div class="wrapper-post-text">
-					                  <h3 class="title-lg text-uppercase text-theme">{{collection.project}}
-					                   <a href="#/collections/{{collection.collectionId}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
-					                  </h3><br>
-					                  <div class="row">
-					                  	<div class="col-sm-6"><i class="fa fa-file-o"></i> Collection : {{collection.collectionId}}</div>
-					                  	<div class="col-sm-6"><i class="fa fa-user"></i> Custodian : <a ng-click="viewStaff(collection.staffidResponsible)">{{collection.staffidResponsible}}</a></div>
-					                  </div>
-					                  <div class="row">
-					                  	<div class="col-sm-6"><i class="fa fa-calendar"></i> Archive Due : {{collection.archiveDue | date:'d/MMM/yyyy'}}</div>
-					                  	<div class="col-sm-6"><i class="fa fa-calendar"></i> Project Close : {{collection.archiveDue | date:'d/MMM/yyyy'}}</div>
-					                  </div>
-					                  <br>
+					                    
+					                    <div class="row">
+					                    	<div class="col-sm-2">
+					                    		<qrcode  version="5" error-correction-level="L" data="{{getCurrentUrlPath + collection.collectionId}}" download size="100"></qrcode>
+					                    	</div>
+					                    	<div class="col-sm-10">
+					                    		 <h3 class="title-lg text-uppercase text-theme">{{collection.project}}
+								                   <a href="#/collections/{{collection.collectionId}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
+								                  </h3><br>
+								                  <div class="row">
+								                  	<div class="col-sm-6"><i class="fa fa-file-o"></i> Collection : {{collection.collectionId}}</div>
+								                  	<div class="col-sm-6"><i class="fa fa-user"></i> Custodian : <a ng-click="viewStaff(collection.staffidResponsible)">{{collection.staffidResponsible}}</a></div>
+								                  </div>
+								                  <div class="row">
+								                  	<div class="col-sm-6"><i class="fa fa-calendar"></i> Archive Due : {{collection.archiveDue | date:'d/MMM/yyyy'}}</div>
+								                  	<div class="col-sm-6"><i class="fa fa-calendar"></i> Project Close : {{collection.archiveDue | date:'d/MMM/yyyy'}}</div>
+								                  </div>
+								                  <br>					                    	
+					                    	</div>					                    
+					                    </div>
+					                
    
 				                    <div class="ibox-content">						
 				                        <table class="detailTbl">
