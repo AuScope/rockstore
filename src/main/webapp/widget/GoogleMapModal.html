@@ -5,11 +5,23 @@
     <ui-gmap-google-map center='map.center' zoom='map.zoom' >
     	<ui-gmap-marker coords="marker.coords" click="onClick()"  idkey="marker.id">
     		<ui-gmap-window options="windowOptions" closeClick="closeClick()">
-                <div>{{info}}</div>
+                <div>{{info.igsn}}</div>
             </ui-gmap-window>
     	</ui-gmap-marker>
     </ui-gmap-google-map>
  </div>
  <div class="modal-footer">
      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>     
+ </div>
+ 
+ <div class="map-overlay-panel" ng-hide="toggleFilter">
+ 	 <h3 class="title-sm text-uppercase hr-left text-theme"><i class="fa fa-map-marker fa-lg white"></i> {{info.igsn}}		             
+       	<i ng-click="toggleFilter=true" class="pull-right pointer-cursor fa fa-close fa-lg white"> &nbsp</i>             	          
+       </h3>
+       <br>	
+       <p>Datum : {{info.datum}}</p>
+       <p>Depth : {{info.depth}}</p>
+       <p>Lat : {{info.lat}}</p>
+       <p>Lon : {{info.lon}}</p>
+       <p>Type : {{info.sampleType}}</p>	
  </div>

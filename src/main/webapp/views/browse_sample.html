@@ -84,7 +84,7 @@
 							                   <a href="#/samples/{{sample.id}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
 							                  </h3><br>
 							                  <div class="row">
-							                  	<div class="col-sm-6"><i class="fa fa-map-marker"> <a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample.igsn)">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></div>
+							                  	<div class="col-sm-6"><i class="fa fa-map-marker"> <a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample)">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></div>
 							                  	<div class="col-sm-6"><i class="fa fa-barcode"></i> Borehole : {{sample.bhid}}</div>
 							                  </div>
 							                  <div class="row">
@@ -206,7 +206,7 @@
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sample Collector</th>
-					            				<td>{{sample.sampleCollector}}</td>
+					            				<td><span class="fa fa-user"></span> {{sample.sampleCollector}}</td>
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sample Dispose</th>
@@ -218,7 +218,7 @@
 					            			</tr>
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>staffidDisposed</th>
-					            				<td><a ng-click="viewStaff(sample.staffidDisposed)">{{sample.staffidDisposed}}</a></td>
+					            				<td><span class="fa fa-user"></span><a ng-click="viewStaff(sample.staffidDisposed)"> {{sample.staffidDisposed}}</a></td>
 					            			</tr>					            								            			
 					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
 					            				<th>Sample Type</th>

@@ -4113,12 +4113,12 @@ a[ng-click]{
   background:  #2d2f33;
   opacity: 0.9;
   display: block;
-  height: 110%;
+  height: 110%;  
   overflow: none;
   position: absolute;
   left: 5;
   font-size: 15px;  
-  width: 30em;
+  width: 28em;
   z-index: 2000;  
   padding-top: 25px;
   padding-right: 10px;
@@ -4141,6 +4141,8 @@ a[ng-click]{
 		top : 100px;
 		width: 28em;
 		opacity: 1;
+		width: 24em;
+		min-height : 800px;		
 	}
 }
 
@@ -4170,7 +4172,7 @@ button.filter-expander {
 /* nganimation for filter panel */
 
 .filter-panel.ng-hide-remove {
-	animation : slideInLeft 1s;
+	animation : rollIn 1s;
 }
 
 .filter-panel.ng-hide {
@@ -4190,4 +4192,33 @@ button.filter-expander {
 .div-hover-background:hover {
   background-color: #eff8fc;
 }
+
+
+
+.map-overlay-panel {
+  background:  #2d2f33;
+  opacity: 0.8;
+  display: block;
+  width: 15em;
+  overflow: none;
+  position: absolute;
+  bottom : 80px;
+  right : 0em;	
+  font-size: 15px;  
+  height: 65%;
+  z-index: 2000;  
+  padding-top: 25px;
+  padding-right: 10px;
+  padding-left: 10px;
+ border-radius: 25px 0 0 25px;
+ 
+}
+
+.map-overlay-panel {
+	color: #ffffff;	
+	padding-left: 16px
+}
+
+
+
  

@@ -153,8 +153,8 @@
 												<td><a onclick="return false;"  href="#" data-toggle="collapse" data-target=".collapse-sample-{{sample.id}}"><span class="fa fa-expand"></span></a></td>
 												<td><a href="#/browsesamples/{{sample.igsn}}"><i class="fa fa-link"></i> {{sample.igsn}}</a></td>
 												<td>{{sample.bhid}}</td>
-												<td><a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample.igsn)"><i class="fa fa-map-marker">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></td>
-												<td>{{sample.dateDisposed | date:'d/MMM/yyyy'}}</td>																									
+												<td><a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample)"><i class="fa fa-map-marker"> LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></td>
+												<td><span class="fa fa-calendar"></span> {{sample.dateDisposed | date:'d/MMM/yyyy'}}</td>																									
 											</tr>
 											<tr ng-repeat-end class="panel-collapse collapse out collapse-sample-{{sample.id}}">
 												<td colspan="5">
@@ -175,12 +175,12 @@
 														<div class="col-sm-6 div-hover-background"><h3>{{sample.externalRef}}</h3><small>External Reference</small></div>			
 													</div>	
 													<div class="row">
-														<div class="col-sm-6 div-hover-background"><h3>{{sample.sampleCollector}}</h3><small>Sample Collector</small></div>
-														<div class="col-sm-6 div-hover-background"><h3>{{sample.dateSampled | date:'d/MMM/yyyy'}}</h3><small>Date Sampled</small></div>			
+														<div class="col-sm-6 div-hover-background"><h3><span class="fa fa-user"></span> {{sample.sampleCollector}}</h3><small>Sample Collector</small></div>
+														<div class="col-sm-6 div-hover-background"><h3><span class="fa fa-calendar"></span> {{sample.dateSampled | date:'d/MMM/yyyy'}}</h3><small>Date Sampled</small></div>			
 													</div>	
 													<div class="row">
 														<div class="col-sm-6 div-hover-background"><h3>{{sample.sampleDispose}}</h3><small>Sample Dispose</small></div>
-														<div class="col-sm-6 div-hover-background"><h3>{{sample.staffidDisposed}}</h3><small>Staff Disposed</small></div>			
+														<div class="col-sm-6 div-hover-background"><h3><span class="fa fa-user"></span> {{sample.staffidDisposed}}</h3><small>Staff Disposed</small></div>			
 													</div>
 																									
 												
