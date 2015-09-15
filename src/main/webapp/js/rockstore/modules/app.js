@@ -134,7 +134,7 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
       };  
       
       this.getStorageType = function(){
-    	  return ['STANDARD','EXTRA','COLD ROOM'];
+    	  return ['STANDARD','ARCHIVE'];
       }
       
       this.getSampleType = function(){
@@ -142,7 +142,11 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
       }
       
       this.getDatum = function(){
-    	  return ['EPSG:4326','GDA84'];
+    	  return ['GDA94','MGA94','MGA95'];
+      }
+      
+      this.getZone = function(){
+    	  return ['Zone 50','Zone 51','Zone 52','Zone 53','Zone 54','Zone 55','Zone 56','Zone 57',,'Zone 58'];
       }
         
 }]);
