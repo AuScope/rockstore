@@ -15,6 +15,7 @@ import javax.persistence.criteria.Root;
 
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
+import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
 import org.csiro.rockstore.entity.postgres.SampleRangeBySubcollection;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +67,16 @@ public class SubCollectionEntityService {
 		
 		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.findSubCollectionByCollection",RsSubcollection.class)
 				.setParameter("collectionId", collectionId)
+				.getResultList();
+		em.close();
+		return result;
+	}
+	
+	public List<RsSubcollectionAudit> getSubCollectionsAudit(String subcollectionId){
+		EntityManager em = JPAEntityManager.createEntityManager();
+		
+		List<RsSubcollectionAudit> result = em.createNamedQuery("RsSubcollectionAudit.findSubCollectionById",RsSubcollectionAudit.class)
+				.setParameter("subcollectionId", subcollectionId)
 				.getResultList();
 		em.close();
 		return result;

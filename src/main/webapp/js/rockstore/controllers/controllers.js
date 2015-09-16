@@ -103,6 +103,93 @@ allControllers.controller('ViewStaffInfoCtrl', function ($scope, $modalInstance,
 	  
 });
 
+allControllers.controller('ViewCollectionHistoryCtrl', function ($scope, $modalInstance, params, modalService,$http) {
+	
+	$scope.collections={};
+	$scope.title = "Collection History"
+
+	$http.get('getCollectionAudit.do',{
+		params : {
+			collectionId : params.collectionId
+		}
+	})     
+    .success(function(data) {
+    	$scope.collections = data;      
+       
+    })
+    .error(function(data, status) {    	
+    	 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving collection history",
+	           bodyText: data
+		 });	       
+    }) 
+    
+    
+    $scope.ok = function () {	
+		 $modalInstance.close();		 
+	 };
+	
+	  
+});
+
+allControllers.controller('ViewSubcollectionHistoryCtrl', function ($scope, $modalInstance, params, modalService,$http) {
+	
+	$scope.subCollections={};
+	$scope.title = "Collection History"
+
+	$http.get('getSubCollectionAudit.do',{
+		params : {
+			subCollectionId : params.subCollectionId
+		}
+	})     
+    .success(function(data) {
+    	$scope.subCollections = data;      
+       
+    })
+    .error(function(data, status) {    	
+    	 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving sub-collection history",
+	           bodyText: data
+		 });	       
+    }) 
+    
+    
+    $scope.ok = function () {	
+		 $modalInstance.close();		 
+	 };
+	
+	  
+});
+
+allControllers.controller('ViewSampleHistoryCtrl', function ($scope, $modalInstance, params, modalService,$http) {
+	
+	$scope.samples={};
+	$scope.title = "Collection History"
+
+	$http.get('getSampleAudit.do',{
+		params : {
+			id : params.sampleId
+		}
+	})     
+    .success(function(data) {
+    	$scope.samples = data;      
+       
+    })
+    .error(function(data, status) {    	
+    	 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving sample history",
+	           bodyText: data
+		 });	       
+    }) 
+    
+    
+    $scope.ok = function () {	
+		 $modalInstance.close();		 
+	 };
+	
+	  
+});
+
 
 allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValueService, $modalInstance,$filter,spinnerService,$http,modalService) {
 	

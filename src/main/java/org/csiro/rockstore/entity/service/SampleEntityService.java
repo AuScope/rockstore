@@ -13,7 +13,9 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
 import org.csiro.rockstore.entity.postgres.RsSample;
+import org.csiro.rockstore.entity.postgres.RsSampleAudit;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +62,19 @@ public class SampleEntityService {
 		em.close();
 		return result;
 	}
+	
+	public List<RsSampleAudit> getSampleAudit(int sampleId){
+		EntityManager em = JPAEntityManager.createEntityManager();
+		List<RsSampleAudit> result = em.createNamedQuery("RsSampleAudit.findSampleById",RsSampleAudit.class)
+		.setParameter("id", sampleId)
+	    .getResultList();
+		em.close();
+		return result;
+	}
+	
+	
+	
+	
 
 	public List<RsSample> getSampleBySubCollections(String subCollectionId) {
 		EntityManager em = JPAEntityManager.createEntityManager();

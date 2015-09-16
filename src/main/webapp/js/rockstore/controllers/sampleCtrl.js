@@ -55,8 +55,7 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 				sampleType: $scope.form.sampleType,
 				bhid: $scope.form.bhid,
 				depth: $scope.form.depth,
-				datum: $scope.form.datum,
-				zone : $scope.form.zone,
+				datum: $scope.form.datum,				
 				containerId : $scope.form.containerId,
 				externalRef : $scope.form.externalRef,
 				sampleCollector : $scope.form.sampleCollector,
@@ -64,8 +63,8 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 				sampleDispose : $scope.form.sampleDispose,
 				dateDisposed : $scope.form.dateDisposed,
 				staffidDisposed : $scope.form.staffidDisposed,
-				locationWkt : $scope.form.lon&&$scope.form.lat? "POINT ("+$scope.form.lon + " "+ $scope.form.lat +")":""
-				
+				origLat : $scope.form.origLat,
+				origLon : $scope.form.origLon								
 				}
 		})
 		.then(function(response) {		
@@ -73,7 +72,10 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 			response.data.dateDisposed=$filter('date')(response.data.dateDisposed,'d/MMM/yyyy');						
 			if($scope.form.id){//VT if ID exist, we assume it is a update else it is a insert new
 				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)		
-				alert("record updated");
+				 modalService.showModal({}, {    	            	           
+			           headerText: "Record Update",
+			           bodyText: "Your record has successfully updated"
+		    	 });
 			}else{				
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		
@@ -97,8 +99,7 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	                                 { field: "sampleType",displayName: 'Sample Type',width:140},	                            
 	                                 { field: 'bhid',displayName: 'Borehole ID',width:170 },
 	                                 { field: 'depth',displayName: 'Depth',width:110 },
-	                                 { field: 'datum',displayName: 'Datum',width:120 },
-	                                 { field: 'zone',displayName: 'Zone',width:170 },
+	                                 { field: 'datum',displayName: 'Datum',width:120 },	                                
 	                                 { field: 'containerId',displayName: 'ContainerId',width:170 },
 	                                 { field: 'externalRef',displayName: 'externalRef',width:170 },
 	                                 { field: 'sampleCollector',displayName: 'Sample Collector',width:170 },
@@ -106,8 +107,9 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	                                 { field: 'sampleDispose',displayName: 'Sample Dispose',width:170 },
 	                                 { field: 'dateDisposed',displayName: 'Date Disposed', cellFilter :'date:"d/MMM/yyyy"', width:170 },
 	                                 { field: 'staffidDisposed',displayName: 'Staff Disposed',width:170 },
-	                                 { field: 'lat',displayName: 'Latitude',width:120 },
-	                                 { field: 'lon',displayName: 'Longtitude',width:120 }
+	                                 { field: 'origLat',displayName: 'Latitude',width:120 },
+	                                 { field: 'origLon',displayName: 'Longtitude',width:120 }
+	                                
 	                               ];
 	                              
    $scope.gridOptions.multiSelect = false;

@@ -1,0 +1,53 @@
+ <div class="modal-header">
+     <h3 class="modal-title">{{title}}</h3>
+ </div>
+ <div class="modal-body modal-overflow-x">
+ 	<div class="scroll-table">
+	     <table class="detailTbl">
+	     	
+	         <thead>
+	         <tr>						                                
+	             <th>id</th>
+	             <th>collection_id</th>
+	             <th>project</th>
+	             <th>staffid responsible</th>
+	             <th>project result</th>
+	             <th>project publication</th>
+	             <th>project close date</th>
+	             <th>available to public</th>
+	             <th>archive due</th>
+	             <th>staffid field manager</th>
+	             <th>version</th>
+	             <th>last_update_user</th>
+	             <th>operation</th>
+	             <th>audit timestamp</th>					                                						                               
+	         </tr>
+	         </thead>
+	         <tbody>
+	         <tr ng-repeat="collection in collections">
+	             <td>{{collection.id}}</th>
+	             <td>{{collection.collectionId}}</td>
+	             <td>{{collection.project}}</td>
+	             <td>{{collection.staffidResponsible}}</td>
+	             <td>{{collection.projectResult}}</td>
+	             <td>{{collection.projectPublication}}</td>
+	             <td>{{collection.projectCloseDate | date:'d/MMM/yyyy'}}</td>
+	             <td>{{collection.availableToPublic}}</td>
+	             <td>{{collection.archiveDue | date:'d/MMM/yyyy'}}</td>
+	             <td>{{collection.staffIdFieldManager}}</td>
+	             <td>{{collection.version}}</td>
+	             <td>{{collection.lastUpdateUser}}</td>
+	             <td>{{collection.operation}}</td>
+	             <td>{{collection.auditTimestamp | date:'d/MMM/yyyy'}}</td>						                               
+	         </tr>
+	         </tbody>
+	        
+	     </table>
+     </div>
+  
+    
+    
+ </div>
+ <div class="modal-footer">
+     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>     
+ </div>

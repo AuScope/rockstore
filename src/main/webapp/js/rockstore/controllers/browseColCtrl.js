@@ -1,6 +1,6 @@
 
-allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams','DropDownValueService','modalService','currentAuthService','ViewUserInfoService','$location',
-                                                   function ($scope,$http,$routeParams,DropDownValueService,modalService,currentAuthService,ViewUserInfoService,$location) {
+allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParams','DropDownValueService','modalService','currentAuthService','ViewUserInfoService','$location','ViewHistoryService',
+                                                   function ($scope,$http,$routeParams,DropDownValueService,modalService,currentAuthService,ViewUserInfoService,$location,ViewHistoryService) {
 	
 	$scope.status = currentAuthService.getStatus();
 	
@@ -148,6 +148,10 @@ allControllers.controller('BrowseCollectionCtrl', ['$scope','$http','$routeParam
      
      $scope.viewUser = function(name){
     	 ViewUserInfoService.viewUser(name);
+     }
+     
+     $scope.viewHistory = function(collectionId){
+    	 ViewHistoryService.viewCollectionHistory(collectionId);
      }
       
 }]);

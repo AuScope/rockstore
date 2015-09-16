@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.csiro.rockstore.entity.postgres.RsCollection;
+import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
+import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,8 @@ public class SubCollectionController {
             @RequestParam(required = true, value ="collectionId") String collectionId,
             @RequestParam(required = false, value ="source") String source,
             @RequestParam(required = false, value ="totalPallet") Integer totalPallet,
+            @RequestParam(required = false, value ="previousPalletId") String previousPalletId,
+            @RequestParam(required = false, value ="disposedInsufficientInfo") boolean disposedInsufficientInfo,
             Principal user,
             HttpServletResponse response){
     	
@@ -58,7 +62,7 @@ public class SubCollectionController {
 	    		RsSubcollection rsc = this.subCollectionEntityService.search(subcollectionId);
 	    		RsCollection rc = collectionEntityService.searchByCollectionId(collectionId);
 	    		rsc.update(rc, oldId,locationInStorage, storageType, hazardous,
-	    					 source,  totalPallet);
+	    					 source,  totalPallet,user.getName(),  previousPalletId,  disposedInsufficientInfo);
 	    		
 	    		this.subCollectionEntityService.merge(rsc);
 	    		
@@ -68,7 +72,7 @@ public class SubCollectionController {
 	    		RsCollection rc = collectionEntityService.searchByCollectionId(collectionId);
 	    		RsSubcollection rsc= new RsSubcollection(rc,  oldId,
 	    				  locationInStorage,  storageType,  hazardous,
-	    					 source,  totalPallet,null);
+	    					 source,  totalPallet,user.getName(),  previousPalletId,  disposedInsufficientInfo);
 	       	
 		       	this.subCollectionEntityService.persist(rsc);
 		
@@ -101,6 +105,21 @@ public class SubCollectionController {
     		logger.warn(e);   
     		throw e;
     	}
+    } 
+    
+    @RequestMapping(value = "getSubCollectionAudit.do")
+    public ResponseEntity<List<RsSubcollectionAudit>> getSubCollectionAudit(
+    		@RequestParam(required = true, value ="subCollectionId") String subCollectionId,
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		    		
+    		List<RsSubcollectionAudit>	lrc = this.subCollectionEntityService.getSubCollectionsAudit(subCollectionId);   		    		
+    		return  new ResponseEntity<List<RsSubcollectionAudit>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
     } 
     
     @RequestMapping(value = "getSubCollectionsByIGSN.do")

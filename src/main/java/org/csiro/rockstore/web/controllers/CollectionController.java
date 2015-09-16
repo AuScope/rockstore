@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.csiro.rockstore.entity.postgres.RsCollection;
+import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.utilities.NullUtilities;
@@ -59,7 +60,7 @@ public class CollectionController {
 	    		RsCollection rc = this.collectionEntityService.searchByCollectionId(collectionId);
 	    		rc.update(projectId, staffFieldManager,  staffResponsible,
 	       			 projectResult,  projectPublication, NullUtilities.parseDateAllowNull(projectCloseDate),
-	       			 Boolean.parseBoolean(availableToPublic),NullUtilities.parseDateAllowNull(archiveDue));
+	       			 Boolean.parseBoolean(availableToPublic),NullUtilities.parseDateAllowNull(archiveDue),user.getName());
 	    		
 	    		this.collectionEntityService.merge(rc);
 	    		
@@ -70,7 +71,7 @@ public class CollectionController {
 	       			 staffFieldManager,  staffResponsible,
 	       			 projectResult,  projectPublication,
 	       			NullUtilities.parseDateAllowNull(projectCloseDate),  Boolean.parseBoolean(availableToPublic), NullUtilities.parseDateAllowNull(archiveDue),
-	       			null,null);
+	       			user.getName());
 	       	
 		       	this.collectionEntityService.persist(rc);
 		
@@ -99,6 +100,21 @@ public class CollectionController {
     		}
     		
     		return  new ResponseEntity<List<RsCollection>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
+    } 
+    
+    @RequestMapping(value = "getCollectionAudit.do")
+    public ResponseEntity<List<RsCollectionAudit>> getCollectionAudit(
+    		@RequestParam(required = true, value ="collectionId") String collectionId,
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		    		
+    		List<RsCollectionAudit>	lrc = this.collectionEntityService.getCollectionsAudit(collectionId);    		    		
+    		return  new ResponseEntity<List<RsCollectionAudit>>(lrc,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);
     		throw e;

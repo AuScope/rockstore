@@ -77,7 +77,33 @@
 					                    	</div>
 					                    	<div class="col-sm-10">
 					                    		 <h3 class="title-lg text-uppercase text-theme">{{collection.project}}
-								                   <a href="#/collections/{{collection.collectionId}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
+								                   
+								                   
+								                   <div class="btn-group btn-blue pull-right" ng-show="status.authenticated">
+													  <button type="button" class="btn btn-blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+													    Action
+													    <span class="caret"></span>
+													  </button>
+													  <ul class="dropdown-menu" role="menu">
+													    <li>
+													      <a href="#/collections/{{collection.collectionId}}"><i class="fa fa-edit">  Edit</i></a>
+													    </li>
+													    <li>
+													      <a ng-click="viewHistory(collection.collectionId)"><i class="fa fa-eye"> View Edit History</i></a>
+													    </li>
+													    <li>
+													      <a href="#"><i class="fa fa-history"> Checkout History</i></a>
+													    </li>													    
+													    <li class="divider"></li>
+													    <li>
+													      <a href="#"><i class="fa fa-sign-out"> Checkout</i></a>
+													    </li>
+													  </ul>
+													</div>
+								                   
+								                   
+								                   
+								                   
 								                  </h3><br>
 								                  <div class="row">
 								                  	<div class="col-sm-6"><i class="fa fa-file-o"></i> Collection : {{collection.collectionId}}</div>
@@ -156,7 +182,7 @@
 													</div>
 													<div class="row">
 														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.storageType}}</h3><small>Storage Type</small></div>
-														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.totalPallet}}</h3><small>Number of Pallets</small></div>			
+														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.totalPallet}}</h3><small>Pallets Weight</small></div>			
 													</div>																																							
 												</td>
 											</tr>

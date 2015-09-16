@@ -1,7 +1,7 @@
 
 
-allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService','currentAuthService','ViewUserInfoService','$location',
-                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService,currentAuthService,ViewUserInfoService,$location) {
+allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService','$routeParams','SearchSubCollectionService','modalService','currentAuthService','ViewUserInfoService','$location','ViewHistoryService',
+                                               function ($scope,$http,MapModalService,$routeParams,SearchSubCollectionService,modalService,currentAuthService,ViewUserInfoService,$location,ViewHistoryService) {
 	
 	$scope.status = currentAuthService.getStatus();
 	
@@ -123,6 +123,10 @@ allControllers.controller('BrowseSampleCtrl', ['$scope','$http','MapModalService
      
      $scope.viewUser = function(name){
     	 ViewUserInfoService.viewUser(name);
+     }
+     
+     $scope.viewHistory = function(sampleId){
+    	 ViewHistoryService.viewSampleHistory(sampleId);
      }
      
 }]);

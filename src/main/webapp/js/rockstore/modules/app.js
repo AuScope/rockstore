@@ -134,7 +134,7 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
       };  
       
       this.getStorageType = function(){
-    	  return ['STANDARD','ARCHIVE'];
+    	  return ['STANDARD','ARCHIVE','HAZARDOUS/ SPECIAL','FLUIDS','PETROLEUM','FLOOR'];
       }
       
       this.getSampleType = function(){
@@ -142,11 +142,48 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
       }
       
       this.getDatum = function(){
-    	  return ['GDA94','MGA94','MGA95'];
+    	  return [{
+    		  display : 'WGC84/EPSG:4326',
+    		  value : 'EPSG:4326'
+    	  },{
+    		  display : 'GDA94/MGA Zone 48',
+    		  value : 'EPSG:28348'
+    	  },{
+    		  display : 'GDA94/MGA Zone 49',
+    		  value : 'EPSG:28349'
+    	  },{
+    		  display : 'GDA94/MGA Zone 50',
+    		  value : 'EPSG:28350'
+    	  },{
+    		  display : 'GDA94/MGA Zone 51',
+    		  value : 'EPSG:28351'
+    	  },{
+    		  display : 'GDA94/MGA Zone 52',
+    		  value : 'EPSG:28352'
+    	  },{
+    		  display : 'GDA94/MGA Zone 53',
+    		  value : 'EPSG:28353'
+    	  },{
+    		  display : 'GDA94/MGA Zone 54',
+    		  value : 'EPSG:28354'
+    	  },{
+    		  display : 'GDA94/MGA Zone 55',
+    		  value : 'EPSG:28355'
+    	  },{
+    		  display : 'GDA94/MGA Zone 56',
+    		  value : 'EPSG:28356'
+    	  },{
+    		  display : 'GDA94/MGA Zone 57',
+    		  value : 'EPSG:28357'
+    	  },{
+    		  display : 'GDA94/MGA Zone 58',
+    		  value : 'EPSG:28358'
+    	  }];
+    	  
       }
       
       this.getZone = function(){
-    	  return ['Zone 50','Zone 51','Zone 52','Zone 53','Zone 54','Zone 55','Zone 56','Zone 57',,'Zone 58'];
+    	  return ['Zone 48','Zone 51','Zone 52','Zone 53','Zone 54','Zone 55','Zone 56','Zone 57',,'Zone 58'];
       }
         
 }]);
@@ -336,6 +373,83 @@ app.service('ViewUserInfoService',['$modal','$q','modalService','currentAuthServ
       		 });	   
     	 }    	 
      }
+}])
+
+app.service('ViewHistoryService',['$modal','$q','modalService','currentAuthService',function ($modal,$q,modalService,currentAuthService) {
+	//VT: GOOGLE MAP MODALS
+     this.viewCollectionHistory = function(collectionId){
+    	 
+    	 if(currentAuthService.getStatus().authenticated){
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/ViewCollectionHistoryModal.html',
+    	         controller: 'ViewCollectionHistoryCtrl',
+    	         size: 'lg',
+    	         resolve: {
+    	             params: function () {
+    	               return {
+    	              	 collectionId :collectionId	              	
+    	               }
+    	             }
+    	           }
+    	       });
+    	 }else{
+    		 modalService.showModal({}, {    	            	           
+  	           headerText: "Unauthorized Access",
+  	           bodyText: "You have to be logged in to view the history details"
+    		 });	   
+    	 }
+     }
+     
+     this.viewSubCollectionHistory = function(subCollectionId){
+    	 
+    	 if(currentAuthService.getStatus().authenticated){
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/ViewSubcollectionHistoryModal.html',
+    	         controller: 'ViewSubcollectionHistoryCtrl',
+    	         size: 'lg',
+    	         resolve: {
+    	             params: function () {
+    	               return {
+    	            	  subCollectionId :subCollectionId	              	
+    	               }
+    	             }
+    	           }
+    	       });
+    	 }else{
+    		 modalService.showModal({}, {    	            	           
+  	           headerText: "Unauthorized Access",
+  	           bodyText: "You have to be logged in to view the history details"
+    		 });	   
+    	 }
+     }
+     
+     this.viewSampleHistory = function(sampleId){
+    	 
+    	 if(currentAuthService.getStatus().authenticated){
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/ViewSampleHistoryModal.html',
+    	         controller: 'ViewSampleHistoryCtrl',
+    	         size: 'lg',
+    	         resolve: {
+    	             params: function () {
+    	               return {
+    	              	 sampleId :sampleId	              	
+    	               }
+    	             }
+    	           }
+    	       });
+    	 }else{
+    		 modalService.showModal({}, {    	            	           
+  	           headerText: "Unauthorized Access",
+  	           bodyText: "You have to be logged in to view the history details"
+    		 });	   
+    	 }
+     }
+     
+
 }])
 
 

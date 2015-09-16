@@ -2,6 +2,7 @@ package org.csiro.rockstore.entity.postgres;
 
 // Generated 12/08/2015 3:14:54 PM by Hibernate Tools 4.3.1
 
+import java.security.acl.LastOwnerException;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,12 +17,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -59,9 +62,11 @@ public class RsSubcollection implements java.io.Serializable {
 	private String storageType;
 	private Boolean hazardous;
 	private String source;
-	private Integer totalPallet;
-	//private Set<RsSample> rsSamples = new HashSet<RsSample>(0);
+	private Integer totalPallet;	
 	private SampleRangeBySubcollection sampleRangeBySubcollection;
+	private String lastUpdateUser;
+	private String previousPalletId;
+	private boolean disposedInsufficientInfo;
 
 	public RsSubcollection() {
 	}
@@ -70,7 +75,7 @@ public class RsSubcollection implements java.io.Serializable {
 
 	public RsSubcollection(RsCollection rsCollection, String oldId,
 			 String locationInStorage, String storageType, Boolean hazardous,
-			String source, Integer totalPallet, Set<RsSample> rsSamples) {
+			String source, Integer totalPallet, String lastUpdateUser, String previousPalletId, boolean disposedInsufficientInfo) {
 		
 		this.rsCollection = rsCollection;
 		this.oldId = oldId;		
@@ -79,12 +84,15 @@ public class RsSubcollection implements java.io.Serializable {
 		this.hazardous = hazardous;
 		this.source = source;
 		this.totalPallet = totalPallet;
-		//this.rsSamples = rsSamples;
+		this.lastUpdateUser = lastUpdateUser;
+		this.previousPalletId = previousPalletId;
+		this.disposedInsufficientInfo = disposedInsufficientInfo;
+		
 	}
 	
 	public RsSubcollection update(RsCollection rsCollection, String oldId,
 			 String locationInStorage, String storageType, Boolean hazardous,
-			String source, Integer totalPallet) {				
+			String source, Integer totalPallet,String lastUpdateUser, String previousPalletId, boolean disposedInsufficientInfo) {				
 		this.setRsCollection(rsCollection);
 		this.setOldId(oldId);
 		this.setLocationInStorage(locationInStorage);		
@@ -92,6 +100,9 @@ public class RsSubcollection implements java.io.Serializable {
 		this.setHazardous(hazardous);
 		this.setSource(source);
 		this.setTotalPallet(totalPallet);
+		this.setLastUpdateUser(lastUpdateUser);
+		this.setPreviousPalletId(previousPalletId);
+		this.setDisposedInsufficientInfo(disposedInsufficientInfo);
 		return this;
 	}
 
@@ -194,15 +205,6 @@ public class RsSubcollection implements java.io.Serializable {
 		this.totalPallet = totalPallet;
 	}
 
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rsSubcollection")
-//	@JsonBackReference
-//	public Set<RsSample> getRsSamples() {
-//		return this.rsSamples;
-//	}
-//
-//	public void setRsSamples(Set<RsSample> rsSamples) {
-//		this.rsSamples = rsSamples;
-//	}
 	
 	@OneToOne
 	@NotFound(action=NotFoundAction.IGNORE)
@@ -215,5 +217,35 @@ public class RsSubcollection implements java.io.Serializable {
 	public void setSampleRangeBySubcollection(SampleRangeBySubcollection sampleRangeBySubcollection) {
 		 this.sampleRangeBySubcollection = sampleRangeBySubcollection;
 	}
+	
+	@Column(name = "last_update_user")
+	public String getLastUpdateUser() {
+		return this.lastUpdateUser;
+	}
+	
+	public void  setLastUpdateUser(String lastUpdateUser) {
+		 this.lastUpdateUser=lastUpdateUser;
+	}
+	
+	
+	@Column(name = "previous_pallet_id")
+	public String getPreviousPalletId() {
+		return this.previousPalletId;
+	}
+	
+	public void setPreviousPalletId(String previousPalletId) {
+		 this.previousPalletId = previousPalletId;
+	}
+	
+	@Column(name = "disposed_insufficient_info")
+	public boolean getDisposedInsufficientInfo() {
+		return this.disposedInsufficientInfo;
+	}
+	
+	public void setDisposedInsufficientInfo(boolean disposedInsufficientInfo) {
+		 this.disposedInsufficientInfo = disposedInsufficientInfo;
+	}
+	
+	
 
 }

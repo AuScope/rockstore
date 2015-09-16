@@ -38,13 +38,18 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 				hazardous: $scope.form.hazardous,
 				source: $scope.form.source,
 				totalPallet: $scope.form.totalPallet,
-				collectionId: $scope.form.rsCollection['collectionId']
-				}
+				collectionId: $scope.form.rsCollection['collectionId'],
+				disposedInsufficientInfo : $scope.form.disposedInsufficientInfo,
+				previousPalletId : $scope.form.previousPalletId
+			}
 		})
 		.then(function(response) {			
 			if($scope.form.subcollectionId){
 				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)	
-				alert("record updated");
+				modalService.showModal({}, {    	            	           
+			           headerText: "Record Update",
+			           bodyText: "Your record has successfully updated"
+		    	 });
 			}else{				
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		

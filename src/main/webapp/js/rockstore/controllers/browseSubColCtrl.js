@@ -1,6 +1,6 @@
 
-allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams','SearchCollectionService','DropDownValueService','modalService','currentAuthService','$location',
-                                                      function ($scope,$http,MapModalService,$routeParams,SearchCollectionService,DropDownValueService,modalService,currentAuthService,$location) {
+allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModalService','$routeParams','SearchCollectionService','DropDownValueService','modalService','currentAuthService','$location','ViewHistoryService',
+                                                      function ($scope,$http,MapModalService,$routeParams,SearchCollectionService,DropDownValueService,modalService,currentAuthService,$location,ViewHistoryService) {
 	
 	$scope.status = currentAuthService.getStatus();
 	
@@ -132,6 +132,10 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
     	 $scope.form={};
     	 getSubCollection();
     	 $scope.toggleFilter=false;
+     }
+     
+     $scope.viewHistory = function(subCollectionId){
+    	 ViewHistoryService.viewSubCollectionHistory(subCollectionId);
      }
       
 }]);

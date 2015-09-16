@@ -81,11 +81,35 @@
 					                    	</div>
 					                    	<div class="col-sm-10">
 					                    	  <h3 class="title-lg text-uppercase text-theme">{{sample.igsn}}
-							                   <a href="#/samples/{{sample.id}}"><button ng-show="status.authenticated" class="btn btn-blue btn-sm pull-right"><i class="fa fa-edit">  Edit</i></button></a>
+							                   
+							                   
+							                   <div class="btn-group btn-blue pull-right" ng-show="status.authenticated">
+													  <button type="button" class="btn btn-blue dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+													    Action
+													    <span class="caret"></span>
+													  </button>
+													  <ul class="dropdown-menu" role="menu">
+													    <li>
+													      <a href="#/samples/{{sample.id}}"><i class="fa fa-edit">  Edit</i></a>
+													    </li>
+													    <li>
+													      <a ng-click="viewHistory(sample.id)"><i class="fa fa-eye"> View Edit History</i></a>
+													    </li>
+													    <li>
+													      <a href="#"><i class="fa fa-history"> Checkout History</i></a>
+													    </li>													    
+													    <li class="divider"></li>
+													    <li>
+													      <a href="#"><i class="fa fa-sign-out"> Checkout</i></a>
+													    </li>
+													  </ul>
+													</div>
+													
+													
 							                  </h3><br>
 							                  <div class="row">
-							                  	<div class="col-sm-6"><i class="fa fa-map-marker"> <a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample)">LOCATION({{sample.lat}},{{sample.lon}}:{{sample.datum}})</i></a></div>
-							                  	<div class="col-sm-6"><i class="fa fa-barcode"></i> Borehole : {{sample.bhid}}</div>
+							                  	<div class="col-sm-6"><i class="fa fa-map-marker"> <a href="#" onclick="return false;" ng-click="open(sample.lat,sample.lon,sample)">Lat : {{sample.origLat}}, Lon : {{sample.origLon}}</i></a></div>
+							                  	<div class="col-sm-6"><i class="fa fa-barcode"></i> Datum : {{sample.datum}}</div>
 							                  </div>
 							                  <div class="row">
 							                  	<div class="col-sm-6"><i class="fa fa-book"></i> Sample Type : {{sample.sampleType}}</div>
@@ -126,6 +150,10 @@
 					            			<tr>
 					            				<th>CSIRO Sample Id</th>
 					            				<td>{{sample.csiroSampleId}}</td>
+					            			</tr>
+					            			<tr>
+					            				<th>CSIRO Borehole Id</th>
+					            				<td>{{sample.bhid}}</td>
 					            			</tr>
 					            			<tr>
 					            				<th>Container</th>
@@ -224,10 +252,7 @@
 					            				<th>Sample Type</th>
 					            				<td>{{sample.sampleType}}</td>
 					            			</tr>
-					            			<tr class="panel-collapse collapse {{expansionCSSDefault}} collapse-sampleDetail-{{sample.id}}">
-					            				<th>Zone</th>
-					            				<td>{{sample.zone}}</td>
-					            			</tr>                           
+					            			                         
 				                         </tbody>
 				                      </table>
 				                    </div>					                    

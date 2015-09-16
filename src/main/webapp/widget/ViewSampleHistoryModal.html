@@ -1,0 +1,67 @@
+ <div class="modal-header">
+     <h3 class="modal-title">{{title}}</h3>
+ </div>
+ <div class="modal-body modal-overflow-x">
+ 	<div class="scroll-table">
+	     <table class="detailTbl">
+	     	
+	         <thead>
+	         <tr>						                                
+	             <th>id</th>
+	             <th>igsn</th>
+	             <th>csiro sample id</th>
+	             <th>sample type</th>
+	             <th>bhid</th>
+	             <th>depth</th>
+	             <th>datum</th>
+	             <th>container id</th>
+	             <th>subcollection id</th>
+	             <th>external ref</th>
+	             <th>sample collector</th>
+	             <th>date sampled</th>
+	             <th>sample disposed</th>
+	             <th>date disposed</th>
+	             <th>staffid disposed</th>
+	             <th>orig_lat</th>
+	             <th>orig_lon</th>
+	             <th>version</th>
+	             <th>last_update_user</th>
+	             <th>operation</th>
+	             <th>audit timestamp</th>					                                						                               
+	         </tr>
+	         </thead>
+	         <tbody>
+	         <tr ng-repeat="sample in samples">
+	             <td>{{sample.id}}</td>
+	             <td>{{sample.igsn}}</td>
+	             <td>{{sample.csiroSampleId}}</td>
+	             <td>{{sample.sampleType}}</td>
+	             <td>{{sample.bhid}}</td>
+	             <td>{{sample.depth}}</td>
+	             <td>{{sample.datum}}</td>
+	             <td>{{sample.containerId}}</td>
+	             <td>{{sample.subcollectionId}}</td>
+	             <td>{{sample.externalRef}}</td>
+	             <td>{{sample.sampleCollector}}</td>
+	             <td>{{sample.dateSampled}}</td>
+	             <td>{{sample.sampleDispose}}</td>
+	             <td>{{sample.dateDisposed}}</td>
+	             <td>{{sample.staffidDisposed}}</td>
+	             <td>{{sample.origLat}}</td>
+	             <td>{{sample.origLon}}</td>	           
+	             <td>{{sample.version}}</td>
+	             <td>{{sample.lastUpdateUser}}</td>
+	             <td>{{sample.operation}}</td>
+	             <td>{{sample.auditTimestamp | date:'d/MMM/yyyy'}}</td>						                               
+	         </tr>
+	         </tbody>
+	        
+	     </table>
+     </div>
+  
+    
+    
+ </div>
+ <div class="modal-footer">
+     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>     
+ </div>

@@ -1,0 +1,58 @@
+ <div class="modal-header">
+     <h3 class="modal-title">{{title}}</h3>
+ </div>
+ <div class="modal-body modal-overflow-x">
+ 	<div class="scroll-table">
+	     <table class="detailTbl">
+	     	
+	         <thead>
+	         <tr>						                                
+	             <th>id</th>
+	             <th>old id</th>
+	             <th>subcollection id</th>
+	             <th>location in storage</th>
+	             <th>storage type</th>
+	             <th>hazardous</th>
+	             <th>source</th>
+	             <th>total pallet</th>
+	             <th>igsn</th>
+	             <th>collection id</th>
+	             <th>previous pallet id</th>
+	             <th>disposed insufficient info</th>
+	             <th>version</th>
+	             <th>last_update_user</th>
+	             <th>operation</th>
+	             <th>audit timestamp</th>					                                						                               
+	         </tr>
+	         </thead>
+	         <tbody>
+	         <tr ng-repeat="subCollection in subCollections">
+	             <td>{{subCollection.id}}</th>
+	             <td>{{subCollection.oldId}}</td>
+	             <td>{{subCollection.subcollectionId}}</td>
+	             <td>{{subCollection.locationInStorage}}</td>
+	             <td>{{subCollection.storageType}}</td>
+	             <td>{{subCollection.hazardous}}</td>
+	             <td>{{subCollection.source}}</td>
+	             <td>{{subCollection.totalPallet}}</td>
+	             <td>{{subCollection.igsn}}</td>
+	             <td>{{subCollection.collectionId}}</td>
+	             <td>{{subCollection.previousPalletId}}</td>
+	             <td>{{subCollection.disposedInsufficientInfo}}</td>
+	             <td>{{subCollection.version}}</td>
+	             <td>{{subCollection.lastUpdateUser}}</td>
+	             <td>{{subCollection.operation}}</td>
+	             <td>{{subCollection.auditTimestamp | date:'d/MMM/yyyy'}}</td>			
+	       					                               
+	         </tr>
+	         </tbody>
+	        
+	     </table>
+     </div>
+  
+    
+    
+ </div>
+ <div class="modal-footer">
+     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>     
+ </div>

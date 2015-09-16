@@ -11,7 +11,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsSample;
+import org.csiro.rockstore.entity.postgres.RsSampleAudit;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
+import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.entity.service.SampleEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
@@ -53,16 +55,16 @@ public class SampleController {
             @RequestParam(required = false, value ="sampleType") String sampleType,
             @RequestParam(required = false, value ="bhid") String bhid,
             @RequestParam(required = false, value ="depth") Double depth,
-            @RequestParam(required = false, value ="datum") String datum,
-            @RequestParam(required = false, value ="zone") String zone,
+            @RequestParam(required = false, value ="datum") String datum,           
             @RequestParam(required = false, value ="containerId") String containerId,
             @RequestParam(required = false, value ="externalRef") String externalRef,
             @RequestParam(required = false, value ="sampleCollector") String sampleCollector,
             @RequestParam(required = false, value ="dateSampled") String dateSampled,
             @RequestParam(required = false, value ="sampleDispose") Boolean sampleDispose,
             @RequestParam(required = false, value ="dateDisposed") String dateDisposed,
-            @RequestParam(required = false, value ="staffidDisposed") String staffidDisposed,
-            @RequestParam(required = false, value ="locationWkt") String locationWkt,
+            @RequestParam(required = false, value ="staffidDisposed") String staffidDisposed,            
+            @RequestParam(required = false, value ="origLat") String origLat,
+            @RequestParam(required = false, value ="origLon") String origLon,
             Principal user,
             HttpServletResponse response){
     	
@@ -76,13 +78,13 @@ public class SampleController {
 	    		RsSubcollection rsc = this.subCollectionEntityService.search(subcollectionId);	    		
 	    		RsSample rs = this.sampleEntityService.search(id);
 	    		
-	    		Point p = (Point)(SpatialUtilities.wktToGeometry(locationWkt));
+	    		Point p = (Point)(SpatialUtilities.wktToGeometry(origLat, origLon ,datum));
 	    		
 	    		rs.update(rsc,  csiroSampleId,
 	    				 sampleType,  bhid,  depth,  datum,
-	    				 zone,  containerId,  externalRef,
+	    				   containerId,  externalRef,
 	    				 sampleCollector,NullUtilities.parseDateAllowNull(dateSampled) , sampleDispose,
-	    				 NullUtilities.parseDateAllowNull(dateDisposed),  staffidDisposed, p);
+	    				 NullUtilities.parseDateAllowNull(dateDisposed),  staffidDisposed, p, origLat, origLon,user.getName());
 	    		
 	    		this.sampleEntityService.merge(rs);
 	    		
@@ -93,13 +95,13 @@ public class SampleController {
 	    		
 	    		RsSubcollection rsc = subCollectionEntityService.search(subcollectionId);
 	    		
-	    		Point p = (Point)(SpatialUtilities.wktToGeometry(locationWkt));
+	    		Point p = (Point)(SpatialUtilities.wktToGeometry(origLat, origLon,datum));
 	    		
 	    		RsSample rs= new RsSample(rsc,  csiroSampleId,
 	    				 sampleType,  bhid,  depth,  datum,
-	    				 zone,  containerId,  externalRef,
+	    				   containerId,  externalRef,
 	    				 sampleCollector,NullUtilities.parseDateAllowNull(dateSampled) , sampleDispose,
-	    				 NullUtilities.parseDateAllowNull(dateDisposed),  staffidDisposed, p);
+	    				 NullUtilities.parseDateAllowNull(dateDisposed),  staffidDisposed, p, origLat, origLon, user.getName());
 	    		
 	    		
 		       	this.sampleEntityService.persist(rs);
@@ -147,6 +149,21 @@ public class SampleController {
     		logger.warn(e);   
     		throw e;
     	}
+    } 
+    
+    @RequestMapping(value = "getSampleAudit.do")
+    public ResponseEntity<List<RsSampleAudit>> getSampleAudit(
+    		@RequestParam(required = true, value ="id") int id,
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		    		
+    		List<RsSampleAudit>	lrc = this.sampleEntityService.getSampleAudit(id);   		    		
+    		return  new ResponseEntity<List<RsSampleAudit>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
     } 
     
     

@@ -12,6 +12,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.csiro.rockstore.entity.postgres.RsCollection;
+import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,6 +52,16 @@ public class CollectionEntityService {
 			return result.remove(0);
 		}
 	    
+	}
+	
+	public List<RsCollectionAudit> getCollectionsAudit(String collectionId){
+
+		EntityManager em = JPAEntityManager.createEntityManager();
+		List<RsCollectionAudit> result = em.createNamedQuery("RsCollectionAudit.findCollectionById",RsCollectionAudit.class)
+	    .setParameter("collectionId", collectionId)
+	    .getResultList();
+		em.close();
+		return result;	    
 	}
 	
 	public List<RsCollection> getAllCollections(){

@@ -70,7 +70,10 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 			response.data.archiveDue=$filter('date')(response.data.archiveDue,'d/MMM/yyyy');			
 			if($scope.form.collectionId){
 				$.extend($scope.gridApi.selection.getSelectedRows()[0],response.data)
-				alert("record updated");
+				modalService.showModal({}, {    	            	           
+			           headerText: "Record Update",
+			           bodyText: "Your record has successfully updated"
+		    	 });
 			}else{				
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		
@@ -147,7 +150,7 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
    
    $scope.updateArchiveDue = function(projectCloseDate){
 	   var pcd = new Date(projectCloseDate);
-	   pcd.setDate(pcd.getDate() + 5);
+	   pcd.setFullYear(pcd.getFullYear() + 5);
 	   $scope.form.archiveDue = $filter('date')(pcd,'d/MMM/yyyy');
    }
 
