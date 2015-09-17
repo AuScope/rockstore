@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute','allControllers','ui.grid','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners','uiGmapgoogle-maps','ngAnimate','monospaced.qrcode']);
+var app = angular.module('app', ['ngRoute','allControllers','ui.grid','ui.grid.pagination','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners','uiGmapgoogle-maps','ngAnimate','monospaced.qrcode']);
 
 app.config(['$routeProvider',
   function($routeProvider) {

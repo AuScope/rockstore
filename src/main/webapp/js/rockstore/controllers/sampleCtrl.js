@@ -1,7 +1,22 @@
-allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchSubCollectionService','$routeParams',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchSubCollectionService,$routeParams) {
+allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','modalService','SearchSubCollectionService','$routeParams',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,modalService,SearchSubCollectionService,$routeParams) {
 	
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };	
+	$scope.paginationOptions = {
+		    pageNumber: 1,
+		    pageSize: 50,
+		    sort: null
+	};
+
+	
+	$scope.gridOptions = { 
+			enableRowSelection: true, 
+			enableRowHeaderSelection: false, 
+			enableColumnResizing: true,
+			paginationPageSizes: [1,50, 100, 200],
+		    paginationPageSize: $scope.paginationOptions.pageSize,
+		    useExternalPagination: true
+	};
+	
 	$scope.gridOptions.data = [];
 	
 	DropDownValueService.getUsers()
@@ -30,6 +45,7 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	$scope.datums = DropDownValueService.getDatum();
 	
 	$scope.form ={};
+	$scope.search ={};
 	
 	$scope.resetForm = function(){
 		$scope.form ={										
@@ -124,25 +140,63 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
     	 $scope.form = selectedRow
      });
      
-     spinnerService.show('sample.grid');
-     $http.get('getSample.do') 
-     .success(function(data) {
-       $scope.gridOptions.data = data;
-       spinnerService.hide('sample.grid')
-       spinnerService._unregister('sample.grid')
-       
-     })
-     .error(function(data, status) {
-    	 modalService.showModal({}, {    	            	           
-	           headerText: "Error loading data:" + status ,
-	           bodyText: "Please contact cg-admin@csiro.au if this persist"
-    	 });
-        spinnerService.hide('sample.grid')
-        spinnerService._unregister('sample.grid')
-     })
      
-   };	
+     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+         $scope.paginationOptions.pageNumber = newPage;
+         $scope.paginationOptions.pageSize = pageSize;
+         $scope.searchSample(newPage,pageSize,false);
+       });
+     $scope.searchSample($scope.paginationOptions.pageNumber,$scope.paginationOptions.pageSize,true);
+     
+   };
    
+ //VT:page determines the page to search and set the current page
+	$scope.searchSample = function(page,pageSize, updateCount){
+		$scope.currentPages = page;
+	   	 var params ={	
+  			subcollectionId: $scope.search.subcollectionId,
+  			igsn:$scope.search.igsn,
+  			csiroSampleId: $scope.search.csiroSampleId, 			
+  			bhid : $scope.search.bhid,
+  			externalRef : $scope.search.externalRef,
+			pageNumber:page,
+			pageSize:pageSize
+		 }
+		
+		//VT: Actual results
+		$http.get('searchSample.do',{
+			params:params
+		 })     
+	     .success(function(data) {
+	       $scope.gridOptions.data = data;       
+	       $scope.toggleFilter=false; 
+	     })
+	     .error(function(data, status) {    	
+	    	 modalService.showModal({}, {    	            	           
+		           headerText: "Error loading data:" + status ,
+		           bodyText: "Please contact cg-admin@csiro.au if this persist"
+	    	 });
+	       
+	     })
+	     if(updateCount){
+	    	//VT: Get the count of the result
+		     $http.get('searchSampleCount.do',{
+				params:params
+			 })     
+		     .success(function(data) {
+		    	 $scope.gridOptions.totalItems = data;    	        
+		     })
+		     .error(function(data, status) {    	
+		    	 modalService.showModal({}, {    	            	           
+			           headerText: "Error loading data:" + status ,
+			           bodyText: "Please contact cg-admin@csiro.au if this persist"
+		    	 });
+		       
+		     })
+	     }
+   }
+   
+	//VT: Only run once on load.
    if($routeParams.id){
 	   $http.get('getSample.do',{
 		   params:{
@@ -167,7 +221,24 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	  		}, function(reason) {
 	  		  alert('Failed: ' + reason);
 	  		});
-	   }
+   }
+   
+   $scope.openSearchLeftPanel = function(){
+	   $scope.toggleFilter=false;
+	  	 var promise = SearchSubCollectionService.open();
+	  	 promise.then(function(selectedItem) { 			 
+	  		$scope.search.subcollectionId=selectedItem;
+	  		$scope.toggleFilter=true;
+	  		}, function(reason) {
+	  		  alert('Failed: ' + reason);
+	  		});
+   }
+   
+   $scope.resetSearchForm = function(){
+  	 $scope.search={};
+  	 $scope.searchSample($scope.paginationOptions.pageNumber,$scope.paginationOptions.pageSize,true);
+  	 $scope.toggleFilter=false;
+   }
 
    
    

@@ -1,7 +1,22 @@
-allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','spinnerService','modalService','SearchCollectionService','$routeParams',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,spinnerService,modalService,SearchCollectionService,$routeParams) {
+allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','modalService','SearchCollectionService','$routeParams',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,modalService,SearchCollectionService,$routeParams) {
 		
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };	
+	$scope.paginationOptions = {
+		    pageNumber: 1,
+		    pageSize: 50,
+		    sort: null
+	};
+
+	
+	$scope.gridOptions = { 
+			enableRowSelection: true, 
+			enableRowHeaderSelection: false, 
+			enableColumnResizing: true,
+			paginationPageSizes: [1,50, 100, 200],
+		    paginationPageSize: $scope.paginationOptions.pageSize,
+		    useExternalPagination: true
+	};
+	
 	$scope.gridOptions.data = [];
 	
 	$scope.booleans = DropDownValueService.getBoolean();
@@ -10,7 +25,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 	
 	
 	$scope.form ={};
-	
+	$scope.search ={};
 	$scope.resetForm = function(){
 		$scope.form ={						
 				locationInStorage : $scope.form.locationInStorage,
@@ -86,6 +101,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
    $scope.gridOptions.multiSelect = false;
    $scope.gridOptions.modifierKeysToMultiSelect = false;
    $scope.gridOptions.noUnselect = true;
+   
    $scope.gridOptions.onRegisterApi = function( gridApi ) {
      $scope.gridApi = gridApi;       
      gridApi.selection.on.rowSelectionChanged($scope, function(){
@@ -93,24 +109,65 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
     	 $scope.form = selectedRow
      });
      
-     spinnerService.show('subCollection.grid');
-     $http.get('getSubCollections.do') 
+     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+         $scope.paginationOptions.pageNumber = newPage;
+         $scope.paginationOptions.pageSize = pageSize;
+         $scope.searchSubCollection(newPage,pageSize,false);
+       });
+     $scope.searchSubCollection($scope.paginationOptions.pageNumber,$scope.paginationOptions.pageSize,true);
+     
+   };
+   
+   $scope.searchSubCollection = function(page,pageSize, updateCount){
+	
+  	 $scope.currentPages = page;//VT page is reset to 1 on new search
+  	 
+  	 var params ={	
+  			collectionId: $scope.search.collectionId,
+  			oldId : $scope.search.oldId,
+  			locationInStorage:$scope.search.locationInStorage,
+  			storageType: $scope.search.storageType, 			
+			source : $scope.search.source,
+			pageNumber:page,
+			pageSize:pageSize
+	}
+		
+	//VT: Actual results
+	$http.get('searchSubCollections.do',{
+		params:params
+	 })     
      .success(function(data) {
-       $scope.gridOptions.data = data;
-       spinnerService.hide('subCollection.grid')
-       spinnerService._unregister('subCollection.grid')
+       $scope.gridOptions.data = data;       
+       $scope.toggleFilter=false;
+      
      })
-     .error(function(data, status) {
+     .error(function(data, status) {    	
     	 modalService.showModal({}, {    	            	           
 	           headerText: "Error loading data:" + status ,
 	           bodyText: "Please contact cg-admin@csiro.au if this persist"
     	 });
-        spinnerService.hide('subCollection.grid')
-        spinnerService._unregister('subCollection.grid')
+    	       
      })
      
-   };
+     if(updateCount){
+    	//VT: Get the count of the result
+         $http.get('searchSubCollectionsCount.do',{
+    		params:params
+    	 })     
+         .success(function(data) {
+        	 $scope.gridOptions.totalItems = data;       	        
+         })
+         .error(function(data, status) {    	
+        	 modalService.showModal({}, {    	            	           
+    	           headerText: "Error loading data:" + status ,
+    	           bodyText: "Please contact cg-admin@csiro.au if this persist"
+        	 });	       
+         })
+     }
+     
+   }
    
+   //VT: Only run once on load.
    if($routeParams.subCollectionId){
 	   $http.get('getSubCollections.do',{
 		   params:{
@@ -132,6 +189,23 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
   		}, function(reason) {
   		  alert('Failed: ' + reason);
   		});
+   }
+   
+   $scope.openSearchLeftPanel = function(){
+	   $scope.toggleFilter=false;
+	  	 var promise = SearchCollectionService.open();
+	  	 promise.then(function(selectedItem) { 			 
+	  		$scope.search.collectionId=selectedItem;
+	  		$scope.toggleFilter=true;
+	  		}, function(reason) {
+	  		  alert('Failed: ' + reason);
+	  		});
+	   }
+   
+   $scope.resetSearchForm = function(){
+  	 $scope.search={};
+  	 $scope.searchSubCollection($scope.paginationOptions.pageNumber,$scope.paginationOptions.pageSize,true);
+  	 $scope.toggleFilter=false;
    }
    
 }]);

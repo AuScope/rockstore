@@ -1,22 +1,70 @@
 
-	<div class="section section-lg section-bottom">
-      <div>    
+	<div class="section section-lg section-bottom" ng-controller="SampleCtrl">
+      <div>   
+      	
+      	<button ng-click="toggleFilter=true" ng-hide="toggleFilter" class="filter-expander">
+            <i class="fa fa-search fa-lg white"></i>Search
+         </button>
+     	  <div class="filter-panel" ng-show="toggleFilter">
+     		<div>		         
+	          <div class="row-heading row-heading-mt-40">
+	            <div class="col-sm-12">
+	              <h3 class="title-sm text-uppercase hr-left text-theme"><i class="fa fa-search fa-lg white"></i>Samples	             
+		              	<i ng-click="toggleFilter=false" class="pull-right pointer-cursor fa fa-close fa-lg white"> &nbsp</i>             	          
+		              </h3>	
+	            </div>
+	          </div>
+	          <div class="row mb">
+		         <div class="col-md-12">
+			          <div class="wrapper-form-box">
+			            <h3 class="title-sm">Search</h3>
+			            <form class="form-horizontal">
+			              <div class="form-group">			                
+			              	<label for="inputEmail" class="control-label col-sm-3">Sub-Collection</label>
+			                  <div class="col-sm-9">
+			                  	<div class="input-group">
+			                  		<input type="text" class="form-control" placeholder="Sub-Collection ID" value={{search.subcollectionId}} readonly>
+						           	<span class="input-group-addon" ng-click="openSearchLeftPanel()"><a href="#" onclick="return false;"><i class="fa fa-search"></i></a></span>						            
+						         </div>
+			                  </div>			                  
+			              </div>
+			              <div class="form-group">
+					       <label class="control-label col-sm-3">IGSN</label>	
+					        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="IGSN" ng-model="search.igsn"></div>		         
+					      </div>
+					      <div class="form-group">
+					       <label class="control-label col-sm-3">CSIRO ID</label>
+					        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="CSIRO ID" ng-model="search.csiroSampleId"></div>			          					         
+					      </div>
+					      <div class="form-group">
+					        <label class="control-label col-sm-3">Borehole</label>
+					        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="Borehole Id" ng-model="search.bhid"></div>	
+					      </div>
+					      <div class="form-group">
+					        <label class="control-label col-sm-3">External Reference</label>			       
+					        <div class="col-sm-9"><input type="text"  class="form-control" placeholder="External Reference" ng-model="search.externalRef"></div>		         			        
+					      </div>	
+					     <div class="form-group">	
+			              	<div class="col-sm-12">		                			              			                
+								<button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="searchSample(1,paginationOptions.pageSize,true)">Search</button>	
+								<button class="btn btn-red text-theme-xs pull-left" ng-click="resetSearchForm()">Reset Form</button>		
+							</div>					           					            						         			                		                  
+			              </div>				             			             
+			            </form>
+			          </div>
+			        </div>
+		      </div>
+	      </div>   	
+     	</div>
+      	 
         <div class="row mb">
           <div class="col-md-12">
 			<div class="row row-tabs" role="tabpanel">
 			  <div class="col-md-12">
-				  <div class="row mb" ng-controller="SampleCtrl">				  		
+				  <div class="row mb" >				  		
 		          	<div class="panel panel-default col-md-8">		          	
-					  <div class="panel-heading">Samples</div>	
-					   <spinner name="sample.grid" ng-cloak="" >
-					   	   <div class="overlay"></div>
-						   <div class="spinner">
-						     <div class="double-bounce1"></div>
-						     <div class="double-bounce2"></div>
-						   </div>
-						   <div class="please-wait">Please Wait...</div>
-					   </spinner>					 
-					   <div id="SampleGrid"  ui-grid="gridOptions" ui-grid-selection ui.grid.resizeColumns class="collection-grid" ></div>						 
+					  <div class="panel-heading">Samples</div>						 			
+					   <div id="SampleGrid"  ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui.grid.resizeColumns class="collection-grid" ></div>						 
 					</div>
 		          
 					<div class="panel text-theme panel-primary col-md-4">
