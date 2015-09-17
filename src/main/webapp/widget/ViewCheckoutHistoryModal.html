@@ -16,6 +16,8 @@
 	             <th>Date Dueback</th>	            
 	             <th>Date Checkin</th>
 	             <th>Checkout Status</th>
+	             <th>Check in by</th>
+	             <th>Check out by</th>
 	         </tr>
 	         </thead>
 	         <tbody>
@@ -28,7 +30,9 @@
 	             <td>{{checkout.dateCheckout | date:'d/MMM/yyyy'}}</td>	          
 	             <td>{{checkout.dateDueback | date:'d/MMM/yyyy'}}</td>
 	             <td>{{checkout.dateCheckin | date:'d/MMM/yyyy'}}</td>
-	             <td>{{checkout.checkoutStatus}}</td>	
+	             <td>{{checkout.checkoutStatus}}</td>
+	             <td>{{checkout.checkinby}}</td>
+	             <td>{{checkout.checkoutby}}</td>	
 	                           
 	         </tr>
 	         </tbody>

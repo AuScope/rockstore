@@ -196,7 +196,7 @@ public class SubCollectionEntityService {
 		return result;
 	}
 
-	public CheckoutRegistry checkIn(int id) {
+	public CheckoutRegistry checkIn(int id,Principal checkInBy) {
 		// CheckoutRegistry.findCheckoutRegistryById
 		EntityManager em = JPAEntityManager.createEntityManager();	
 		em.getTransaction().begin();
@@ -204,6 +204,7 @@ public class SubCollectionEntityService {
 				.setParameter("id", id)
 				.getSingleResult();
 		result.setDateCheckin(new Date());
+		result.setCheckinby(checkInBy.getName());
 		result.setCheckoutStatus(false);			
 		em.merge(result);
 		em.getTransaction().commit();	
@@ -212,14 +213,15 @@ public class SubCollectionEntityService {
 		
 	}
 	
-	public CheckoutRegistry checkout(int id) {
+	public CheckoutRegistry checkout(int id,Principal checkOutBy) {
 		// CheckoutRegistry.findCheckoutRegistryById
 		EntityManager em = JPAEntityManager.createEntityManager();	
 		em.getTransaction().begin();
 		CheckoutRegistry result = em.createNamedQuery("CheckoutRegistry.findCheckoutRegistryById",CheckoutRegistry.class)
 				.setParameter("id", id)
 				.getSingleResult();
-		result.setCheckoutStatus(true);		
+		result.setCheckoutStatus(true);	
+		result.setCheckoutby(checkOutBy.getName());
 		em.merge(result);
 		em.getTransaction().commit();
 		em.close();

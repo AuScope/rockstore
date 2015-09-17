@@ -2,7 +2,7 @@ allControllers.controller('CheckOutFormCtrl', ['$scope','$http','currentAuthServ
                                                     function ($scope,$http,currentAuthService,$routeParams,modalService,SearchSubCollectionService ) {
 	
 	$scope.form={};
-	$scope.returnToBrowse = false;
+	$scope.returnToBrowseSubcollectionId = false;
 	
 	 $scope.openSearch = function(){
     	 $scope.toggleFilter=false;
@@ -17,7 +17,7 @@ allControllers.controller('CheckOutFormCtrl', ['$scope','$http','currentAuthServ
 	
 	 if($routeParams.subCollectionId){
     	$scope.form.subcollectionId = $routeParams.subCollectionId;
-    	$scope.returnToBrowse = true;
+    	$scope.returnToBrowseSubcollectionId = $routeParams.subCollectionId;;
  	 }
 	 
 	 $scope.checkout = function(){

@@ -249,7 +249,7 @@ public class SubCollectionController {
         		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
         	}
     		
-    		CheckoutRegistry entry = this.subCollectionEntityService.checkIn(id);
+    		CheckoutRegistry entry = this.subCollectionEntityService.checkIn(id,user);
     		return  new ResponseEntity<Object>(entry,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);
@@ -268,7 +268,7 @@ public class SubCollectionController {
         		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
         	}
     		
-    		CheckoutRegistry entry = this.subCollectionEntityService.checkout(id);
+    		CheckoutRegistry entry = this.subCollectionEntityService.checkout(id,user);
     		return  new ResponseEntity<Object>(entry,HttpStatus.OK);
     	}catch(Exception e){
     		logger.warn(e);

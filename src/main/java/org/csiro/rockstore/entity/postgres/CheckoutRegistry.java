@@ -58,7 +58,8 @@ public class CheckoutRegistry implements java.io.Serializable {
 	private Date dateDueback;
 	private Boolean checkoutStatus;
 	private Date dateCheckin;
-	
+	private String checkoutby;
+	private String checkinby;
 	
 	public CheckoutRegistry(){
 		
@@ -179,6 +180,26 @@ public class CheckoutRegistry implements java.io.Serializable {
 
 	public void setDateCheckin(Date dateCheckin) {
 		this.dateCheckin = dateCheckin;
+	}
+
+	@Column(name = "checkoutby")
+	public String getCheckoutby() {
+		return checkoutby;
+	}
+
+
+	public void setCheckoutby(String checkoutby) {
+		this.checkoutby = checkoutby;
+	}
+
+	@Column(name = "checkinby")
+	public String getCheckinby() {
+		return checkinby;
+	}
+
+
+	public void setCheckinby(String checkinby) {
+		this.checkinby = checkinby;
 	}
 
 
