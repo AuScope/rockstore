@@ -1,0 +1,52 @@
+
+   
+   <div class="section section-lg section-bottom" ng-controller="CheckOutFormCtrl">
+      <div>    
+        <div class="row mb">
+          	<div class="section section-xs section-bottom">
+		      <div class="container">
+		        <div class="row mb">
+		          <div class="col-md-6 col-md-offset-3">
+		            <h3 class="title-md hr-left text-theme">Check out</h3>
+		            <div class="panel panel-primary text-theme">
+		              <div class="panel-heading">
+		                <h3 class="panel-title">Register your checkout</h3>
+		              </div>
+		              <div class="panel-body">
+		                <form class="form-horizontal">
+			              <div class="form-group">			                
+			              	<label class="control-label col-sm-3">Sub Collection</label>
+			                  <div class="col-sm-9">
+			                  	<div class="input-group">
+			                  		<input type="text" class="form-control" placeholder="Sub-Collection ID" value={{form.subcollectionId}} readonly>
+						           	<span class="input-group-addon" ng-click="openSearch()"><a href="#" onclick="return false;"><i class="fa fa-search"></i></a></span>						            
+						         </div>
+			                  </div>			                  
+			              </div>
+			              <div class="form-group">
+					       <label class="control-label col-sm-3">Date of checkout</label>	
+					        <div class="col-sm-9"><input type="text" id="registercheckout-checkoutdate" class="form-control" placeholder="Date of check out" ng-model="form.dateCheckout" jqdatepicker required ></div>		         
+					      </div>
+					      <div class="form-group">
+					       <label class="control-label col-sm-3">Date due back</label>
+					        <div class="col-sm-9"><input type="text" id="registercheckout-duebackdate" class="form-control" placeholder="Date due back" ng-model="form.dateDueback" jqdatepicker required ></div>			          					         
+					      </div>					     
+					      <div class="form-group">	
+			              	<div class="col-sm-12">		                			              			                
+								<button type="submit" class="btn btn-primary text-theme-xs pull-right" ng-click="checkout()">Register checkout</button>		
+								<a ng-show="returnToBrowse" class="pull-left" href="#/browsesubcollections/CSRWA{{form.subcollectionId}}">Return to browse sub-collection</a>									
+							</div>					           					            						         			                		                  
+			              </div>					             			             
+			            </form>
+		               
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>        
+        </div>
+      </div>
+    </div>
+   
+   

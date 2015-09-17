@@ -190,6 +190,35 @@ allControllers.controller('ViewSampleHistoryCtrl', function ($scope, $modalInsta
 	  
 });
 
+allControllers.controller('ViewCheckoutHistoryCtrl', function ($scope, $modalInstance, params, modalService,$http) {
+	
+	$scope.checkouts={};
+	$scope.title = "Checkout History"
+
+	$http.get('getCheckoutLogs.do',{
+		params : {
+			subcollectionId : params.subcollectionId
+		}
+	})     
+    .success(function(data) {
+    	$scope.checkouts = data;      
+       
+    })
+    .error(function(data, status) {    	
+    	 modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving checkouts history",
+	           bodyText: data
+		 });	       
+    }) 
+    
+    
+    $scope.ok = function () {	
+		 $modalInstance.close();		 
+	 };
+	
+	  
+});
+
 
 allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValueService, $modalInstance,$filter,spinnerService,$http,modalService) {
 	

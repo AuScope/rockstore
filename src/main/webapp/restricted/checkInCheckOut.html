@@ -1,0 +1,96 @@
+
+   
+   <div class="section section-lg section-bottom" ng-controller="ManageCheckOutCtrl">
+      <div>    
+        <div class="row mb">
+          	<div class="section section-xs section-bottom">
+		      <div class="container">
+		        <div class="row mb">
+		          <div class="col-md-10 col-md-offset-1">
+		            <h3 class="title-md hr-left text-theme">Check out</h3>
+		            <div class="panel panel-primary text-theme">
+		              <div class="panel-heading">
+		                <h3 class="panel-title">Register your checkout</h3>
+		              </div>
+		              <div class="panel-body">
+		                <div class="scroll-table">
+						     <table class="detailTbl">
+						     	
+						       <thead>
+						         <tr>						                                
+						             <th>id</th>
+						             <th>sub-collectionId</th>
+						             <th>Staff Ident</th>
+						             <th>Email</th>
+						             <th>Name</th>
+						             <th>Date Checkout</th>
+						             <th>Date Dueback</th>	            
+						             <th>Date Checkin</th>
+						             <th>Checkout Status</th>
+						             <th>Process Checkout</th>
+						         </tr>
+						         </thead>
+						         <tbody>
+						         <tr ng-repeat="checkout in checkouts" ng-if="!checkout.checkoutStatus && checkout.dateCheckin==null">
+						             <td>{{checkout.id}}</td>
+						             <td>{{checkout.subcollectionId}}</td>
+						             <td>{{checkout.staffIdent}}</td>
+						             <td>{{checkout.email}}</td>
+						             <td>{{checkout.name}}</td>	             					                
+						             <td>{{checkout.dateCheckout | date:'d/MMM/yyyy'}}</td>	          
+						             <td>{{checkout.dateDueback | date:'d/MMM/yyyy'}}</td>
+						             <td>{{checkout.dateCheckin | date:'d/MMM/yyyy'}}</td>
+						             <td>{{checkout.checkoutStatus}}</td>	
+						             <td><button class="btn btn-blue" ng-click="processCheckout(checkout)">Check out</button></td>             
+						         </tr>
+						         </tbody>
+						        
+						     </table>
+					     </div>
+					     <h3 class="title-md text-center title-striped">Process Check in</h3>
+					     <div class="scroll-table">
+						     <table class="detailTbl">
+						     	
+						       <thead>
+						         <tr>						                                
+						             <th>id</th>
+						             <th>sub-collectionId</th>
+						             <th>Staff Ident</th>
+						             <th>Email</th>
+						             <th>Name</th>
+						             <th>Date Checkout</th>
+						             <th>Date Dueback</th>	            
+						             <th>Date Checkin</th>
+						             <th>Checkout Status</th>
+						             <th>Process Check In</th>
+						         </tr>
+						         </thead>
+						         <tbody>
+						         <tr ng-repeat="checkout in checkouts" ng-if="checkout.checkoutStatus">
+						             <td>{{checkout.id}}</td>
+						             <td>{{checkout.subcollectionId}}</td>
+						             <td>{{checkout.staffIdent}}</td>
+						             <td>{{checkout.email}}</td>
+						             <td>{{checkout.name}}</td>	             					                
+						             <td>{{checkout.dateCheckout | date:'d/MMM/yyyy'}}</td>	          
+						             <td>{{checkout.dateDueback | date:'d/MMM/yyyy'}}</td>
+						             <td>{{checkout.dateCheckin | date:'d/MMM/yyyy'}}</td>
+						             <td>{{checkout.checkoutStatus}}</td>	
+						             <td><button class="btn btn-red" ng-click="processCheckin(checkout)">Check In</button></td>             
+						         </tr>
+						         </tbody>
+						        
+						     </table>
+					     </div>
+		               
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>        
+        </div>
+      </div>
+    </div>
+   
+

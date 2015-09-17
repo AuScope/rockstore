@@ -59,11 +59,22 @@ app.config(['$routeProvider',
           templateUrl: 'views/login.html'        
       }).
       when('/usersettings', {
-          templateUrl: 'views/usersettings.html'
+          templateUrl: 'restricted/usersettings.html'
         
       }).
       when('/staffsettings', {
-          templateUrl: 'views/staffsettings.html'
+          templateUrl: 'restricted/staffsettings.html'
+        
+      }).
+      when('/registercheckout', {
+          templateUrl: 'restricted/checkoutform.html'        
+      }).
+      when('/registercheckout/:subCollectionId', {
+          templateUrl: 'restricted/checkoutform.html'
+        
+      }).
+      when('/managecheckouts', {
+          templateUrl: 'restricted/checkInCheckOut.html'
         
       }).
       otherwise({
@@ -437,6 +448,30 @@ app.service('ViewHistoryService',['$modal','$q','modalService','currentAuthServi
     	             params: function () {
     	               return {
     	              	 sampleId :sampleId	              	
+    	               }
+    	             }
+    	           }
+    	       });
+    	 }else{
+    		 modalService.showModal({}, {    	            	           
+  	           headerText: "Unauthorized Access",
+  	           bodyText: "You have to be logged in to view the history details"
+    		 });	   
+    	 }
+     }
+     
+     this.viewCheckoutHistory = function(subcollectionId){
+    	 
+    	 if(currentAuthService.getStatus().authenticated){
+    		 var modalInstance = $modal.open({
+    	         animation: true,
+    	         templateUrl: 'widget/ViewCheckoutHistoryModal.html',
+    	         controller: 'ViewCheckoutHistoryCtrl',
+    	         size: 'lg',
+    	         resolve: {
+    	             params: function () {
+    	               return {
+    	            	   subcollectionId :subcollectionId	              	
     	               }
     	             }
     	           }

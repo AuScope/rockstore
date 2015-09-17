@@ -3,18 +3,21 @@ package org.csiro.rockstore.web.controllers;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.csiro.rockstore.entity.postgres.CheckoutRegistry;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
+import org.csiro.rockstore.utilities.NullUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -209,6 +212,94 @@ public class SubCollectionController {
     		logger.warn(e);
     		throw e;
     	}
-
     } 
+    
+    
+    @RequestMapping(value = "registerCheckout.do")
+    public ResponseEntity<Object> registerCheckout(    		
+    		 @RequestParam(required = true, value ="subcollectionId") String subcollectionId,
+    		 @RequestParam(required = true, value ="dateCheckout") String dateCheckout,
+    		 @RequestParam(required = true, value ="dateDueback") String dateDueback,
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		
+    		
+    		if(user==null){
+        		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+        	}
+    		CheckoutRegistry entry = new CheckoutRegistry(subcollectionId, user.getName(), "", "", 
+    				NullUtilities.parseDateAllowNull(dateCheckout), NullUtilities.parseDateAllowNull(dateDueback), false, null);
+    		this.subCollectionEntityService.registerCheckout(entry);
+    		return  new ResponseEntity<Object>(entry,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+    }
+    
+    
+    @RequestMapping(value = "checkIn.do")
+    public ResponseEntity<Object> checkIn(    		
+    		 @RequestParam(required = true, value ="id") int id,    		
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		
+    		
+    		if(user==null){
+        		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+        	}
+    		
+    		CheckoutRegistry entry = this.subCollectionEntityService.checkIn(id);
+    		return  new ResponseEntity<Object>(entry,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+    }
+    
+    @RequestMapping(value = "checkOut.do")
+    public ResponseEntity<Object> checkOut(    		
+    		 @RequestParam(required = true, value ="id") int id,    		
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		
+    		
+    		if(user==null){
+        		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+        	}
+    		
+    		CheckoutRegistry entry = this.subCollectionEntityService.checkout(id);
+    		return  new ResponseEntity<Object>(entry,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+    }
+    
+    @RequestMapping(value = "getCheckoutLogs.do")
+    public ResponseEntity<List<CheckoutRegistry>> registerCheckout(    		
+    		 @RequestParam(required = true, value ="subcollectionId") String subcollectionId,    		
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		    		    		 		
+    		List<CheckoutRegistry> logs = this.subCollectionEntityService.getCheckoutLogs(subcollectionId);
+    		return  new ResponseEntity<List<CheckoutRegistry>>(logs,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+    }
+    
+    @RequestMapping(value = "getPendingEntries.do")
+    public ResponseEntity<List<CheckoutRegistry>> getPendingEntries(    		    		     		
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	try{    		    		    		 		
+    		List<CheckoutRegistry> logs = this.subCollectionEntityService.getPending();
+    		return  new ResponseEntity<List<CheckoutRegistry>>(logs,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+    }
 }

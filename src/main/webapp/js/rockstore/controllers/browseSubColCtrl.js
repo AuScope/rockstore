@@ -137,6 +137,10 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
      $scope.viewHistory = function(subCollectionId){
     	 ViewHistoryService.viewSubCollectionHistory(subCollectionId);
      }
+     
+     $scope.viewCheckoutHistory = function(subCollectionId){
+    	 ViewHistoryService.viewCheckoutHistory(subCollectionId);
+     }
       
 }]);
 

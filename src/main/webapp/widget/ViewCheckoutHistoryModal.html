@@ -1,0 +1,44 @@
+ <div class="modal-header">
+     <h3 class="modal-title">{{title}}</h3>
+ </div>
+ <div class="modal-body modal-overflow-x">
+ 	<div class="scroll-table">
+	     <table class="detailTbl">
+	     	
+	         <thead>
+	         <tr>						                                
+	             <th>id</th>
+	             <th>sub-collectionId</th>
+	             <th>Staff Ident</th>
+	             <th>Email</th>
+	             <th>Name</th>
+	             <th>Date Checkout</th>
+	             <th>Date Dueback</th>	            
+	             <th>Date Checkin</th>
+	             <th>Checkout Status</th>
+	         </tr>
+	         </thead>
+	         <tbody>
+	         <tr ng-repeat="checkout in checkouts">
+	             <td>{{checkout.id}}</td>
+	             <td>{{checkout.subcollectionId}}</td>
+	             <td>{{checkout.staffIdent}}</td>
+	             <td>{{checkout.email}}</td>
+	             <td>{{checkout.name}}</td>	             					                
+	             <td>{{checkout.dateCheckout | date:'d/MMM/yyyy'}}</td>	          
+	             <td>{{checkout.dateDueback | date:'d/MMM/yyyy'}}</td>
+	             <td>{{checkout.dateCheckin | date:'d/MMM/yyyy'}}</td>
+	             <td>{{checkout.checkoutStatus}}</td>	
+	                           
+	         </tr>
+	         </tbody>
+	        
+	     </table>
+     </div>
+  
+    
+    
+ </div>
+ <div class="modal-footer">
+     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>     
+ </div>

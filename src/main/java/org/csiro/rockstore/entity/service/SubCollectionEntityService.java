@@ -1,6 +1,8 @@
 package org.csiro.rockstore.entity.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,6 +15,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.csiro.rockstore.entity.postgres.CheckoutRegistry;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
@@ -170,6 +173,68 @@ public class SubCollectionEntityService {
 	    .getSingleResult();
 		em.close();
 		return result;
+	}
+
+	public void registerCheckout(CheckoutRegistry entry) {
+		
+		EntityManager em = JPAEntityManager.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(entry);
+		em.flush();
+		em.getTransaction().commit();
+	    em.close();
+		
+	}
+
+	public List<CheckoutRegistry> getCheckoutLogs(String subcollectionId) {
+		
+		EntityManager em = JPAEntityManager.createEntityManager();		
+		List<CheckoutRegistry> result = em.createNamedQuery("CheckoutRegistry.findCheckoutRegistryBySubcollectionId",CheckoutRegistry.class)
+				.setParameter("subcollectionId", subcollectionId)
+				.getResultList();
+		em.close();
+		return result;
+	}
+
+	public CheckoutRegistry checkIn(int id) {
+		// CheckoutRegistry.findCheckoutRegistryById
+		EntityManager em = JPAEntityManager.createEntityManager();	
+		em.getTransaction().begin();
+		CheckoutRegistry result = em.createNamedQuery("CheckoutRegistry.findCheckoutRegistryById",CheckoutRegistry.class)
+				.setParameter("id", id)
+				.getSingleResult();
+		result.setDateCheckin(new Date());
+		result.setCheckoutStatus(false);			
+		em.merge(result);
+		em.getTransaction().commit();	
+		em.close();
+		return result;
+		
+	}
+	
+	public CheckoutRegistry checkout(int id) {
+		// CheckoutRegistry.findCheckoutRegistryById
+		EntityManager em = JPAEntityManager.createEntityManager();	
+		em.getTransaction().begin();
+		CheckoutRegistry result = em.createNamedQuery("CheckoutRegistry.findCheckoutRegistryById",CheckoutRegistry.class)
+				.setParameter("id", id)
+				.getSingleResult();
+		result.setCheckoutStatus(true);		
+		em.merge(result);
+		em.getTransaction().commit();
+		em.close();
+		return result;
+		
+	}
+	
+	public List<CheckoutRegistry> getPending() {
+		// CheckoutRegistry.findCheckoutRegistryById
+		EntityManager em = JPAEntityManager.createEntityManager();		
+		List<CheckoutRegistry> result = em.createNamedQuery("CheckoutRegistry.findPendingCheckouts",CheckoutRegistry.class)				
+				.getResultList();		
+		em.close();
+		return result;
+		
 	}
 	
 }

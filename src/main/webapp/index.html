@@ -51,7 +51,8 @@
   <script src="js/rockstore/controllers/browseSampleCtrl.js"></script>
   <script src="js/rockstore/controllers/UserSettingsCtrl.js"></script>
   <script src="js/rockstore/controllers/StaffSettingsCtrl.js"></script>
-  
+  <script src="js/rockstore/controllers/checkOutFormCtrl.js"></script>
+  <script src="js/rockstore/controllers/manageCheckOutCtrl.js"></script> 
 
 </head>
 
@@ -105,10 +106,10 @@
              </ul>
            </li>
            <li>
-            	<a href="xxx.html"><i class="fa fa-info"></i> Request Checkout</a>
+            	<a href="#/registercheckout"><i class="fa fa-info"></i> Request Checkout</a>
             </li>             
            <li class="dropdown">
-              <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-table"></i> Manage Data</a>
+              <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-table"></i> Manage</a>
               <ul class="dropdown-menu dropdown-menu-left">
               	<li>
                   <a href="#/collections">Collections</a>
@@ -118,6 +119,9 @@
                 </li>
                 <li>
                   <a href="#/samples">Samples</a>
+                </li>
+                <li>
+                  <a href="#/managecheckouts">Manage checkouts</a>
                 </li>
               </ul>
             </li>
@@ -147,7 +151,10 @@
 		    $( "#ProjectCloseDate" ).datepicker();
 		    $( "#ArchiveDue" ).datepicker();
 		    $( "#DateSampled" ).datepicker();
-		    $( "#DateDisposed" ).datepicker();		    	    
+		    $( "#DateDisposed" ).datepicker();
+		    $( "#registercheckout-checkoutdate" ).datepicker();
+		    $( "#registercheckout-duebackdate" ).datepicker();
+		    
 		  });
 		
 	</script>

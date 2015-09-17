@@ -4225,5 +4225,9 @@ input[readonly].must-select {
    height : 500px;
 }
 
+:required {
+  background: #fbcabd;
+}
+
 
  
