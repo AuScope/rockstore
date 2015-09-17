@@ -318,7 +318,21 @@ allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValue
 
 allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownValueService, $modalInstance,$filter,spinnerService,$http) {
 	
-	$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false, enableColumnResizing: true };
+	$scope.paginationOptions = {
+		    pageNumber: 1,
+		    pageSize: 50,
+		    sort: null
+	};
+
+	
+	$scope.gridOptions = { 
+			enableRowSelection: true, 
+			enableRowHeaderSelection: false, 
+			enableColumnResizing: true,
+			paginationPageSizes: [1,50, 100, 200],
+		    paginationPageSize: $scope.paginationOptions.pageSize,
+		    useExternalPagination: true
+	};
 	
 	$scope.booleans = DropDownValueService.getBoolean();
 	$scope.locations = DropDownValueService.getLocations();
@@ -355,10 +369,16 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
     	var selectedRow=jQuery.extend(true, {}, $scope.gridApi.selection.getSelectedRows()[0]);    	
     	 $scope.selectedSubCollection = selectedRow.subcollectionId;
      });
-        
+     
+     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+         $scope.paginationOptions.pageNumber = newPage;
+         $scope.paginationOptions.pageSize = pageSize;
+         $scope.searchSubCollection(newPage,pageSize,false);
+       });
+     $scope.searchSubCollection(1,$scope.paginationOptions.pageSize,true);   
    };
    
-   $scope.searchSubCollection = function(){
+   $scope.searchSubCollection = function(page,pageSize, updateCount){
 	   spinnerService.show('searchSubCollection.grid');
 	   var params ={	
    			collectionId: $scope.form.collectionId,
@@ -367,8 +387,8 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
    			locationInStorage:$scope.form.locationInStorage,
    			storageType: $scope.form.storageType, 			
 			source : $scope.form.source,
-			pageNumber:$scope.currentPages,
-			pageSize:10
+			pageNumber:page,
+			pageSize:pageSize
 		}
 		
 		//VT: Actual results
@@ -387,6 +407,22 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
 	    	 });
 	    	 spinnerService.hide('searchSubCollection.grid')
 	     })
+	     
+	     if(updateCount){
+	    	//VT: Get the count of the result
+	         $http.get('searchSubCollectionsCount.do',{
+	    		params:params
+	    	 })     
+	         .success(function(data) {
+	        	 $scope.gridOptions.totalItems = data;       	        
+	         })
+	         .error(function(data, status) {    	
+	        	 modalService.showModal({}, {    	            	           
+	    	           headerText: "Error loading data:" + status ,
+	    	           bodyText: "Please contact cg-admin@csiro.au if this persist"
+	        	 });	       
+	         })
+	     }
    }
 	
 	

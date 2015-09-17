@@ -120,8 +120,6 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
    
    $scope.searchSubCollection = function(page,pageSize, updateCount){
 	
-  	 $scope.currentPages = page;//VT page is reset to 1 on new search
-  	 
   	 var params ={	
   			collectionId: $scope.search.collectionId,
   			oldId : $scope.search.oldId,

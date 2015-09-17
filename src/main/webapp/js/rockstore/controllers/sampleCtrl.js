@@ -146,13 +146,12 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
          $scope.paginationOptions.pageSize = pageSize;
          $scope.searchSample(newPage,pageSize,false);
        });
-     $scope.searchSample($scope.paginationOptions.pageNumber,$scope.paginationOptions.pageSize,true);
+     $scope.searchSample(1,$scope.paginationOptions.pageSize,true);
      
    };
    
  //VT:page determines the page to search and set the current page
-	$scope.searchSample = function(page,pageSize, updateCount){
-		$scope.currentPages = page;
+	$scope.searchSample = function(page,pageSize, updateCount){		
 	   	 var params ={	
   			subcollectionId: $scope.search.subcollectionId,
   			igsn:$scope.search.igsn,

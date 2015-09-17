@@ -111,7 +111,7 @@
 								                  </div>
 								                  <div class="row">
 								                  	<div class="col-sm-6"><i class="fa fa-star"></i> Subcollection Id : {{subcollection.subcollectionId}}</div>
-								                  	<div class="col-sm-6"><i class="fa fa-warning"></i> {{subcollection.hazardous}}</div>
+								                  	<div class="col-sm-6"><i class="fa fa-warning"></i> Hazardous : {{subcollection.hazardous}}</div>
 								                  </div>
 								                  <br>				                    	
 					                    	</div>					                    
@@ -152,6 +152,14 @@
 				                            <tr>
 				                                <th>Old Id</th>
 				                                <td>{{subcollection.oldId}}</td>						                               
+				                            </tr>
+				                             <tr>
+				                                <th>Previous Pallet Id</th>
+				                                <td>{{subcollection.previousPalletId}}</td>						                               
+				                            </tr>
+				                            <tr>
+				                                <th>Disposed Due to Insufficient Info</th>
+				                                <td>{{subcollection.disposedInsufficientInfo}}</td>						                               
 				                            </tr>
 				                            </tbody>
 				                        </table>
