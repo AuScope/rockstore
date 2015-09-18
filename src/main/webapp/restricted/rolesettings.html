@@ -1,0 +1,79 @@
+
+   
+<div class="section section-lg section-bottom" ng-controller="RoleSettingCtrl">
+	
+		
+       	   <div class="row mb">
+          	<div class="section section-xs section-bottom">
+		      <div class="container">
+		        <div class="row mb">
+		          <div class="col-md-10 col-md-offset-1">
+		            <h3 class="title-md hr-left text-theme">Role management</h3>
+		            <div class="panel panel-primary text-theme">
+		              <div class="panel-heading">
+		                <h3 class="panel-title">Current role list</h3>
+		              </div>
+		               <div class="panel-body">		               
+	                	 <table class="detailTbl">								     	
+					       <thead>
+					         <tr>						                                
+					             <th>Staff</th>
+					             <th>Admin</th>
+					             <th>Can Edit</th>
+					             <th>Geologist</th>	
+					             <th>Add</th>						            					             
+					         </tr>
+					         </thead>
+					         <tbody>
+					         <tr>
+					             <td><input type="text"  placeholder="Staff Ident" ng-model="addForm.staff"></td>
+					             <td><input type="checkbox" ng-model="addForm.admin"></td>
+					             <td><input type="checkbox" ng-model="addForm.canEdit"></td>
+					             <td><input type="checkbox" ng-model="addForm.geologist"></td>	
+					             <td><button class='btn btn-blue' ng-click="add()">Add</button></td>					                        
+					         </tr>
+					         </tbody>
+					     </table>							               	 
+		               </div>
+		              <h3 class="title-md text-center title-striped">Add user</h3>
+		              
+		              <div class="panel-body">
+		                <div class="scroll-table">
+						     <table class="detailTbl">
+						     	
+						       <thead>
+						         <tr>						                                
+						             <th>Staff</th>
+						             <th>Admin</th>
+						             <th>Can Edit</th>
+						             <th>Geologist</th>	
+						             <th>Delete</th>						            					             
+						         </tr>
+						         </thead>
+						         <tbody>
+						         <tr ng-repeat="permission in permissions">
+						             <td>{{permission.staff}}</td>
+						             <td>{{permission.admin}}</td>
+						             <td>{{permission.canEdit}}</td>
+						             <td>{{permission.geologist}}</td>	
+						             <td><button class='btn btn-red' ng-click="deleteEntry(permission.staff)">Delete</button></td>						                        
+						         </tr>
+						         </tbody>
+						        
+						     </table>
+					     </div>
+					     
+					     
+		               
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>        
+           </div>
+        
+   		 
+ </div>
+  
+   

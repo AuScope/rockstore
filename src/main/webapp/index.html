@@ -30,7 +30,7 @@
 	<script src="js/angular/angular-route.min.js"></script>	
 	<script src="js/angular-ui/ui-grid/ui-grid-stable.js"></script>
 	<script src="js/angular-ui/ui-bootstrap/ui-bootstrap-tpls-0.13.3.min.js"></script>
-	<script src="js/angular-ui/spinner/angular-spinners.min.js"></script>
+	<script src="js/angular-ui/spinner/angular-spinners.min.js"></script>	
 	<script src="js/angular-ui/angular-map/angular-google-maps.min.js"></script>
 	<script src="js/angular-ui/angular-map/lodash.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.min.js"></script>
@@ -50,7 +50,7 @@
   <script src="js/rockstore/controllers/browseSubColCtrl.js"></script>
   <script src="js/rockstore/controllers/browseSampleCtrl.js"></script>
   <script src="js/rockstore/controllers/UserSettingsCtrl.js"></script>
-  <script src="js/rockstore/controllers/StaffSettingsCtrl.js"></script>
+  <script src="js/rockstore/controllers/roleSettingsCtrl.js"></script>
   <script src="js/rockstore/controllers/checkOutFormCtrl.js"></script>
   <script src="js/rockstore/controllers/manageCheckOutCtrl.js"></script> 
 
@@ -68,7 +68,7 @@
             <div class="col-sm-7 col-xs-12">
 			  <div class="pull-right">
                 <div class="dropdown dropdown-login pull-left">
-                  <a href="logout"><button class="btn-menu-top" ng-show="status.authenticated"><i class="fa fa-user"></i> Log out ,<span ng-bind="status.username"></span> </button></a>
+                  <a href="logout"><button class="btn-menu-top" ng-show="status.authenticated"><i class="fa fa-user"></i> Log out ,<span ng-bind="status.name"></span> </button></a>
                   <a href="#/login"><button class="btn-menu-top" ng-show="!status.authenticated"><i class="fa fa-user"></i> Log in </button></a>                  
                 </div>
 			  </div>                           
@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" ng-controller="LoginStatusCtrl">
         <div class="navbar-header">
          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -105,11 +105,11 @@
                </li>
              </ul>
            </li>
-           <li>
+           <li ng-show="status.authenticated">
             	<a href="#/registercheckout"><i class="fa fa-info"></i> Request Checkout</a>
             </li>             
-           <li class="dropdown">
-              <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-table"></i> Manage</a>
+           <li class="dropdown" ng-show="status.permissions.canEdit">
+              <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-edit"></i> Edit</a>
               <ul class="dropdown-menu dropdown-menu-left">
               	<li>
                   <a href="#/collections">Collections</a>
@@ -119,21 +119,24 @@
                 </li>
                 <li>
                   <a href="#/samples">Samples</a>
-                </li>
-                <li>
-                  <a href="#/managecheckouts">Manage checkouts</a>
-                </li>
+                </li>                
               </ul>
             </li>
-             <li class="dropdown">
-              <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-table"></i> Settings</a>
+             <li class="dropdown" ng-show="status.permissions.admin">
+              <a href="#/" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-cogs"></i> Admin</a>
               <ul class="dropdown-menu dropdown-menu-left">
               	<li>
-                  <a href="#/usersettings">User Management</a>
+                  <a href="#/usersettings">User List</a>
                 </li>
                 <li>
+                  <a href="#/rolesettings">Login Role</a>
+                </li>
+                <!-- li>
                   <a href="#/staffsettings">Staff Management</a>
-                </li>           
+                </li--> 
+                <li>
+                  <a href="#/managecheckouts">Manage checkouts</a>
+                </li>          
               </ul>
             </li>           
             

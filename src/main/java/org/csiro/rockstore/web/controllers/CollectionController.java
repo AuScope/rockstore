@@ -13,10 +13,13 @@ import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
+import org.csiro.rockstore.security.LdapUser;
 import org.csiro.rockstore.utilities.NullUtilities;
+import org.csiro.rockstore.utilities.SecurityUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ldap.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +56,11 @@ public class CollectionController {
     	
     	if(user==null){
     		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	LdapUser authUser = SecurityUtilities.getLdapUser(user); 
+    	if(authUser.getUserPermission()==null || authUser.getUserPermission().getCanEdit()==false){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Insufficient Permission"),HttpStatus.BAD_REQUEST);
     	}
     
     	try{
@@ -112,6 +120,10 @@ public class CollectionController {
     		@RequestParam(required = true, value ="collectionId") String collectionId,
     		Principal user,
             HttpServletResponse response) throws Exception{
+    	if(user == null){
+    		throw new AuthenticationException();
+    	}
+    	
     	try{    		    		
     		List<RsCollectionAudit>	lrc = this.collectionEntityService.getCollectionsAudit(collectionId);    		    		
     		return  new ResponseEntity<List<RsCollectionAudit>>(lrc,HttpStatus.OK);

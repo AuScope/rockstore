@@ -71,6 +71,7 @@ public  class SecurityConfig extends
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 	 
 		auth.ldapAuthentication()
+		.userDetailsContextMapper(new UserDetailsContextMapperImpl())
         .userDnPatterns("ou=People").userSearchFilter("(&(sAMAccountName={0}))") 
         .groupRoleAttribute("cn").groupSearchBase("ou=Groups").groupSearchFilter("(&(member={0}))")
         .contextSource(getLdapContextSource());              
@@ -101,7 +102,7 @@ public  class SecurityConfig extends
 	            throws IOException, ServletException {  
 			
 			HttpSession session = httpServletRequest.getSession();
-			LdapUserDetailsImpl authUser = (LdapUserDetailsImpl) SecurityContextHolder.getContext()
+			LdapUser authUser = (LdapUser) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal();
 			session.setAttribute("username", authUser.getUsername());
 			session.setAttribute("authorities", authentication.getAuthorities());
@@ -109,10 +110,8 @@ public  class SecurityConfig extends
 			// set our response to OK status
 			httpServletResponse.setStatus(HttpServletResponse.SC_OK);
 			httpServletResponse.setContentType("text/html; charset=UTF-8");			
-			Gson gson = new Gson();
-			Map<String,String> result = new HashMap<String,String>();
-			result.put("name", authUser.getUsername());			
-			httpServletResponse.getWriter().write(gson.toJson(result));
+			Gson gson = new Gson();			
+			httpServletResponse.getWriter().write(gson.toJson(authUser));
 	    }  
 		
 		

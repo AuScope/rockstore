@@ -24,6 +24,14 @@
 					    <h3 class="panel-title">Manage Collection</h3>
 					  </div>
 					  <div class="panel-body">
+						  <spinner name="collections-form.submit" ng-cloak="" >
+						   	   <div class="overlay"></div>
+							   <div class="spinner">
+							     <div class="double-bounce1"></div>
+							     <div class="double-bounce2"></div>
+							   </div>
+							   <div class="please-wait">Please Wait...</div>
+						   </spinner>
 					    <form class="form-horizontal">
 					    
 					      <div class="form-group has-success">					       
@@ -55,7 +63,7 @@
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Staff Responsible</label>
 					        <div class="col-sm-8">						          
-					          <select class="form-control" ng-model="form.staffidResponsible" ng-options="staff.contactName as [staff.contactName,staff.organization].join(' - ') for staff in staffs"></select>	
+					          <select class="form-control" ng-model="form.staffidResponsible" ng-options="user.contactName as [user.contactName,user.organization].join(' - ') for user in users"></select>	
 					          
 					        </div>
 					      </div>

@@ -330,15 +330,11 @@
 		  <artifactId>gt-epsg-hsql</artifactId>
 		  <version>${geotools.version}</version>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 		  <groupId>org.geotools</groupId>
 		  <artifactId>gt-epsg-extension</artifactId>
 		  <version>${geotools.version}</version>
-		</dependency>		
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency> 
+		</dependency-->		
+		
     </dependencies>
 </project>

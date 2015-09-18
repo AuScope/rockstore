@@ -17,10 +17,13 @@ import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
+import org.csiro.rockstore.security.LdapUser;
 import org.csiro.rockstore.utilities.NullUtilities;
+import org.csiro.rockstore.utilities.SecurityUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ldap.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +46,7 @@ public class SubCollectionController {
 
 
     @RequestMapping(value = "subCollectionAddUpdate.do")
-    public ResponseEntity<Object> addUpdate(            
+    public ResponseEntity<Object> subCollectionAddUpdate(            
             @RequestParam(required = false, value ="subcollectionId") String subcollectionId,
             @RequestParam(required = false, value ="locationInStorage") String locationInStorage,
             @RequestParam(required = false, value ="oldId") String oldId,           
@@ -60,6 +63,12 @@ public class SubCollectionController {
     	if(user==null){
     		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
     	}
+    	
+    	LdapUser authUser = SecurityUtilities.getLdapUser(user); 
+    	if(authUser.getUserPermission()==null || authUser.getUserPermission().getCanEdit()==false){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Insufficient Permission"),HttpStatus.BAD_REQUEST);
+    	}
+    			
     	try{
 	    	if(subcollectionId != null && !subcollectionId.isEmpty()){
 	    		RsSubcollection rsc = this.subCollectionEntityService.search(subcollectionId);
@@ -115,6 +124,11 @@ public class SubCollectionController {
     		@RequestParam(required = true, value ="subCollectionId") String subCollectionId,
     		Principal user,
             HttpServletResponse response) throws Exception{
+    	
+    	if(user == null){
+    		throw new AuthenticationException();
+    	}
+    	
     	try{    		    		
     		List<RsSubcollectionAudit>	lrc = this.subCollectionEntityService.getSubCollectionsAudit(subCollectionId);   		    		
     		return  new ResponseEntity<List<RsSubcollectionAudit>>(lrc,HttpStatus.OK);
@@ -164,7 +178,7 @@ public class SubCollectionController {
     
     
     @RequestMapping(value = "searchSubCollections.do")
-    public ResponseEntity<List<RsSubcollection>> searchCollections(    		
+    public ResponseEntity<List<RsSubcollection>> searchSubCollections(    		
     		 @RequestParam(required = false, value ="collectionId") String collectionId,
     		 @RequestParam(required = false, value ="project") String project,
     		 @RequestParam(required = false, value ="oldId") String oldId,
@@ -227,7 +241,8 @@ public class SubCollectionController {
     		if(user==null){
         		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
         	}
-    		CheckoutRegistry entry = new CheckoutRegistry(subcollectionId, user.getName(), "", "", 
+    		LdapUser authUser =SecurityUtilities.getLdapUser(user);
+    		CheckoutRegistry entry = new CheckoutRegistry(subcollectionId, authUser.getUsername(), authUser.getEmail(),authUser.getName(), 
     				NullUtilities.parseDateAllowNull(dateCheckout), NullUtilities.parseDateAllowNull(dateDueback), false, null);
     		this.subCollectionEntityService.registerCheckout(entry);
     		return  new ResponseEntity<Object>(entry,HttpStatus.OK);
@@ -281,6 +296,9 @@ public class SubCollectionController {
     		 @RequestParam(required = true, value ="subcollectionId") String subcollectionId,    		
     		Principal user,
             HttpServletResponse response) throws Exception{
+    	if(user == null){
+    		throw new AuthenticationException();
+    	}
     	try{    		    		    		 		
     		List<CheckoutRegistry> logs = this.subCollectionEntityService.getCheckoutLogs(subcollectionId);
     		return  new ResponseEntity<List<CheckoutRegistry>>(logs,HttpStatus.OK);
@@ -294,6 +312,11 @@ public class SubCollectionController {
     public ResponseEntity<List<CheckoutRegistry>> getPendingEntries(    		    		     		
     		Principal user,
             HttpServletResponse response) throws Exception{
+    	
+    	if(user == null){
+    		throw new AuthenticationException();
+    	}
+    	
     	try{    		    		    		 		
     		List<CheckoutRegistry> logs = this.subCollectionEntityService.getPending();
     		return  new ResponseEntity<List<CheckoutRegistry>>(logs,HttpStatus.OK);

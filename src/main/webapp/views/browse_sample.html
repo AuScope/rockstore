@@ -89,10 +89,10 @@
 													    <span class="caret"></span>
 													  </button>
 													  <ul class="dropdown-menu" role="menu">
-													    <li>
+													    <li ng-show="status.permissions.canEdit">
 													      <a href="#/samples/{{sample.id}}"><i class="fa fa-edit">  Edit</i></a>
 													    </li>
-													     <li class="divider"></li>
+													     <li ng-show="status.permissions.canEdit" class="divider"></li>
 													    <li>
 													      <a ng-click="viewHistory(sample.id)"><i class="fa fa-eye"> View Edit History</i></a>
 													    </li>													   												    													   

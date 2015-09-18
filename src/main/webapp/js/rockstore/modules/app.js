@@ -62,8 +62,8 @@ app.config(['$routeProvider',
           templateUrl: 'restricted/usersettings.html'
         
       }).
-      when('/staffsettings', {
-          templateUrl: 'restricted/staffsettings.html'
+      when('/rolesettings', {
+          templateUrl: 'restricted/rolesettings.html'
         
       }).
       when('/registercheckout', {
@@ -109,20 +109,20 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
     };
     	    	    
         
-    this.getStaffs = function() {    	
-    	return $q(function(resolve, reject) {
-    		$http.get('getStaffs.do')     
-    	     .success(function(data) {
-    	       resolve(data);       
-    	        
-    	     })
-    	     .error(function(data, status) {    	
-    	    	 reject(data,status);    	       
-    	     })
-   		 
-   	      
-   	 	},1000);       
-     };   
+//    this.getStaffs = function() {    	
+//    	return $q(function(resolve, reject) {
+//    		$http.get('getStaffs.do')     
+//    	     .success(function(data) {
+//    	       resolve(data);       
+//    	        
+//    	     })
+//    	     .error(function(data, status) {    	
+//    	    	 reject(data,status);    	       
+//    	     })
+//   		 
+//   	      
+//   	 	},1000);       
+//     };   
      
      
      
@@ -265,6 +265,18 @@ app.service('currentAuthService', function() {
         },
         getUsername : function(){
         	return status.username;
+        },
+        setName : function(name){
+        	status.name=name;
+        },
+        getName : function(){
+        	return status.name;
+        },
+        setPermissions : function(permissions){
+        	status.permissions=permissions;
+        },
+        getPermissions : function(){
+        	return status.permissions;
         },
         getStatus : function(){
         	return status;

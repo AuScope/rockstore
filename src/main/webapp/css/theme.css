@@ -4066,6 +4066,8 @@ table.detailTbl {
   width: 100%; 
   border-collapse: collapse; 
 }
+
+
 /* Zebra striping */
 .detailTbl tr:nth-of-type(even) { 
   background: #eee; 

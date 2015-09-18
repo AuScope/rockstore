@@ -8,7 +8,9 @@ allControllers.controller('LoginStatusCtrl', ['$scope','$http','currentAuthServi
 		$http.get('getUser.do', {}).success(function(response) {
 			 if(response.name){
 				 currentAuthService.setAuthenticated(true);
-				 currentAuthService.setUsername(response.name); 
+				 currentAuthService.setUsername(response.userName); 
+				 currentAuthService.setName(response.name);
+				 currentAuthService.setPermissions(response.userPermission);
 			 }else{
 				 currentAuthService.setAuthenticated(false);
 			 }		  

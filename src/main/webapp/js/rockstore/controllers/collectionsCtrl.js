@@ -17,15 +17,15 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 	});
 	
 	
-	DropDownValueService.getStaffs()
-	.then(function(data) {
-		 $scope.staffs= data;
-	}, function(data, status) {
-		modalService.showModal({}, {    	            	           
-	           headerText: "Error retrieve staff list",
-	           bodyText: data
-		 });
-	});
+//	DropDownValueService.getStaffs()
+//	.then(function(data) {
+//		 $scope.staffs= data;
+//	}, function(data, status) {
+//		modalService.showModal({}, {    	            	           
+//	           headerText: "Error retrieve staff list",
+//	           bodyText: data
+//		 });
+//	});
 	
 	
 	
@@ -52,6 +52,7 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 	}
 	
 	$scope.submit = function(){
+		spinnerService.show('collections-form.submit');
 		$http.get('collectionAddUpdate.do', {
 			params:{	
 				collectionId: $scope.form.collectionId,
@@ -78,14 +79,15 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		
 			}
-			
-			
+			 spinnerService.hide('collections-form.submit');			
 		  }, function(response,status) {
 			  modalService.showModal({}, {    	            	           
 		           headerText: response.data.header,
 		           bodyText: response.data.message
 	    	 });
+			  spinnerService.hide('collections-form.submit');
 		  });
+		 
 		  
 	}
 

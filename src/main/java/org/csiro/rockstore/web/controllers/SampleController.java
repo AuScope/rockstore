@@ -17,11 +17,14 @@ import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.entity.service.SampleEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
+import org.csiro.rockstore.security.LdapUser;
 import org.csiro.rockstore.utilities.NullUtilities;
+import org.csiro.rockstore.utilities.SecurityUtilities;
 import org.csiro.rockstore.utilities.SpatialUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ldap.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,6 +73,11 @@ public class SampleController {
     	
     	if(user==null){
     		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Not logged in"),HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	LdapUser authUser = SecurityUtilities.getLdapUser(user); 
+    	if(authUser.getUserPermission()==null || authUser.getUserPermission().getCanEdit()==false){
+    		return new  ResponseEntity<Object>(new ExceptionWrapper("Authentication Error","Insufficient Permission"),HttpStatus.BAD_REQUEST);
     	}
     	
     
@@ -156,6 +164,12 @@ public class SampleController {
     		@RequestParam(required = true, value ="id") int id,
     		Principal user,
             HttpServletResponse response) throws Exception{
+    	
+    	if(user == null){
+    		throw new AuthenticationException();
+    	}
+    	
+    	
     	try{    		    		
     		List<RsSampleAudit>	lrc = this.sampleEntityService.getSampleAudit(id);   		    		
     		return  new ResponseEntity<List<RsSampleAudit>>(lrc,HttpStatus.OK);

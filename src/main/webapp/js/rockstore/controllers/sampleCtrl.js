@@ -1,5 +1,5 @@
-allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','modalService','SearchSubCollectionService','$routeParams',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,modalService,SearchSubCollectionService,$routeParams) {
+allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','modalService','SearchSubCollectionService','$routeParams','spinnerService',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,modalService,SearchSubCollectionService,$routeParams,spinnerService) {
 	
 	$scope.paginationOptions = {
 		    pageNumber: 1,
@@ -30,15 +30,15 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	});
 	
 	
-	DropDownValueService.getStaffs()
-	.then(function(data) {
-		 $scope.staffs= data;
-	}, function(data, status) {
-		modalService.showModal({}, {    	            	           
-	           headerText: "Error retrieve staff list",
-	           bodyText: data
-		 });
-	});
+//	DropDownValueService.getStaffs()
+//	.then(function(data) {
+//		 $scope.staffs= data;
+//	}, function(data, status) {
+//		modalService.showModal({}, {    	            	           
+//	           headerText: "Error retrieve staff list",
+//	           bodyText: data
+//		 });
+//	});
 	
 	$scope.sampleTypes = DropDownValueService.getSampleType();
 	$scope.booleans = DropDownValueService.getBoolean();
@@ -62,7 +62,7 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	    	 });
 			return;
 		}
-		
+		spinnerService.show('samples-form.submit');
 		$http.get('sampleAddUpdate.do', {
 			params:{	
 				id : $scope.form.id,
@@ -94,17 +94,18 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 		    	 });
 			}else{				
 				$scope.gridOptions.data.push(response.data)
-				$scope.resetForm();		
-			}
-			
-			
-		  }, function(response) {
+				$scope.resetForm();					
+			}	
+			spinnerService.hide('samples-form.submit');
+		  }, function(response) {			 
 			  modalService.showModal({}, {    	            	           
 		           headerText: response.data.header,
 		           bodyText: response.data.message
 	    	 });
-		  });
-		
+			  spinnerService.hide('samples-form.submit');
+		  })
+		 
+		  
 	}
 	
 	$scope.gridOptions.columnDefs = [	                              

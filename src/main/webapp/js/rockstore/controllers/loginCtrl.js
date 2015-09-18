@@ -19,7 +19,9 @@ allControllers.controller('LoginCtrl', ['$scope','$http','currentAuthService','$
         	
 	      if(data.name) {
 	    	  currentAuthService.setAuthenticated(true);
-	    	  currentAuthService.setUsername(data.name);
+	    	  currentAuthService.setUsername(data.userName);	    	 
+			 currentAuthService.setName(data.name);
+			 currentAuthService.setPermissions(data.userPermission);
 	    	  
 	    	  if($location.path()=='/login'){	    		  
 	    		  $location.path("/");
