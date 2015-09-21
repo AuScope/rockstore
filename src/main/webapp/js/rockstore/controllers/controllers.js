@@ -347,7 +347,7 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
                                  	 { field: 'id',displayName: 'id',width:50 },
 	                                 { field: 'subcollectionId',displayName: 'subCollection id',width:150 },
 	                                 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
-	                                 { field: "rsCollection['project']",displayName: 'Project', width:150 },
+	                                 { field: 'igsn',displayName: 'igsn',width:150 },
 	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 
 	                                 { field: 'oldId',displayName: 'old ID',width:130},
 	                                 { field: "sampleRangeBySubcollection['minContainer']",displayName: 'Container From',width:180},
@@ -357,7 +357,9 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
 	                                 { field: 'storageType',displayName: 'Storage Type',width:170 },
 	                                 { field: 'hazardous',displayName: 'Hazardous',width:170 },
 	                                 { field: 'source',displayName: 'source',width:170 },
-	                                 { field: 'totalPallet',displayName: 'Pallet Count',width:170 }	                                 
+	                                 { field: 'totalPallet',displayName: 'Pallet Weight',width:170 },
+	                                 { field: 'previousPalletId',displayName: 'Previous Pallet',width:170 },
+	                                 { field: 'disposedInsufficientInfo',displayName: 'Insufficient Info',width:170 }                                 
 	                               ];
 	                              
    $scope.gridOptions.multiSelect = false;
@@ -387,6 +389,7 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
    			locationInStorage:$scope.form.locationInStorage,
    			storageType: $scope.form.storageType, 			
 			source : $scope.form.source,
+			igsn : $scope.form.igsn,
 			pageNumber:page,
 			pageSize:pageSize
 		}

@@ -185,6 +185,7 @@ public class SubCollectionController {
              @RequestParam(required = false, value ="locationInStorage") String locationInStorage,                  
              @RequestParam(required = false, value ="storageType") String storageType,            
              @RequestParam(required = false, value ="source") String source,   
+             @RequestParam(required = false, value ="igsn") String igsn,
              @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
              @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
@@ -192,7 +193,7 @@ public class SubCollectionController {
     	try{    		
     		List<RsSubcollection> lrc = null;  
     		
-    		lrc = this.subCollectionEntityService.searchSubCollections(collectionId,project,oldId,locationInStorage,storageType,source,pageNumber,pageSize);
+    		lrc = this.subCollectionEntityService.searchSubCollections(collectionId,project,oldId,locationInStorage,storageType,source,igsn,pageNumber,pageSize);
     		
     		
     		return  new ResponseEntity<List<RsSubcollection>>(lrc,HttpStatus.OK);
@@ -210,7 +211,8 @@ public class SubCollectionController {
     		 @RequestParam(required = false, value ="oldId") String oldId,
              @RequestParam(required = false, value ="locationInStorage") String locationInStorage,                  
              @RequestParam(required = false, value ="storageType") String storageType,                     
-             @RequestParam(required = false, value ="source") String source,   
+             @RequestParam(required = false, value ="source") String source,
+             @RequestParam(required = false, value ="igsn") String igsn,
              @RequestParam(required = false, value ="pageNumber") Integer pageNumber, 
              @RequestParam(required = false, value ="pageSize") Integer pageSize, 
     		Principal user,
@@ -218,7 +220,7 @@ public class SubCollectionController {
     	try{    		
     		
     		
-    		Long count = this.subCollectionEntityService.searchSubCollectionsCount(collectionId,project,oldId,locationInStorage,storageType,source);
+    		Long count = this.subCollectionEntityService.searchSubCollectionsCount(collectionId,project,oldId,locationInStorage,storageType,source,igsn);
     		
     		
     		return  new ResponseEntity<Long>(count,HttpStatus.OK);

@@ -86,7 +86,7 @@ public class SubCollectionEntityService {
 	}
 
 	public List<RsSubcollection> searchSubCollections(String collectionId,String project,String oldId,
-			String locationInStorage, String storageType, String source, Integer pageNumber, Integer pageSize) {
+			String locationInStorage, String storageType, String source,String igsn, Integer pageNumber, Integer pageSize) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		
@@ -97,7 +97,7 @@ public class SubCollectionEntityService {
 		from.fetch("rsCollection");
 		from.fetch("sampleRangeBySubcollection",JoinType.LEFT);
 					
-		List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source, criteriaBuilder,from);
+		List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source,igsn, criteriaBuilder,from);
 			
 		CriteriaQuery<RsSubcollection> select = criteriaQuery.select(from).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 	
@@ -115,7 +115,7 @@ public class SubCollectionEntityService {
 	}
 
 	public Long searchSubCollectionsCount(String collectionId,String project,String oldId,
-			String locationInStorage, String storageType, String source) {
+			String locationInStorage, String storageType, String source, String igsn) {
 		
 		EntityManager em = JPAEntityManager.createEntityManager();
 		
@@ -124,7 +124,7 @@ public class SubCollectionEntityService {
 		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
 		 Root<RsSubcollection> from = countQuery.from(RsSubcollection.class);		
 		
-		 List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source, criteriaBuilder,from);
+		 List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source,igsn, criteriaBuilder,from);
 
 		CriteriaQuery<Long> select = countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 	
@@ -135,7 +135,7 @@ public class SubCollectionEntityService {
 	}
 	
 	
-	private List<Predicate> predicateBuilder(String collectionId,String project,String oldId,String locationInStorage,String storageType,String source,CriteriaBuilder criteriaBuilder,Root<RsSubcollection> from){
+	private List<Predicate> predicateBuilder(String collectionId,String project,String oldId,String locationInStorage,String storageType,String source,String igsn,CriteriaBuilder criteriaBuilder,Root<RsSubcollection> from){
 		
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (collectionId != null && !collectionId.isEmpty()) {
@@ -160,6 +160,10 @@ public class SubCollectionEntityService {
 		
 		if (source != null && !source.isEmpty()) {
 			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(from.get("source")),  "%"+ source.toUpperCase() +"%"));
+		}
+		
+		if (igsn != null && !igsn.isEmpty()) {
+			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(from.get("igsn")),  "%"+ igsn.toUpperCase() +"%"));
 		}
 		
 		

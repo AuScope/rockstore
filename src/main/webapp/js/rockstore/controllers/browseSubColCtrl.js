@@ -45,6 +45,7 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
     			locationInStorage:$scope.form.locationInStorage,
     			storageType: $scope.form.storageType, 			
  				source : $scope.form.source,
+ 				igsn : $scope.form.igsn,
  				pageNumber:page,
  				pageSize:10
  				}

@@ -95,7 +95,9 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 	                                 { field: 'storageType',displayName: 'Storage Type',width:170 },
 	                                 { field: 'hazardous',displayName: 'Hazardous',width:170 },
 	                                 { field: 'source',displayName: 'source',width:170 },
-	                                 { field: 'totalPallet',displayName: 'Pallet Weight',width:170 }	                                 
+	                                 { field: 'totalPallet',displayName: 'Pallet Weight',width:170 },
+	                                 { field: 'previousPalletId',displayName: 'Previous Pallet',width:170 },
+	                                 { field: 'disposedInsufficientInfo',displayName: 'Insufficient Info',width:170 }
 	                               ];
 	                              
    $scope.gridOptions.multiSelect = false;
@@ -126,6 +128,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
   			locationInStorage:$scope.search.locationInStorage,
   			storageType: $scope.search.storageType, 			
 			source : $scope.search.source,
+			igsn : $scope.search.igsn,
 			pageNumber:page,
 			pageSize:pageSize
 	}
