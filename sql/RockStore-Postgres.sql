@@ -219,33 +219,6 @@ CREATE SEQUENCE checkout_registry_id_seq
 ALTER SEQUENCE checkout_registry_id_seq OWNED BY checkout_registry.id;
 
 
---
--- TOC entry 208 (class 1259 OID 236315)
--- Name: rs_checkout_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE rs_checkout_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- TOC entry 207 (class 1259 OID 236312)
--- Name: rs_checkout; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE rs_checkout (
-    subcollection_id character varying(50) NOT NULL,
-    checkout_date timestamp without time zone,
-    due_date timestamp without time zone,
-    user_request character varying(50),
-    checked_out boolean,
-    id integer DEFAULT nextval('rs_checkout_seq'::regclass) NOT NULL
-);
-
 
 --
 -- TOC entry 200 (class 1259 OID 235996)
