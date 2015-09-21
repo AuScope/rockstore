@@ -47,8 +47,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 		$http.get('subCollectionAddUpdate.do', {
 			params:{	
 				subcollectionId: $scope.form.subcollectionId,
-				locationInStorage: $scope.form.locationInStorage,
-				oldId: $scope.form.oldId,				
+				locationInStorage: $scope.form.locationInStorage,								
 				storageType: $scope.form.storageType,
 				hazardous: $scope.form.hazardous,
 				source: $scope.form.source,
@@ -86,8 +85,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 	                                 { field: 'subcollectionId',displayName: 'subCollection id',width:150 },
 	                                 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
 	                                 { field: 'igsn',displayName: 'igsn',width:150 },
-	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 
-	                                 { field: 'oldId',displayName: 'old ID',width:130},
+	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 	                                 
 	                                 { field: "sampleRangeBySubcollection['minContainer']",displayName: 'Container From',width:180},
 	                                 { field: "sampleRangeBySubcollection['maxContainer']",displayName: 'Container To',width:155 },
 	                                 { field: "sampleRangeBySubcollection['minSample']",displayName: 'Sample From',width:150 },
@@ -123,8 +121,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
    $scope.searchSubCollection = function(page,pageSize, updateCount){
 	
   	 var params ={	
-  			collectionId: $scope.search.collectionId,
-  			oldId : $scope.search.oldId,
+  			collectionId: $scope.search.collectionId,  			
   			locationInStorage:$scope.search.locationInStorage,
   			storageType: $scope.search.storageType, 			
 			source : $scope.search.source,

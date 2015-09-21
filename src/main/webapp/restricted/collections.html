@@ -63,7 +63,7 @@
 					      <div class="form-group has-success">
 					        <label class="col-sm-4 control-label" for="inputSuccess">Staff Responsible</label>
 					        <div class="col-sm-8">						          
-					          <select class="form-control" ng-model="form.staffidResponsible" ng-options="user.contactName as [user.contactName,user.organization].join(' - ') for user in users"></select>	
+					          <select class="form-control" ng-model="form.staffidResponsible" ng-options="staff.contactName as [staff.contactName,staff.organization].join(' - ') for staff in staffs"></select>	
 					          
 					        </div>
 					      </div>

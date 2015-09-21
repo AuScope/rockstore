@@ -139,7 +139,7 @@ public class RsSubcollection implements java.io.Serializable {
 		this.oldId = oldId;
 	}
 	
-	@Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 50)
+	@Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 100)
 	@Generated(GenerationTime.INSERT)
 	public String getIgsn() {
 		return this.igsn;

@@ -348,8 +348,7 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
 	                                 { field: 'subcollectionId',displayName: 'subCollection id',width:150 },
 	                                 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
 	                                 { field: 'igsn',displayName: 'igsn',width:150 },
-	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 
-	                                 { field: 'oldId',displayName: 'old ID',width:130},
+	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 	                               
 	                                 { field: "sampleRangeBySubcollection['minContainer']",displayName: 'Container From',width:180},
 	                                 { field: "sampleRangeBySubcollection['maxContainer']",displayName: 'Container To',width:155 },
 	                                 { field: "sampleRangeBySubcollection['minSample']",displayName: 'Sample From',width:150 },
@@ -384,8 +383,7 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
 	   spinnerService.show('searchSubCollection.grid');
 	   var params ={	
    			collectionId: $scope.form.collectionId,
-   			project : $scope.form.project,
-   			oldId : $scope.form.oldId,
+   			project : $scope.form.project,   			
    			locationInStorage:$scope.form.locationInStorage,
    			storageType: $scope.form.storageType, 			
 			source : $scope.form.source,

@@ -40,8 +40,7 @@ allControllers.controller('BrowseSubCollectionCtrl', ['$scope','$http','MapModal
      $scope.searchSubCollection = function(page){
     	 $scope.currentPages = page;//VT page is reset to 1 on new search
     	 var params ={	
-    			collectionId: $scope.form.collectionId,
-    			oldId : $scope.form.oldId,
+    			collectionId: $scope.form.collectionId,    		
     			locationInStorage:$scope.form.locationInStorage,
     			storageType: $scope.form.storageType, 			
  				source : $scope.form.source,

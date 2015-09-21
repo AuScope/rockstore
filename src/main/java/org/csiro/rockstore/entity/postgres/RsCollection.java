@@ -149,7 +149,7 @@ public class RsCollection implements java.io.Serializable {
 		this.projectResult = projectResult;
 	}
 
-	@Column(name = "project_publication", length = 200)
+	@Column(name = "project_publication", length = 700)
 	public String getProjectPublication() {
 		return this.projectPublication;
 	}

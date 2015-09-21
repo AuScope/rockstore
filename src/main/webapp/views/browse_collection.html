@@ -161,10 +161,35 @@
 												
 											</tr>	
 											<tr ng-repeat-end class="panel-collapse collapse out collapse-{{subcollection.subcollectionId}}">
-												<td colspan="5">													
-													<div class="row">
-														<div class="col-sm-6 div-hover-background"><h3><i class="fa fa-warning"></i>{{subcollection.hazardous}}</h3><small>Hazardous</small></div>
-														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.oldId}}</h3><small>Old Id</small></div>			
+												  
+												
+												<td colspan="5">
+													<table class="table table-borderless table-hover">
+	                                                        <tbody>
+	                                                            <tr>
+	                                                                <th>Hazardous</th>
+	                                                                <td><i class="fa fa-warning"></i> {{subcollection.hazardous}}</td>                                                                
+	                                                            </tr>	                                                           
+	                                                            <tr>
+	                                                                <th>Container Range</th>
+	                                                                <td>{{subcollection.sampleRangeBySubcollection['minContainer']}} - {{subcollection.sampleRangeBySubcollection['maxContainer']}} </td>
+	                                                            </tr>
+	                                                            <tr>
+	                                                                <th>Sample Range</th>
+	                                                                <td>{{subcollection.sampleRangeBySubcollection['minSample']}} - {{subcollection.sampleRangeBySubcollection['maxSample']}}</td>
+	                                                            </tr>
+	                                                            <tr>
+	                                                                <th>Storage Type</th>
+	                                                                <td>{{subcollection.storageType}}</td>                                                                
+	                                                            </tr>
+	                                                            <tr>
+	                                                                <th>Number of Pallets</th>
+	                                                                <td>{{subcollection.totalPallet}}</td>                                                                
+	                                                            </tr>                                                            
+	                                                        </tbody>
+	                                                    </table>	 												
+													<!-- div class="row">
+														<div class="col-sm-6 div-hover-background"><h3><i class="fa fa-warning"></i>{{subcollection.hazardous}}</h3><small>Hazardous</small></div>															
 													</div>	
 													<div class="row">
 														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.sampleRangeBySubcollection['minContainer']}}</h3><small>Container From</small></div>
@@ -177,7 +202,7 @@
 													<div class="row">
 														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.storageType}}</h3><small>Storage Type</small></div>
 														<div class="col-sm-6 div-hover-background"><h3>{{subcollection.totalPallet}}</h3><small>Pallets Weight</small></div>			
-													</div>																																							
+													</div-->																																							
 												</td>
 											</tr>
 																																
@@ -201,12 +226,12 @@
 		        	 
 		          <!-- PAGINATAION -->
 		          <div class="row">
-		            <div class="col-sm-6">
+		            <div class="col-sm-12">
 		              	<pagination ng-change="pageChanged()" total-items="totalItem" ng-model="currentPages" max-size="5" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>		              
 		            </div>		            
 		          </div>
 		          <div class="row">
-		            <div class="col-sm-6">
+		            <div class="col-sm-12">
 		              	<pre>Page: {{currentPages}} / {{numPages}}</pre>		              
 		            </div>		            
 		          </div>

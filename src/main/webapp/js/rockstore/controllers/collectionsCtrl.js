@@ -17,15 +17,15 @@ allControllers.controller('CollectionCtrl', ['$scope','$rootScope','$http','Drop
 	});
 	
 	
-//	DropDownValueService.getStaffs()
-//	.then(function(data) {
-//		 $scope.staffs= data;
-//	}, function(data, status) {
-//		modalService.showModal({}, {    	            	           
-//	           headerText: "Error retrieve staff list",
-//	           bodyText: data
-//		 });
-//	});
+	DropDownValueService.getStaffs()
+	.then(function(data) {
+		 $scope.staffs= data;
+	}, function(data, status) {
+		modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieve staff list",
+	           bodyText: data
+		 });
+	});
 	
 	
 	

@@ -94,7 +94,7 @@ public class RsSubcollectionAudit implements java.io.Serializable {
 		this.oldId = oldId;
 	}
 	
-	@Column(insertable=false,updatable=false, name = "igsn", length = 50)
+	@Column(insertable=false,updatable=false, name = "igsn", length = 100)
 	@Generated(GenerationTime.INSERT)
 	public String getIgsn() {
 		return this.igsn;

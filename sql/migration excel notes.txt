@@ -1,0 +1,40 @@
+Collections:
+
+Prestep:
+
+search and replace ' with ''
+
+check for new line 
+
+= "insert into rs_collection(id ,collection_id ,project ,staffid_field_manager,staffid_responsible ,project_result,project_publication ,project_close_date ,available_to_public,archive_due , last_update_user) values(" & A2 &",'"& B2&"','"& C2&"','"& D2&"','"& E2&"','"& F2&"','"& G2&"',null,"& I2&","& "null,'tey006');"
+
+SubCollections
+
+import error
+(C005204)  in subcollection does not exist
+INSERT INTO rs_subcollection(id, subcollection_id, location_in_storage, storage_type, hazardous,collection_id,previous_pallet_id, igsn, total_pallet, disposed_insufficient_info,last_update_user)VALUES (822,'SC00785','H19-L4','STANDARD',FALSE,'C005204','102','http://hdl.handle.net/10273/CSRWASC00785#http://hdl.handle.net/10273/CSRWASC00034#',0,FALSE,'tey006' );
+
+
+Prestep:
+
+Total Pallet Weight set null to 0
+
+= "INSERT INTO rs_subcollection(id, subcollection_id, location_in_storage, storage_type, hazardous,collection_id,previous_pallet_id, igsn, total_pallet, disposed_insufficient_info,last_update_user)VALUES ("& A2 & ",'" & B2& "','" & C2& "','" &D2& "'," &E2& ",'" &F2& "','"&G2& "','" &I2& "',"&J2& "," &K2& ",'tey006' );"
+
+Poststep:
+
+update rs_subcollection set igsn = replace(igsn,'http://hdl.handle.net/10273/','')
+update rs_subcollection set igsn = replace(igsn,'#','')
+update rs_subcollection set igsn = replace(igsn,'CSRWASC00034','')  where igsn != 'CSRWASC00034'
+
+
+
+
+Questions:
+Old is in subcollection to be removed?
+"CSRWASC00884CSIRO" clean up
+
+
+Staffs
+
+= "insert into users(contact_name,organization) values('" & A1 & "','CSIRO');"
