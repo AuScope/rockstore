@@ -63,7 +63,15 @@
 			  <div class="col-md-12">
 				  <div class="row mb" >				  						  	
 		          	<div class="panel panel-default col-md-8">		          	
-					  <div class="panel-heading">Collections</div>						  				 
+					  <div class="panel-heading">Collections</div>
+					  	<spinner name="subcollection-grid" ng-cloak="" >
+					   	   <div class="overlay"></div>
+						   <div class="spinner">
+						     <div class="double-bounce1"></div>
+						     <div class="double-bounce2"></div>
+						   </div>
+						   <div class="please-wait">Please Wait...</div>
+					   </spinner>						  				 
 					   <div id="SubCollectionGrid"  ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui.grid.resizeColumns class="collection-grid" ></div>						 
 					</div>
 		          

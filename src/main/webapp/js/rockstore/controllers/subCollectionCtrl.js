@@ -1,5 +1,5 @@
-allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','modalService','SearchCollectionService','$routeParams',
-                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,modalService,SearchCollectionService,$routeParams) {
+allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','DropDownValueService','$filter','modalService','SearchCollectionService','$routeParams','spinnerService',
+                                                    function ($scope,$rootScope,$http,DropDownValueService,$filter,modalService,SearchCollectionService,$routeParams,spinnerService) {
 		
 	$scope.paginationOptions = {
 		    pageNumber: 1,
@@ -119,7 +119,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
    };
    
    $scope.searchSubCollection = function(page,pageSize, updateCount){
-	
+	   spinnerService.show('subcollection-grid');
   	 var params ={	
   			collectionId: $scope.search.collectionId,  			
   			locationInStorage:$scope.search.locationInStorage,
@@ -137,14 +137,14 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
      .success(function(data) {
        $scope.gridOptions.data = data;       
        $scope.toggleFilter=false;
-      
+       spinnerService.hide('subcollection-grid');
      })
      .error(function(data, status) {    	
     	 modalService.showModal({}, {    	            	           
 	           headerText: "Error loading data:" + status ,
 	           bodyText: "Please contact cg-admin@csiro.au if this persist"
     	 });
-    	       
+    	 spinnerService.hide('subcollection-grid');      
      })
      
      if(updateCount){

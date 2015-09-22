@@ -162,7 +162,7 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 			pageNumber:page,
 			pageSize:pageSize
 		 }
-		
+	   	spinnerService.show('samples-grid');
 		//VT: Actual results
 		$http.get('searchSample.do',{
 			params:params
@@ -170,13 +170,14 @@ allControllers.controller('SampleCtrl', ['$scope','$rootScope','$http','DropDown
 	     .success(function(data) {
 	       $scope.gridOptions.data = data;       
 	       $scope.toggleFilter=false; 
+	       spinnerService.hide('samples-grid');
 	     })
 	     .error(function(data, status) {    	
 	    	 modalService.showModal({}, {    	            	           
 		           headerText: "Error loading data:" + status ,
 		           bodyText: "Please contact cg-admin@csiro.au if this persist"
 	    	 });
-	       
+	    	 spinnerService.hide('samples-grid');
 	     })
 	     if(updateCount){
 	    	//VT: Get the count of the result
