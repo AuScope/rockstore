@@ -4,7 +4,7 @@ app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
-        templateUrl: 'views/browse_collection.html'
+    	  redirectTo: '/browsecollections'
       
       }).
       when('/browsecollections', {
