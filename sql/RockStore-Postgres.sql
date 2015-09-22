@@ -469,13 +469,13 @@ CREATE TABLE rs_subcollection_audit (
 --
 
 CREATE VIEW sample_range_by_subcollection AS
- SELECT rs_sample.subcollection_id,
-    min((rs_sample.container_id)::text) AS min_container,
-    max((rs_sample.container_id)::text) AS max_container,
-    min((rs_sample.csiro_sample_id)::text) AS min_sample,
-    max((rs_sample.csiro_sample_id)::text) AS max_sample
-   FROM rs_sample
-  GROUP BY rs_sample.subcollection_id;
+ SELECT rss.subcollection_id,
+    min(rs.container_id::text) AS min_container,
+    max(rs.container_id::text) AS max_container,
+    min(rs.csiro_sample_id::text) AS min_sample,
+    max(rs.csiro_sample_id::text) AS max_sample
+   FROM rs_subcollection rss left join rs_sample rs on rss.subcollection_id=rs.subcollection_id
+  GROUP BY rss.subcollection_id;
 
 
 --
