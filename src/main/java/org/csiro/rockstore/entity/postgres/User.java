@@ -20,11 +20,11 @@ import javax.persistence.Table;
 @NamedQueries({	
 	@NamedQuery(
 			name="User.getAuthenticated",
-		    query="SELECT c FROM User c"
+		    query="SELECT c FROM User c order by c.contactName"
 	),
 	@NamedQuery(
 			name="User.findUserByName",
-		    query="SELECT c FROM User c where c.contactName =:contactName" 
+		    query="SELECT c FROM User c where c.contactName =:contactName order by c.contactName" 
 	)	
 		
 })	

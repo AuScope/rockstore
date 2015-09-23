@@ -331,7 +331,7 @@ CREATE TABLE rs_sample (
     datum character varying(50),
     container_id character varying(100),
     subcollection_id character varying(100),
-    external_ref character varying(200),
+    external_ref character varying(300),
     sample_collector character varying(200),
     date_sampled timestamp without time zone,
     sample_dispose boolean,

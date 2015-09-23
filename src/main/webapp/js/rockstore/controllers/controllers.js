@@ -347,6 +347,7 @@ allControllers.controller('SearchSubCollectionCtrl', function ($scope,DropDownVa
                                  	 { field: 'id',displayName: 'id',width:50 },
 	                                 { field: 'subcollectionId',displayName: 'subCollection id',width:150 },
 	                                 { field: "rsCollection['collectionId']",displayName: 'collection Id', width:150 },
+	                                 { field: "rsCollection['project']",displayName: 'project', width:150 },
 	                                 { field: 'igsn',displayName: 'igsn',width:150 },
 	                                 { field: 'locationInStorage',displayName: 'Store loc',width:150 },	                                 	                               
 	                                 { field: "sampleRangeBySubcollection['minContainer']",displayName: 'Container From',width:180},

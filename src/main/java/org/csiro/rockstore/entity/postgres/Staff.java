@@ -20,11 +20,11 @@ import javax.persistence.Table;
 @NamedQueries({	
 	@NamedQuery(
 			name="Staff.getAuthenticated",
-		    query="SELECT c FROM Staff c"
+		    query="SELECT c FROM Staff c order by c.contactName"
 	),
 	@NamedQuery(
 			name="Staff.findStaffByName",
-		    query="SELECT c FROM Staff c where c.contactName =:contactName" 
+		    query="SELECT c FROM Staff c where c.contactName =:contactName order by c.contactName" 
 	)	
 })	
 public class Staff implements java.io.Serializable {

@@ -38,3 +38,33 @@ Old is in subcollection to be removed?
 Staffs
 
 = "insert into users(contact_name,organization) values('" & A1 & "','CSIRO');"
+
+
+SAMPLES
+
+Prestep
+Delete location in storage,
+Delete project
+Delete duplicate columns
+Delete empty column(last few columns, anything after date_sampled)
+update depth column replace null with 0
+
+= "INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('" & C2 & "','" & D2 & "','" & E2 & "','" & F2 & "','" & G2 & "'," & H2 & ",'" & I2 & "-" & J2 & "','" & K2 & "','" & L2 & "','" & M2 & "','" & N2 & "',to_date('" & O2 & "', 'DD-MM-YYYY'),'tey006');"
+
+Questions: why project again in sample
+
+Import error:
+Empty subcollection_id
+INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ001','Core','MNDD129','667027','7097345',187,'MGA_95-Zone_50','','','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
+INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ002','Core','MNDD129','667027','7097345',238,'MGA_95-Zone_50','','','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
+INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ003','Core','MNDD129','667027','7097345',264,'MGA_95-Zone_50','','','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
+
+geometry
+
+SELECT *,ST_AsText(ST_Transform(ST_GeomFromText(('POINT('||orig_lat||' '|| orig_lon ||')'),replace(datum,'EPSG:','')::int),4326)) from rs_sample where orig_lat != ''
+
+
+
+
+
+Geometry column clean up

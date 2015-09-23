@@ -234,7 +234,7 @@ public class RsSample implements java.io.Serializable {
 		this.containerId = containerId;
 	}
 
-	@Column(name = "external_ref", length = 200)
+	@Column(name = "external_ref", length = 300)
 	public String getExternalRef() {
 		return this.externalRef;
 	}
