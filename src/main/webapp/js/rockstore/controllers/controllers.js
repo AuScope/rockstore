@@ -235,15 +235,15 @@ allControllers.controller('SearchCollectionCtrl', function ($scope,DropDownValue
 	});
 	
 	
-//	DropDownValueService.getStaffs()
-//	.then(function(data) {
-//		 $scope.staffs= data;
-//	}, function(data, status) {
-//		modalService.showModal({}, {    	            	           
-//	           headerText: "Error retrieving staff list",
-//	           bodyText: data
-//		 });
-//	});
+	DropDownValueService.getStaffs()
+	.then(function(data) {
+		 $scope.staffs= data;
+	}, function(data, status) {
+		modalService.showModal({}, {    	            	           
+	           headerText: "Error retrieving staff list",
+	           bodyText: data
+		 });
+	});
 	
 	
 	$scope.booleans = DropDownValueService.getBoolean();
