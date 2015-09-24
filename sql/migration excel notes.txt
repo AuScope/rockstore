@@ -55,15 +55,15 @@ Questions: why project again in sample
 
 Import error:
 Empty subcollection_id
-INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ001','Core','MNDD129','667027','7097345',187,'MGA_95-Zone_50','','','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
-INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ002','Core','MNDD129','667027','7097345',238,'MGA_95-Zone_50','','','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
-INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ003','Core','MNDD129','667027','7097345',264,'MGA_95-Zone_50','','','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
+INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ001','Core','MNDD129','667027','7097345',187,'MGA_95-Zone_50','','SC00003','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
+INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ002','Core','MNDD129','667027','7097345',238,'MGA_95-Zone_50','','SC00003','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
+INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, depth, datum, container_id, subcollection_id, external_ref, sample_collector, date_sampled, last_update_user) VALUES ('DorayJ003','Core','MNDD129','667027','7097345',264,'MGA_95-Zone_50','','SC00003','EP147797','Louise Fisher',to_date('', 'DD-MM-YYYY'),'tey006');
 
 geometry
 
 SELECT *,ST_AsText(ST_Transform(ST_GeomFromText(('POINT('||orig_lat||' '|| orig_lon ||')'),replace(datum,'EPSG:','')::int),4326)) from rs_sample where orig_lat != ''
 
-
+update rs_sample set location=ST_Transform(ST_GeomFromText(('POINT('||orig_lat||' '|| orig_lon ||')'),replace(datum,'EPSG:','')::int),4326) where csiro_sample_id in ('DorayJ001','DorayJ002','DorayJ003')
 
 
 
