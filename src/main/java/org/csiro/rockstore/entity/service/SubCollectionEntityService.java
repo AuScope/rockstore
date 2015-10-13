@@ -100,6 +100,8 @@ public class SubCollectionEntityService {
 		List<Predicate> predicates =this.predicateBuilder(collectionId,project,oldId,locationInStorage,storageType,source,igsn, criteriaBuilder,from);
 			
 		CriteriaQuery<RsSubcollection> select = criteriaQuery.select(from).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+		
+		select = select.orderBy(criteriaBuilder.asc(from.get("subcollectionId")));
 	
 		TypedQuery<RsSubcollection> typedQuery = em.createQuery(select);
 		

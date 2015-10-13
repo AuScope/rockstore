@@ -103,6 +103,8 @@ public class SampleEntityService {
 		List<Predicate> predicates =this.predicateBuilder(subcollectionId,igsn,csiroSampleId,bhid,externalRef, criteriaBuilder,from);
 			
 		CriteriaQuery<RsSample> select = criteriaQuery.select(from).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+		select = select.orderBy(criteriaBuilder.asc(from.get("rsSubcollection").get("subcollectionId")));
+		
 	
 		TypedQuery<RsSample> typedQuery = em.createQuery(select);
 		

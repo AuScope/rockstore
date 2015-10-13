@@ -35,11 +35,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @NamedQueries({
 	@NamedQuery(
 			name="RsCollection.findCollectionById",
-		    query="SELECT c FROM RsCollection c WHERE c.collectionId = :collectionId"
+		    query="SELECT c FROM RsCollection c WHERE c.collectionId = :collectionId order by c.collectionId"
 		),
 	@NamedQuery(
 			name="RsCollection.getAllCollection",
-		    query="SELECT c FROM RsCollection c"
+		    query="SELECT c FROM RsCollection c order by c.collectionId"
 		)
 		
 })	
