@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute','allControllers','ui.grid','ui.grid.pagination','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners','uiGmapgoogle-maps','ngAnimate','monospaced.qrcode']);
+var app = angular.module('app', ['ngRoute','allControllers','ui.grid','ui.grid.pagination','ui.grid.selection','ui.grid.resizeColumns','ui.bootstrap','angularSpinners','uiGmapgoogle-maps','ngAnimate','monospaced.qrcode','ngFileUpload']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -79,6 +79,10 @@ app.config(['$routeProvider',
       }).
       when('/managecheckouts', {
           templateUrl: 'restricted/checkInCheckOut.html'
+        
+      }).
+      when('/import', {
+          templateUrl: 'restricted/importExcel.html'
         
       }).
       otherwise({

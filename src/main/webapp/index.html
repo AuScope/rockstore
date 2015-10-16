@@ -36,6 +36,8 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.min.js"></script>
 	<script src="js/angular-qrcode/angular-qrcode.js"></script>
 	<script src="js/angular-qrcode/qrcode.js"></script>
+	<script src="js/ng-file-upload/ng-file-upload-all.min.js"></script>
+	
 	
 	
   <!-- Angular javascript -->	
@@ -53,8 +55,9 @@
   <script src="js/rockstore/controllers/StaffSettingsCtrl.js"></script>
   <script src="js/rockstore/controllers/roleSettingsCtrl.js"></script>
   <script src="js/rockstore/controllers/checkOutFormCtrl.js"></script>
-  <script src="js/rockstore/controllers/manageCheckOutCtrl.js"></script> 
-
+  <script src="js/rockstore/controllers/manageCheckOutCtrl.js"></script>
+  <script src="js/rockstore/controllers/importCtrl.js"></script>
+  
 </head>
 
 <body class="body-nav-fixed-menu-top" ng-app="app">
@@ -109,17 +112,20 @@
            <li ng-show="status.authenticated">
             	<a href="#/registercheckout"><i class="fa fa-info"></i> Request Checkout</a>
             </li>             
-           <li class="dropdown" ng-show="status.permissions.canEdit">
+           <li class="dropdown">
               <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-edit"></i> Edit</a>
               <ul class="dropdown-menu dropdown-menu-left">
-              	<li>
+              	<li ng-show="status.permissions.canEdit">
                   <a href="#/collections">Collections</a>
                 </li>
-                <li>
+                <li ng-show="status.permissions.canEdit">
                   <a href="#/subcollections">SubCollections</a>
                 </li>
-                <li>
+                <li ng-show="status.permissions.canEdit">
                   <a href="#/samples">Samples</a>
+                </li> 
+                <li>
+                  <a href="#/import">Import Excel - WIP</a>
                 </li>                
               </ul>
             </li>

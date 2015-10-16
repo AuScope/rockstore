@@ -4233,4 +4233,18 @@ input[readonly].must-select {
 }
 
 
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+
+.progress div {
+    font-size: smaller;
+    background: #ff7d7d;
+    width: 0;
+}
+
+
  

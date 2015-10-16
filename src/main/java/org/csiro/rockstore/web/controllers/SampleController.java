@@ -1,6 +1,7 @@
 package org.csiro.rockstore.web.controllers;
 
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.springframework.ldap.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.vividsolutions.jts.geom.Point;
 
@@ -246,4 +248,18 @@ public class SampleController {
     	}
 
     } 
+    
+    
+    @RequestMapping(value = "import.do")
+    public void upload(@RequestParam("file") MultipartFile file) throws IOException {
+
+        byte[] bytes;
+
+        if (!file.isEmpty()) {
+             bytes = file.getBytes();
+            //store file in storage
+        }
+
+        System.out.println(String.format("receive %s", file.getOriginalFilename()));
+    }
 }

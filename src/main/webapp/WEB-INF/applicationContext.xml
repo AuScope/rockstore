@@ -10,13 +10,10 @@
         <property name="maxPoolSize" value="5" />
         <property name="queueCapacity" value="25" />
     </bean>
-
-
-    <bean id="httpServiceCaller" class="org.auscope.portal.core.server.http.HttpServiceCaller">
-        <constructor-arg type="int" name="connectionTimeOut">
-            <value>900000</value>
-        </constructor-arg>
-    </bean>
+    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver123">
+    	<property name="maxUploadSize" value="50000000"/>
+	</bean>
 
 
 

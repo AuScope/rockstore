@@ -7,7 +7,7 @@
                         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
-   <display-name>CSIRO IGSN</display-name>
+   <display-name>CSIRO Rockstore</display-name>
 
    <servlet>
       <servlet-name>annotationsDispatcher</servlet-name>
@@ -42,9 +42,6 @@
       <error-code>403</error-code>
       <location>/access_error.html</location>
    </error-page>
-
-
-   <!-- Security for admin page below this comment -->
 
   
 </web-app>

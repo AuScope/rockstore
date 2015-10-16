@@ -8,6 +8,6 @@ public class SecurityWebApplicationInit
       extends AbstractSecurityWebApplicationInitializer {
 
     public SecurityWebApplicationInit() {
-        super(SecurityConfig.class);
+        super(SecurityConfig.class,AppConfig.class);
     }
 }

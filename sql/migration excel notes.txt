@@ -68,3 +68,5 @@ update rs_sample set location=ST_Transform(ST_GeomFromText(('POINT('||orig_lat||
 
 
 Geometry column clean up
+
+Join up staff and user in collection and sample
