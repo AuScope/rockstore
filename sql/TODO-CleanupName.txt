@@ -1,0 +1,7 @@
+USER LIST:
+
+select distinct sample_collector from rs_sample
+
+select distinct staffid_field_manager from rs_collection 
+
+

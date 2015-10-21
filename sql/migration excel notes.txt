@@ -21,6 +21,8 @@ Total Pallet Weight set null to 0
 
 = "INSERT INTO rs_subcollection(id, subcollection_id, location_in_storage, storage_type, hazardous,collection_id,previous_pallet_id, igsn, total_pallet, disposed_insufficient_info,last_update_user)VALUES ("& A2 & ",'" & B2& "','" & C2& "','" &D2& "'," &E2& ",'" &F2& "','"&G2& "','" &I2& "',"&J2& "," &K2& ",'tey006' );"
 
+
+
 Poststep:
 
 update rs_subcollection set igsn = replace(igsn,'http://hdl.handle.net/10273/','')
@@ -61,7 +63,18 @@ INSERT INTO rs_sample(csiro_sample_id, sample_type, bhid, orig_lat,orig_lon, dep
 
 geometry
 
+
+update rs_sample set datum = 'EPSG:28351' where datum ='MGA_94-Zone_51';
+update rs_sample set datum = 'EPSG:28350' where datum ='MGA_94-ZONE_50';
+update rs_sample set datum = 'EPSG:28354' where datum ='MGA_94-ZONE_54';
+update rs_sample set datum = 'EPSG:28355' where datum ='GDA_94-Zone_55';
+update rs_sample set datum = 'EPSG:28350' where datum ='MGA_94-Zone_50';
+update rs_sample set datum = 'EPSG:28351' where datum ='MGA_94-ZONE_51';
+update rs_sample set datum = 'EPSG:28350' where datum ='MGA_95-Zone_50';
+
 SELECT *,ST_AsText(ST_Transform(ST_GeomFromText(('POINT('||orig_lat||' '|| orig_lon ||')'),replace(datum,'EPSG:','')::int),4326)) from rs_sample where orig_lat != ''
+
+update rs_sample set location=ST_Transform(ST_GeomFromText(('POINT('||orig_lat||' '|| orig_lon ||')'),replace(datum,'EPSG:','')::int),4326) where orig_lat != ''
 
 update rs_sample set location=ST_Transform(ST_GeomFromText(('POINT('||orig_lat||' '|| orig_lon ||')'),replace(datum,'EPSG:','')::int),4326) where csiro_sample_id in ('DorayJ001','DorayJ002','DorayJ003')
 
@@ -70,3 +83,23 @@ update rs_sample set location=ST_Transform(ST_GeomFromText(('POINT('||orig_lat||
 Geometry column clean up
 
 Join up staff and user in collection and sample
+
+
+
+update rs_collection set staffid_responsible='Ravi Anand' where staffid_responsible='RA';
+update rs_collection set staffid_responsible='Cheryl Harris' where staffid_responsible='CH';
+update rs_collection set staffid_responsible='John Walshe' where staffid_responsible='JW';
+update rs_collection set staffid_responsible='Adam Bath' where staffid_responsible='AB';
+update rs_collection set staffid_responsible='Alastair white' where staffid_responsible='AJW';
+update rs_collection set staffid_responsible='Louise Fisher' where staffid_responsible='LF';
+update rs_collection set staffid_responsible='Cindy Ong' where staffid_responsible='CO';
+update rs_collection set staffid_responsible='Joanna Parr' where staffid_responsible='JP';
+update rs_collection set staffid_responsible='Steve Barnes' where staffid_responsible='SB';
+update rs_collection set staffid_responsible='Tim Munday' where staffid_responsible='TM';
+update rs_collection set staffid_responsible='Mel Lintern' where staffid_responsible='ML';
+update rs_collection set staffid_responsible='Ian Lau' where staffid_responsible='IL';
+update rs_collection set staffid_responsible='Tom Cudahy' where staffid_responsible='TC';
+update rs_collection set staffid_responsible='Martin Wells' where staffid_responsible='MW';
+update rs_collection set staffid_responsible='Ryan Noble' where staffid_responsible='RN';
+
+

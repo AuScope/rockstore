@@ -112,7 +112,7 @@
            <li ng-show="status.authenticated">
             	<a href="#/registercheckout"><i class="fa fa-info"></i> Request Checkout</a>
             </li>             
-           <li class="dropdown">
+           <li class="dropdown" ng-show="status.authenticated">
               <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false"><i class="fa fa-edit"></i> Edit</a>
               <ul class="dropdown-menu dropdown-menu-left">
               	<li ng-show="status.permissions.canEdit">
@@ -125,8 +125,11 @@
                   <a href="#/samples">Samples</a>
                 </li> 
                 <li>
-                  <a href="#/import">Import Excel - WIP</a>
-                </li>                
+                  <a href="#/import">Import Excel</a>
+                </li>
+                <li>
+                  <a href="#/batchlog">View batch log</a>
+                </li>                                
               </ul>
             </li>
              <li class="dropdown" ng-show="status.permissions.admin">

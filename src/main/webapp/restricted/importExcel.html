@@ -18,22 +18,14 @@
 						   </div>
 						   <div class="please-wait">Please Wait...</div>
 					   </spinner>						 			
-					   <!-- div id="SampleGrid"  ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui.grid.resizeColumns class="collection-grid" ></div-->						 
+					   <div id="SamplePreviewGrid"  ui-grid="gridOptions" ui-grid-pagination ui-grid-selection ui.grid.resizeColumns class="collection-grid" ></div>						 
 					</div>
 		          
 					<div class="panel text-theme panel-primary col-md-4">
 					  <div class="panel-heading">
 					    <h3 class="panel-title">Import Sample</h3>
 					  </div>
-					  <div class="panel-body">
-					  	<spinner name="samples-form.submit" ng-cloak="" >
-					   	   <div class="overlay"></div>
-						   <div class="spinner">
-						     <div class="double-bounce1"></div>
-						     <div class="double-bounce2"></div>
-						   </div>
-						   <div class="please-wait">Please Wait...</div>
-					   </spinner>
+					  <div class="panel-body">					  
 					    <form class="form-horizontal">					    
 					      
 					       <button class="btn btn-rounded btn-blue" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="*" ngf-max-height="1000" ngf-resize="{width: 100, height: 100}" ngf-max-size="1MB">
@@ -45,12 +37,10 @@
 						   <span class="progress" ng-show="f.progress >= 0">
 						          <div style="width:{{f.progress}}%"  ng-bind="f.progress + '%'"></div>
 						      </span>     
-						  {{errorMsg}}
-						  
-						  					      
+						 				      
 					      <div class="form-group has-success">					       
 					        <div class="col-sm-12">
-					          <button class="btn btn-rounded btn-green pull-right" ng-click="submit()" type="button">Process Import</button>					         
+					          <button class="btn btn-rounded btn-green pull-right" ng-click="processFile()" type="button">Process Import</button>					         
 					        </div>
 					      </div>						      
 					    </form>

@@ -46,5 +46,10 @@ public class SpatialUtilities {
         }
         return geom;
     }
+	
+	public static Geometry wktToGeometry(Double lat, Double lon,String datum) throws NoSuchAuthorityCodeException, FactoryException {
+		return SpatialUtilities.wktToGeometry(String.valueOf(lat),String.valueOf(lon), datum);
+		
+	}
 
 }
