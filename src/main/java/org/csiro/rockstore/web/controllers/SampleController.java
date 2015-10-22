@@ -269,10 +269,10 @@ public class SampleController {
         try{
         	if (!file.isEmpty()) {
             	
-            	File convFile = new File( file.getOriginalFilename());
+            	File convFile = new File( System.getProperty("java.io.tmpdir"),file.getOriginalFilename());
+            	System.out.print("Saving file to " + convFile.getAbsolutePath() );
                 file.transferTo(convFile);
-                
-            	
+                            	
             	 FileInputStream fis = new FileInputStream(convFile);
         		 ExcelImportService s= new ExcelImportService();
         		
@@ -300,11 +300,11 @@ public class SampleController {
         try{
         	if (!file.isEmpty()) {
             	
-            	File convFile = new File( file.getOriginalFilename());
+        		File convFile = new File( System.getProperty("java.io.tmpdir"),file.getOriginalFilename());
+            	System.out.print("Saving file to " + convFile.getAbsolutePath() );
                 file.transferTo(convFile);
+                
             	 FileInputStream fis = new FileInputStream(convFile);
-        		 
-        		 
         		 ExecutorService executor = Executors.newSingleThreadExecutor();
 
         		// somewhere else:
