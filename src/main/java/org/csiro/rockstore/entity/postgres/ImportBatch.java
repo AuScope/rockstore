@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -14,6 +16,12 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "import_batch")
+@NamedQueries({
+	@NamedQuery(
+			name="ImportBatch.listBatch",
+		    query="SELECT ib FROM ImportBatch ib  WHERE ib.batchUser = :user order by ib.id"
+	)		
+})
 public class ImportBatch {
 	
 	private int id;

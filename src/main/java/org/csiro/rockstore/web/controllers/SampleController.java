@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.csiro.rockstore.entity.postgres.ImportBatch;
+import org.csiro.rockstore.entity.postgres.ImportLog;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsSample;
 import org.csiro.rockstore.entity.postgres.RsSampleAudit;
@@ -343,6 +345,48 @@ public class SampleController {
 		}
     	
     }
+    
+    
+    @RequestMapping(value = "listBatch.do")
+    public ResponseEntity<List<ImportBatch>> listBatch(    	
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	
+    	if(user == null){
+    		throw new AuthenticationException();
+    	}
+    	
+    	
+    	try{    		    		
+    		List<ImportBatch>	lrc = this.sampleEntityService.listBatch(user);   		    		
+    		return  new ResponseEntity<List<ImportBatch>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
+    } 
+    
+    @RequestMapping(value = "listBatchError.do")
+    public ResponseEntity<List<ImportLog>> listBatchError(
+    		@RequestParam(required = true, value ="batchId") int batchId,
+    		Principal user,
+            HttpServletResponse response) throws Exception{
+    	
+    	if(user == null){
+    		throw new AuthenticationException();
+    	}
+    	
+    	
+    	try{    		    		
+    		List<ImportLog>	lrc = this.sampleEntityService.listBatchLog(batchId);   		    		
+    		return  new ResponseEntity<List<ImportLog>>(lrc,HttpStatus.OK);
+    	}catch(Exception e){
+    		logger.warn(e);
+    		throw e;
+    	}
+
+    } 
     
    
 }

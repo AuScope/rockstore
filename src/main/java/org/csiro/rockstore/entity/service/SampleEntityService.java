@@ -1,5 +1,6 @@
 package org.csiro.rockstore.entity.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.csiro.rockstore.entity.postgres.ImportBatch;
+import org.csiro.rockstore.entity.postgres.ImportLog;
 import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
 import org.csiro.rockstore.entity.postgres.RsSample;
 import org.csiro.rockstore.entity.postgres.RsSampleAudit;
@@ -175,5 +178,27 @@ public class SampleEntityService {
 		em.close();
 		return result;
 	}
+
+	public List<ImportBatch> listBatch(Principal user) {
+		EntityManager em = JPAEntityManager.createEntityManager();
+		List<ImportBatch> result = em.createNamedQuery("ImportBatch.listBatch",ImportBatch.class)
+	    .setParameter("user", user.getName())
+	    .getResultList();
+		 em.close();
+		//VT: should only ever return 1 result as collectionid is unique
+		return result;
+	}
+
+	public List<ImportLog> listBatchLog(int batchId) {
+		EntityManager em = JPAEntityManager.createEntityManager();
+		List<ImportLog> result = em.createNamedQuery("ImportLog.listBatchLog",ImportLog.class)
+	    .setParameter("batchId", batchId)
+	    .getResultList();
+		 em.close();
+		//VT: should only ever return 1 result as collectionid is unique
+		return result;
+	}
+
+
 	
 }

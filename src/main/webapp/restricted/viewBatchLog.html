@@ -1,6 +1,6 @@
 
    
-<div class="section section-lg section-bottom" ng-controller="RoleSettingCtrl">
+<div class="section section-lg section-bottom" ng-controller="BatchLogCtrl">
 	
 		
        	   <div class="row mb">
@@ -8,34 +8,40 @@
 		      <div class="container">
 		        <div class="row mb">
 		          <div class="col-md-10 col-md-offset-1">
-		            <h3 class="title-md hr-left text-theme">Role management</h3>
+		            <h3 class="title-md hr-left text-theme">Batch Import Log</h3>
 		            <div class="panel panel-primary text-theme">
 		              <div class="panel-heading">
-		                <h3 class="panel-title">Current role list</h3>
+		                <h3 class="panel-title">Batch List</h3>
 		              </div>
 		               <div class="panel-body">		               
 	                	 <table class="detailTbl">								     	
 					       <thead>
 					         <tr>						                                
-					             <th>Staff</th>
-					             <th>Admin</th>
-					             <th>Can Edit</th>
-					             <th>Geologist</th>	
-					             <th>Add</th>						            					             
+					             <th>id</th>
+					             <th>start time</th>
+					             <th>end time</th>
+					             <th>error count</th>	
+					             <th>user</th>
+					             <th>start id</th>
+					             <th>end id</th>
+					             <th>logs</th>						            					             
 					         </tr>
 					         </thead>
 					         <tbody>
-					         <tr>
-					             <td><input type="text"  placeholder="Staff Ident" ng-model="addForm.staff"></td>
-					             <td><input type="checkbox" ng-model="addForm.admin"></td>
-					             <td><input type="checkbox" ng-model="addForm.canEdit"></td>
-					             <td><input type="checkbox" ng-model="addForm.geologist"></td>	
-					             <td><button class='btn btn-blue' ng-click="add()">Add</button></td>					                        
-					         </tr>
+					         <tr ng-repeat="batch in batchs">
+						             <td>{{batch.id}}</td>
+						             <td>{{batch.startTime | date:'d/MMM/yyyy'}}</td>
+						             <td>{{batch.endTime | date:'d/MMM/yyyy'}}</td>
+						             <td>{{batch.error}}</td>
+						             <td>{{batch.batchUser}}</td>
+						             <td>{{batch.startId}}</td>
+						             <td>{{batch.endId}}</td>
+						             <td><a ng-click='listBatchError(batch.id)'>View Log</a></td>						                        
+						         </tr>
 					         </tbody>
 					     </table>							               	 
 		               </div>
-		              <h3 class="title-md text-center title-striped">Add user</h3>
+		              <h3 class="title-md text-center title-striped">Batch Log</h3>
 		              
 		              <div class="panel-body">
 		                <div class="scroll-table">
@@ -43,20 +49,18 @@
 						     	
 						       <thead>
 						         <tr>						                                
-						             <th>Staff</th>
-						             <th>Admin</th>
-						             <th>Can Edit</th>
-						             <th>Geologist</th>	
-						             <th>Delete</th>						            					             
+						             <th>id</th>
+						             <th>Excel Row</th>
+						             <th>Error</th>
+						             <th>Column</th>							             						            					             
 						         </tr>
 						         </thead>
 						         <tbody>
-						         <tr ng-repeat="permission in permissions">
-						             <td>{{permission.staff}}</td>
-						             <td>{{permission.admin}}</td>
-						             <td>{{permission.canEdit}}</td>
-						             <td>{{permission.geologist}}</td>	
-						             <td><button class='btn btn-red' ng-click="deleteEntry(permission.staff)">Delete</button></td>						                        
+						         <tr ng-repeat="batchlog in batchlogs">
+						             <td>{{batchlog.id}}</td>
+						             <td>{{batchlog.excelRow}}</td>
+						             <td>{{batchlog.errorMessage}}</td>
+						             <td>{{batchlog.excelColumn}}</td>							             						                       
 						         </tr>
 						         </tbody>
 						        

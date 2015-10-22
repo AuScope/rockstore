@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,6 +18,12 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "import_log")
+@NamedQueries({
+	@NamedQuery(
+			name="ImportLog.listBatchLog",
+		    query="SELECT il FROM ImportLog il WHERE il.importBatch.id = :batchId order by il.id"
+	)	
+})	
 public class ImportLog {
 	
 	private int id;
