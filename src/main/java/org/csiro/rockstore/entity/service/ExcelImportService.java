@@ -135,6 +135,7 @@ public class ExcelImportService {
         file.close();
         batch.setEndTime(new Date());
         this.importEntityService.merge(batch);
+        workbook.close();
 	}
 	
 	public List<RsSample> generatePreview(FileInputStream inputFile, String user) throws IOException, NoSuchAuthorityCodeException, ParseException, FactoryException, ImportExceptions{
@@ -164,6 +165,7 @@ public class ExcelImportService {
                            
         }
         file.close();
+        workbook.close();
         return result;
 	}
 	
