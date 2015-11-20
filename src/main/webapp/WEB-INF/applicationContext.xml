@@ -3,18 +3,29 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 
+    
 
-    <!-- This is the core threadpool shared by object instances throughout the portal -->
-    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="corePoolSize" value="5" />
-        <property name="maxPoolSize" value="5" />
-        <property name="queueCapacity" value="25" />
+    
+	 <bean name="mintIGSNService" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="org.csiro.rockstore.igsn.ScheduleMintIGSN" />          
     </bean>
     
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver123">
-    	<property name="maxUploadSize" value="50000000"/>
+    <!-- Simple Trigger for vglJobStatusMonitor task, run every 5 minutes -->
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="mintIGSNService" />
+        <!-- property name="repeatInterval" value="300000" />
+        <property name="startDelay" value="10000" /-->
+        <property name="repeatInterval" value="100000" />
+        <property name="startDelay" value="10000" />
+    </bean>
+
+	<bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">	    
+	    <property name="triggers">
+	        <list>
+	            <ref bean="simpleTrigger" />	           
+	        </list>
+	    </property>
 	</bean>
-
-
-
+	
+	
 </beans>

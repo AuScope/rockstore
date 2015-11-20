@@ -28,15 +28,40 @@ public class Config {
 		if(prop.isEmpty()){
 			throw new FileNotFoundException("Unable to locate property file");
 		}else{
-			return prop.getProperty("ldap.password");
+			return prop.getProperty("LDAP_PASSWORD");
 		}
 	}
+	
+	public static String getIGSNUser() throws FileNotFoundException{
+		if(prop.isEmpty()){
+			throw new FileNotFoundException("Unable to locate property file");
+		}else{
+			return prop.getProperty("IGSN_USER");
+		}
+	}
+	
+	public static String getIGSNPassword() throws FileNotFoundException{
+		if(prop.isEmpty()){
+			throw new FileNotFoundException("Unable to locate property file");
+		}else{
+			return prop.getProperty("IGSN_PASSWORD");
+		}
+	}
+	
+	public static String getIGSNUrl() throws FileNotFoundException{
+		if(prop.isEmpty()){
+			throw new FileNotFoundException("Unable to locate property file");
+		}else{
+			return prop.getProperty("IGSN_URL");
+		}
+	}
+	
 	
 	public static String getLdapUrl() throws FileNotFoundException{
 		if(prop.isEmpty()){
 			throw new FileNotFoundException("Unable to locate property file");
 		}else{
-			return prop.getProperty("ldap.url");
+			return prop.getProperty("LDAP_URL");
 		}
 	}
 	
@@ -44,7 +69,7 @@ public class Config {
 		if(prop.isEmpty()){
 			throw new FileNotFoundException("Unable to locate property file");
 		}else{
-			return prop.getProperty("ldap.userdn");
+			return prop.getProperty("LDAP_USERDN");
 		}
 	}
 
