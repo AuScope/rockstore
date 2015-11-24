@@ -48,6 +48,14 @@ public class Config {
 		}
 	}
 	
+	public static String getIGSNLanding() throws FileNotFoundException{
+		if(prop.isEmpty()){
+			throw new FileNotFoundException("Unable to locate property file");
+		}else{
+			return prop.getProperty("IGSN_LANDING");
+		}
+	}
+	
 	public static String getIGSNUrl() throws FileNotFoundException{
 		if(prop.isEmpty()){
 			throw new FileNotFoundException("Unable to locate property file");

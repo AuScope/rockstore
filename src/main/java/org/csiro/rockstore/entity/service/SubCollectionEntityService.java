@@ -245,4 +245,17 @@ public class SubCollectionEntityService {
 		
 	}
 	
+	
+	public List<RsSubcollection> getUnminted(){
+
+		EntityManager em = JPAEntityManager.createEntityManager();
+		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.getUnminted",RsSubcollection.class)	 
+		.setMaxResults(10)		
+	    .getResultList();
+		em.close();
+		//VT: should only ever return 1 result as collectionid is unique
+		return result;
+	    
+	}
+	
 }

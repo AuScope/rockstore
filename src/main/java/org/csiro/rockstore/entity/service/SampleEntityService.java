@@ -198,6 +198,18 @@ public class SampleEntityService {
 		//VT: should only ever return 1 result as collectionid is unique
 		return result;
 	}
+	
+	public List<RsSample> getUnminted(){
+
+		EntityManager em = JPAEntityManager.createEntityManager();
+		List<RsSample> result = em.createNamedQuery("RsSample.getUnminted",RsSample.class)	   
+		.setMaxResults(10)
+		.getResultList();
+		em.close();
+	
+		return result;
+	    
+	}
 
 
 	

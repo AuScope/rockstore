@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,6 +25,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,6 +54,10 @@ import com.vividsolutions.jts.geom.Point;
 	@NamedQuery(
 			name="RsSample.findSampleByIGSN",
 		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.rsSubcollection.sampleRangeBySubcollection WHERE rs.igsn = :igsn"
+	),
+	@NamedQuery(
+			name="RsSample.getUnminted",
+		    query="SELECT rs FROM RsSample rs INNER JOIN FETCH rs.rsSubcollection INNER JOIN FETCH rs.rsSubcollection.rsCollection LEFT JOIN FETCH rs.igsnLog where rs.igsnLog.handle is null"
 	)
 		
 })	
@@ -76,6 +83,7 @@ public class RsSample implements java.io.Serializable {
 	private String origLat;
 	private String origLon;
 	private String lastUpdateUser;
+	private IgsnLog igsnLog;
 
 	public RsSample() {
 	}
@@ -170,7 +178,7 @@ public class RsSample implements java.io.Serializable {
 		this.rsSubcollection = rsSubcollection;
 	}
 
-	@Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 50)
+	@Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 100)
 	@Generated(GenerationTime.INSERT)
 	public String getIgsn() {
 		return this.igsn;
@@ -349,6 +357,20 @@ public class RsSample implements java.io.Serializable {
 	
 	public String setLastUpdateUser(String lastUpdateUser) {
 		return this.lastUpdateUser = lastUpdateUser;
+	}
+	
+	@OneToOne
+	@NotFound(action=NotFoundAction.IGNORE)
+	@Fetch(FetchMode.JOIN)
+	@JoinColumn(name = "igsn", referencedColumnName="igsn")	
+	public IgsnLog getIgsnLog() {
+		return igsnLog;
+	}
+
+
+
+	public void setIgsnLog(IgsnLog igsnLog) {
+		this.igsnLog = igsnLog;
 	}
 
 }

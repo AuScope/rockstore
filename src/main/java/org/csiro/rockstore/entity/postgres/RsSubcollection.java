@@ -48,6 +48,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	@NamedQuery(
 			name="RsSubcollection.findSubCollectionByIGSN",
 		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.sampleRangeBySubcollection WHERE c.igsn = :igsn"
+	),
+	@NamedQuery(
+			name="RsSubcollection.getUnminted",
+		    query="SELECT c FROM RsSubcollection c INNER JOIN FETCH c.rsCollection LEFT JOIN FETCH c.igsnLog where c.igsnLog.handle is null "
 	)
 		
 })	
@@ -67,6 +71,7 @@ public class RsSubcollection implements java.io.Serializable {
 	private String lastUpdateUser;
 	private String previousPalletId;
 	private boolean disposedInsufficientInfo;
+	private IgsnLog igsnLog;
 
 	public RsSubcollection() {
 	}
@@ -139,7 +144,7 @@ public class RsSubcollection implements java.io.Serializable {
 		this.oldId = oldId;
 	}
 	
-	@Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 100)
+	@Column(insertable=false,updatable=false, unique = true, name = "igsn", length = 100)	
 	@Generated(GenerationTime.INSERT)
 	public String getIgsn() {
 		return this.igsn;
@@ -244,6 +249,21 @@ public class RsSubcollection implements java.io.Serializable {
 	
 	public void setDisposedInsufficientInfo(boolean disposedInsufficientInfo) {
 		 this.disposedInsufficientInfo = disposedInsufficientInfo;
+	}
+
+
+	@OneToOne
+	@NotFound(action=NotFoundAction.IGNORE)
+	@Fetch(FetchMode.JOIN)
+	@JoinColumn(name = "igsn", referencedColumnName="igsn")	
+	public IgsnLog getIgsnLog() {
+		return igsnLog;
+	}
+
+
+
+	public void setIgsnLog(IgsnLog igsnLog) {
+		this.igsnLog = igsnLog;
 	}
 	
 	
