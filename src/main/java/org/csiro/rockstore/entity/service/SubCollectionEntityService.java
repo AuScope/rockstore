@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -247,14 +248,19 @@ public class SubCollectionEntityService {
 	
 	
 	public List<RsSubcollection> getUnminted(){
-
 		EntityManager em = JPAEntityManager.createEntityManager();
-		List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.getUnminted",RsSubcollection.class)	 
-		.setMaxResults(10)		
-	    .getResultList();
-		em.close();
-		//VT: should only ever return 1 result as collectionid is unique
-		return result;
+		try{			
+			List<RsSubcollection> result = em.createNamedQuery("RsSubcollection.getUnminted",RsSubcollection.class)	 
+			.setMaxResults(20)		
+		    .getResultList();			
+			return result;
+		}catch(NoResultException e){							
+			return null;
+		}catch(Exception e){
+			throw e;
+		}finally{
+			em.close();
+		}
 	    
 	}
 	

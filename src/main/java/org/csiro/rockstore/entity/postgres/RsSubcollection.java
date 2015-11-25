@@ -71,7 +71,7 @@ public class RsSubcollection implements java.io.Serializable {
 	private String lastUpdateUser;
 	private String previousPalletId;
 	private boolean disposedInsufficientInfo;
-	private IgsnLog igsnLog;
+	private IGSNLog igsnLog;
 
 	public RsSubcollection() {
 	}
@@ -256,13 +256,13 @@ public class RsSubcollection implements java.io.Serializable {
 	@NotFound(action=NotFoundAction.IGNORE)
 	@Fetch(FetchMode.JOIN)
 	@JoinColumn(name = "igsn", referencedColumnName="igsn")	
-	public IgsnLog getIgsnLog() {
+	public IGSNLog getIgsnLog() {
 		return igsnLog;
 	}
 
 
 
-	public void setIgsnLog(IgsnLog igsnLog) {
+	public void setIgsnLog(IGSNLog igsnLog) {
 		this.igsnLog = igsnLog;
 	}
 	

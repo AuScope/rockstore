@@ -1,5 +1,7 @@
 package org.csiro.rockstore.igsn;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -8,6 +10,8 @@ public class ScheduleMintIGSN  extends QuartzJobBean{
 
 	private IGSNRegistrationService igsnRegistrationService;
 	
+	private final Log log = LogFactory.getLog(getClass());
+	
 	public ScheduleMintIGSN(){
 		this.igsnRegistrationService = IGSNRegistrationService.getInstance();
 	}
@@ -15,16 +19,16 @@ public class ScheduleMintIGSN  extends QuartzJobBean{
 	@Override
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
-		System.out.println("attempting the run");
+		log.info("attempting the run");
 		if(!igsnRegistrationService.isRunning()){
-			System.out.println("Not running, lets run the service");
+			log.info("Not running, lets run the service");
 			try{
 				igsnRegistrationService.run();
-			}catch(Exception e){
-				e.printStackTrace();
+			}catch(Exception e){				
+				log.error(e);
 			}
 		}else{
-			System.out.println("Running!!!!,Cancel the request");
+			log.info("The system is already running, unable to proceed. Abort!!!!!");
 		}
 		
 	}

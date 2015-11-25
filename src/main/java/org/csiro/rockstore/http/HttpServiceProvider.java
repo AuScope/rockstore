@@ -103,7 +103,7 @@ public class HttpServiceProvider {
         
 		AuthCache authCache = new BasicAuthCache();
 		// Generate BASIC scheme object and add it to the local auth cache
-		HttpHost targetHost = new HttpHost("localhost", 8080, "http");
+		HttpHost targetHost = new HttpHost(method.getURI().getHost(), method.getURI().getPort(), method.getURI().getScheme());
 		BasicScheme basicAuth = new BasicScheme();
 		authCache.put(targetHost, basicAuth);
         context.setAuthCache(authCache);

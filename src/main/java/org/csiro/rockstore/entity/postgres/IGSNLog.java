@@ -18,15 +18,15 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "igsn_log")
-public class IgsnLog implements java.io.Serializable{
+public class IGSNLog implements java.io.Serializable{
 	
 	private int id;
 	private String igsn;
 	private String handle;
 	
-	public IgsnLog(){}
+	public IGSNLog(){}
 	
-	public IgsnLog(String igsn,String handle){
+	public IGSNLog(String igsn,String handle){
 		this.igsn = igsn;
 		this.handle = handle;
 		

@@ -3,6 +3,8 @@ package org.csiro.rockstore.igsn;
 import java.io.FileNotFoundException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,11 +21,14 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.csiro.rockstore.entity.postgres.IGSNLog;
 import org.csiro.rockstore.entity.postgres.RsSample;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
+import org.csiro.rockstore.entity.service.IGSNEntityService;
 import org.csiro.rockstore.entity.service.SampleEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
 import org.csiro.rockstore.http.HttpServiceProvider;
+import org.csiro.rockstore.igsn.bindings.EventType;
 import org.csiro.rockstore.igsn.bindings.IdentifierType;
 import org.csiro.rockstore.igsn.bindings.ObjectFactory;
 import org.csiro.rockstore.igsn.bindings.Samples;
@@ -42,7 +47,9 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class IGSNRegistrationService{
@@ -59,6 +66,7 @@ public class IGSNRegistrationService{
 	
 	SubCollectionEntityService  subcollectionService;
 	SampleEntityService sampleEntityService;
+	IGSNEntityService igsnEntityService;
 	
 	public IGSNRegistrationService(HttpServiceProvider httpServiceProvider){
 		this.httpServiceProvider = httpServiceProvider;
@@ -67,20 +75,20 @@ public class IGSNRegistrationService{
 		this.objectFactory=new ObjectFactory();
 		subcollectionService = new SubCollectionEntityService();
 		sampleEntityService = new SampleEntityService();
+		igsnEntityService = new IGSNEntityService();
 	}
 	
 	
 	public  synchronized void run(){
 		setIsrunning(true);
 		try{
-			this.registerSamples();
-			
+			mint(this.registerSamples());						
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 				
 		try{
-			this.registerSubCollections();			
+			mint(this.registerSubCollections());			
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
@@ -88,7 +96,16 @@ public class IGSNRegistrationService{
 		}
 	}
 	
+	public void test() throws Exception{
+		HttpGet get = new HttpGet("http://localhost:8080/CSIRO-IGSN/subnamespace/list/all");
+		HttpResponse response = httpServiceProvider.invokeTheMethod(get);
+		System.out.print(IOUtils.toString(response.getEntity().getContent()));
+	}
+	
 	public void mint(Samples samplesXML) throws Exception{
+		if(samplesXML==null){
+			return;
+		}
 		HttpPost post= new HttpPost(Config.getIGSNUrl()+"igsn/mint");
 		
 		StringWriter writer = new StringWriter();
@@ -107,17 +124,22 @@ public class IGSNRegistrationService{
      
         JsonElement ele = new JsonParser().parse(IOUtils.toString(response.getEntity().getContent()));
         
-        Set<Map.Entry<String,JsonElement>> entries = ele.getAsJsonObject().entrySet();
-        for(Map.Entry<String,JsonElement> entry:entries) {
-           System.out.println(entry.getKey());  //get keys
-           System.out.println(entry.getValue());  //get keys
+        JsonArray entries = ele.getAsJsonArray();
+        for(JsonElement entry:entries) {
+        	JsonObject jobj = entry.getAsJsonObject();
+        	if(jobj.get("mintStatusCode").getAsInt()==200 && jobj.get("databaseStatusCode").getAsInt()==200){
+        		IGSNLog ml= new IGSNLog(jobj.get("sampleId").getAsString(),jobj.get("handle").getAsString());
+        		igsnEntityService.persist(ml);
+        	}
         } 
         
 	}
 	
 	public synchronized Samples registerSubCollections() throws FileNotFoundException{
 		List<RsSubcollection> samples=subcollectionService.getUnminted();
-		
+		if(samples.size() ==0 ){
+			return null;
+		}
 		Samples samplesXML = new Samples();
 		
 		for(RsSubcollection o:samples){
@@ -130,7 +152,9 @@ public class IGSNRegistrationService{
 	public synchronized Samples registerSamples() throws FileNotFoundException{
 		
 		List<RsSample> samples=sampleEntityService.getUnminted();
-		
+		if(samples.size() ==0 ){
+			return null;
+		}
 		Samples samplesXML = new Samples();
 		
 		for(RsSample o:samples){
@@ -215,6 +239,14 @@ public class IGSNRegistrationService{
 		sampleCurationXml.getCuration().add(c);					
 		sampleXml.setSampleCuration(sampleCurationXml);	
 		
+		Calendar cal = Calendar.getInstance();
+		Samples.Sample.LogElement logElement = new Samples.Sample.LogElement();
+		logElement.setValue("rockstore: SubCollection");		
+		cal.setTime(new Date());				  
+		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));					
+		logElement.setEvent(EventType.SUBMITTED);		
+		sampleXml.setLogElement(logElement);
+		
 		return sampleXml;	
 	}
 	
@@ -292,6 +324,14 @@ public class IGSNRegistrationService{
 		//VT Set curator
 		sampleCurationXml.getCuration().add(c);					
 		sampleXml.setSampleCuration(sampleCurationXml);	
+		
+		Calendar cal = Calendar.getInstance();
+		Samples.Sample.LogElement logElement = new Samples.Sample.LogElement();
+		logElement.setValue("rockstore: Samples");		
+		cal.setTime(new Date());				  
+		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));					
+		logElement.setEvent(EventType.SUBMITTED);		
+		sampleXml.setLogElement(logElement);
 		
 		return sampleXml;	
 	}

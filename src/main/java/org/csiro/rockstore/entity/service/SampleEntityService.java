@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -202,12 +203,18 @@ public class SampleEntityService {
 	public List<RsSample> getUnminted(){
 
 		EntityManager em = JPAEntityManager.createEntityManager();
-		List<RsSample> result = em.createNamedQuery("RsSample.getUnminted",RsSample.class)	   
-		.setMaxResults(10)
-		.getResultList();
-		em.close();
-	
-		return result;
+		try{
+			List<RsSample> result = em.createNamedQuery("RsSample.getUnminted",RsSample.class)	   
+			.setMaxResults(20)
+			.getResultList();					
+			return result;
+		}catch(NoResultException e){							
+			return null;
+		}catch(Exception e){
+			throw e;
+		}finally{
+			em.close();
+		}
 	    
 	}
 
