@@ -179,7 +179,7 @@ public class RsSample implements java.io.Serializable {
 	}
 
 	@Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 100)
-	@Generated(GenerationTime.INSERT)
+    @Generated(GenerationTime.INSERT)
 	public String getIgsn() {
 		return this.igsn;
 	}
@@ -362,7 +362,7 @@ public class RsSample implements java.io.Serializable {
 	@OneToOne
 	@NotFound(action=NotFoundAction.IGNORE)
 	@Fetch(FetchMode.JOIN)
-	@JoinColumn(name = "igsn", referencedColumnName="igsn")	
+	@JoinColumn(insertable=false,updatable=false,name = "igsn", referencedColumnName="igsn")	
 	public IGSNLog getIgsnLog() {
 		return igsnLog;
 	}

@@ -23,7 +23,7 @@ public class ScheduleMintIGSN  extends QuartzJobBean{
 		if(!igsnRegistrationService.isRunning()){
 			log.info("Not running, lets run the service");
 			try{
-				igsnRegistrationService.run();
+				//igsnRegistrationService.run();
 			}catch(Exception e){				
 				log.error(e);
 			}

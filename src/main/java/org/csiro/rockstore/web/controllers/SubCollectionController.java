@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.csiro.igsn.bindings.allocation2_0.Samples;
 import org.csiro.rockstore.entity.postgres.CheckoutRegistry;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
@@ -17,6 +18,7 @@ import org.csiro.rockstore.entity.postgres.RsSubcollection;
 import org.csiro.rockstore.entity.postgres.RsSubcollectionAudit;
 import org.csiro.rockstore.entity.service.CollectionEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
+import org.csiro.rockstore.igsn.IGSNRegistrationService;
 import org.csiro.rockstore.security.LdapUser;
 import org.csiro.rockstore.utilities.NullUtilities;
 import org.csiro.rockstore.utilities.SecurityUtilities;
@@ -37,11 +39,13 @@ public class SubCollectionController {
 	
 	SubCollectionEntityService subCollectionEntityService;
 	CollectionEntityService collectionEntityService;
+	IGSNRegistrationService igsnService;
 	
 	@Autowired
-	public SubCollectionController(CollectionEntityService collectionEntityService, SubCollectionEntityService subCollectionEntityService){
+	public SubCollectionController(CollectionEntityService collectionEntityService, SubCollectionEntityService subCollectionEntityService,IGSNRegistrationService igsnService){
 		this.subCollectionEntityService=subCollectionEntityService;
 		this.collectionEntityService =collectionEntityService;
+		this.igsnService = igsnService;
 	}
 
 
@@ -87,6 +91,14 @@ public class SubCollectionController {
 	    					 source,  totalPallet,user.getName(),  previousPalletId,  disposedInsufficientInfo);
 	       	
 		       	this.subCollectionEntityService.persist(rsc);
+		       	
+		       	try{
+		       		Samples samplesXML = new Samples();		    				    		
+		       		samplesXML.getSample().add(igsnService.register(rsc));
+		       		igsnService.mint(samplesXML);
+		       	}catch(Exception e){
+		       		logger.error(e);
+		       	}
 		
 		       	return  new ResponseEntity<Object>(rsc,HttpStatus.OK);    		
 	    	}    

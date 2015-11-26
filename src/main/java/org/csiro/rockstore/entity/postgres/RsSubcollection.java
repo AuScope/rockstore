@@ -2,8 +2,7 @@ package org.csiro.rockstore.entity.postgres;
 
 // Generated 12/08/2015 3:14:54 PM by Hibernate Tools 4.3.1
 
-import java.security.acl.LastOwnerException;
-import java.util.Set;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -144,8 +143,8 @@ public class RsSubcollection implements java.io.Serializable {
 		this.oldId = oldId;
 	}
 	
-	@Column(insertable=false,updatable=false, unique = true, name = "igsn", length = 100)	
-	@Generated(GenerationTime.INSERT)
+    @Column(insertable=false,updatable=false, name = "igsn", unique = true, length = 100) 
+    @Generated(GenerationTime.INSERT)
 	public String getIgsn() {
 		return this.igsn;
 	}
@@ -156,7 +155,6 @@ public class RsSubcollection implements java.io.Serializable {
 	
 
 	@Column(insertable=false,updatable=false, name = "subcollection_id", unique = true, length = 100)
-	@Generated(GenerationTime.INSERT)
 	public String getSubcollectionId() {
 		return this.subcollectionId;
 	}
@@ -255,7 +253,7 @@ public class RsSubcollection implements java.io.Serializable {
 	@OneToOne
 	@NotFound(action=NotFoundAction.IGNORE)
 	@Fetch(FetchMode.JOIN)
-	@JoinColumn(name = "igsn", referencedColumnName="igsn")	
+	@JoinColumn(insertable=false,updatable=false,name = "igsn", referencedColumnName="igsn")	
 	public IGSNLog getIgsnLog() {
 		return igsnLog;
 	}

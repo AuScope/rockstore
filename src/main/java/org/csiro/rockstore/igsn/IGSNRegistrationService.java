@@ -40,12 +40,15 @@ import org.csiro.rockstore.entity.service.SampleEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
 import org.csiro.rockstore.http.HttpServiceProvider;
 import org.csiro.rockstore.utilities.Config;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+@Service
 public class IGSNRegistrationService{
 
 	private final Log log = LogFactory.getLog(getClass());
@@ -62,6 +65,7 @@ public class IGSNRegistrationService{
 	SampleEntityService sampleEntityService;
 	IGSNEntityService igsnEntityService;
 	
+	@Autowired
 	public IGSNRegistrationService(HttpServiceProvider httpServiceProvider){
 		this.httpServiceProvider = httpServiceProvider;
 		IGSNRegistrationService.service=null;
@@ -129,7 +133,7 @@ public class IGSNRegistrationService{
         
 	}
 	
-	public synchronized Samples registerSubCollections() throws FileNotFoundException{
+	public  synchronized Samples registerSubCollections() throws FileNotFoundException{
 		List<RsSubcollection> samples=subcollectionService.getUnminted();
 		if(samples.size() ==0 ){
 			return null;
@@ -158,7 +162,7 @@ public class IGSNRegistrationService{
 		return samplesXML;
 	}
 	
-	public synchronized Sample register(RsSubcollection rsc) throws FileNotFoundException{
+	public  Sample register(RsSubcollection rsc) throws FileNotFoundException{
 		Samples.Sample sampleXml = new Samples.Sample();
 		Samples.Sample.SampleNumber sampleNumberXml = new Samples.Sample.SampleNumber();
 		
@@ -244,7 +248,7 @@ public class IGSNRegistrationService{
 		return sampleXml;	
 	}
 	
-	public synchronized Sample register(RsSample rsc) throws FileNotFoundException{
+	public  Sample register(RsSample rsc) throws FileNotFoundException{
 		Samples.Sample sampleXml = new Samples.Sample();
 		Samples.Sample.SampleNumber sampleNumberXml = new Samples.Sample.SampleNumber();
 		
