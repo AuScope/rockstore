@@ -2,16 +2,12 @@ package org.csiro.rockstore.igsn;
 
 import java.io.FileNotFoundException;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.apache.commons.io.IOUtils;
@@ -21,6 +17,21 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.csiro.igsn.bindings.allocation2_0.EventType;
+import org.csiro.igsn.bindings.allocation2_0.IdentifierType;
+import org.csiro.igsn.bindings.allocation2_0.NilReasonType;
+import org.csiro.igsn.bindings.allocation2_0.ObjectFactory;
+import org.csiro.igsn.bindings.allocation2_0.Samples;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.MaterialTypes;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleCollectors;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleCollectors.Collector;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleCuration.Curation;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleTypes;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SamplingLocation;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SamplingMethod;
+import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SamplingTime;
+import org.csiro.igsn.bindings.allocation2_0.SpatialType;
 import org.csiro.rockstore.entity.postgres.IGSNLog;
 import org.csiro.rockstore.entity.postgres.RsSample;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
@@ -28,24 +39,7 @@ import org.csiro.rockstore.entity.service.IGSNEntityService;
 import org.csiro.rockstore.entity.service.SampleEntityService;
 import org.csiro.rockstore.entity.service.SubCollectionEntityService;
 import org.csiro.rockstore.http.HttpServiceProvider;
-import org.csiro.rockstore.igsn.bindings.EventType;
-import org.csiro.rockstore.igsn.bindings.IdentifierType;
-import org.csiro.rockstore.igsn.bindings.ObjectFactory;
-import org.csiro.rockstore.igsn.bindings.Samples;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.MaterialTypes;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.SampleCollectors;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.SampleCollectors.Collector;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.SampleCuration.Curation;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.SampleTypes;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.SamplingLocation;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.SamplingMethod;
-import org.csiro.rockstore.igsn.bindings.Samples.Sample.SamplingTime;
 import org.csiro.rockstore.utilities.Config;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -181,14 +175,14 @@ public class IGSNRegistrationService{
 		
 		Samples.Sample.SampleTypes sampleTypesXml = new Samples.Sample.SampleTypes();
 		JAXBElement<SampleTypes> sampleTypeJAXBElement = objectFactory.createSamplesSampleSampleTypes(sampleTypesXml);					
-		sampleTypesXml.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");				
+		sampleTypesXml.setNilReason(NilReasonType.UNKNOWN.value());				
 		sampleTypesXml.getSampleType().add(null);
 		sampleTypeJAXBElement.setNil(true);							
 		sampleXml.setSampleTypes(sampleTypeJAXBElement);
 		
 		Samples.Sample.MaterialTypes materialType = new Samples.Sample.MaterialTypes();
 		JAXBElement<MaterialTypes> materialTypeJAXBElement = this.objectFactory.createSamplesSampleMaterialTypes(materialType);							
-		materialType.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+		materialType.setNilReason(NilReasonType.UNKNOWN.value());
 		materialTypeJAXBElement.setNil(true);										
 		sampleXml.setMaterialTypes(materialTypeJAXBElement);
 		
@@ -199,12 +193,12 @@ public class IGSNRegistrationService{
 				
 		Samples.Sample.SamplingLocation samplingLocation = new Samples.Sample.SamplingLocation();	
 		JAXBElement<SamplingLocation> samplingLocationJAXBElement = this.objectFactory.createSamplesSampleSamplingLocation(samplingLocation);
-		samplingLocation.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+		samplingLocation.setNilReason(NilReasonType.UNKNOWN.value());
 		samplingLocationJAXBElement.setNil(true);							
 		sampleXml.setSamplingLocation(samplingLocationJAXBElement);
 		
 		Samples.Sample.SamplingTime samplingTime = new Samples.Sample.SamplingTime();	
-		samplingTime.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+		samplingTime.setNilReason(NilReasonType.UNKNOWN.value());
 		JAXBElement<SamplingTime> samplingTimeJAXBElement = this.objectFactory.createSamplesSampleSamplingTime(samplingTime);
 		samplingTimeJAXBElement.setNil(true);
 		sampleXml.setSamplingTime(samplingTimeJAXBElement);		
@@ -213,7 +207,7 @@ public class IGSNRegistrationService{
 		JAXBElement<SampleCollectors> sampleCollectorJAXBElement = this.objectFactory.createSamplesSampleSampleCollectors(sampleCollectors);
 		String staffIdManager = rsc.getRsCollection().getStaffIdFieldManager();
 		if(staffIdManager.isEmpty()){
-			sampleCollectors.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+			sampleCollectors.setNilReason(NilReasonType.UNKNOWN.value());
 			sampleCollectorJAXBElement.setNil(true);				
 		}else{
 			Collector collector = new Collector();
@@ -226,7 +220,7 @@ public class IGSNRegistrationService{
 		
 		Samples.Sample.SamplingMethod samplingMethod= new Samples.Sample.SamplingMethod();
 		JAXBElement<SamplingMethod> samplingMethodJAXBElement = this.objectFactory.createSamplesSampleSamplingMethod(samplingMethod);		
-		samplingMethod.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+		samplingMethod.setNilReason(NilReasonType.UNKNOWN.value());
 		samplingMethodJAXBElement.setNil(true);			
 		sampleXml.setSamplingMethod(samplingMethodJAXBElement);//VT: TODO- check null
 		
@@ -267,14 +261,14 @@ public class IGSNRegistrationService{
 		
 		Samples.Sample.SampleTypes sampleTypesXml = new Samples.Sample.SampleTypes();
 		JAXBElement<SampleTypes> sampleTypeJAXBElement = objectFactory.createSamplesSampleSampleTypes(sampleTypesXml);					
-		sampleTypesXml.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");				
+		sampleTypesXml.setNilReason(NilReasonType.UNKNOWN.value());				
 		sampleTypesXml.getSampleType().add(null);
 		sampleTypeJAXBElement.setNil(true);							
 		sampleXml.setSampleTypes(sampleTypeJAXBElement);
 		
 		Samples.Sample.MaterialTypes materialType = new Samples.Sample.MaterialTypes();
 		JAXBElement<MaterialTypes> materialTypeJAXBElement = this.objectFactory.createSamplesSampleMaterialTypes(materialType);							
-		materialType.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+		materialType.setNilReason(NilReasonType.UNKNOWN.value());
 		materialTypeJAXBElement.setNil(true);										
 		sampleXml.setMaterialTypes(materialTypeJAXBElement);
 		
@@ -285,12 +279,22 @@ public class IGSNRegistrationService{
 				
 		Samples.Sample.SamplingLocation samplingLocation = new Samples.Sample.SamplingLocation();	
 		JAXBElement<SamplingLocation> samplingLocationJAXBElement = this.objectFactory.createSamplesSampleSamplingLocation(samplingLocation);
-		samplingLocation.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
-		samplingLocationJAXBElement.setNil(true);							
+		
+		if(rsc.getLocation()!=null){			
+			//VT: sample elevation
+			Samples.Sample.SamplingFeatures.SamplingFeature.SamplingFeatureLocation.Wkt wkt = new Samples.Sample.SamplingFeatures.SamplingFeature.SamplingFeatureLocation.Wkt();
+			wkt.setSrs("EPSG:4326");
+			wkt.setSpatialType(SpatialType.POINT);
+			wkt.setValue(rsc.getLat() + " " + rsc.getLon());
+			samplingLocation.setWkt(wkt);
+		}else{
+			samplingLocation.setNilReason(NilReasonType.MISSING.value());
+			samplingLocationJAXBElement.setNil(true);
+		}						
 		sampleXml.setSamplingLocation(samplingLocationJAXBElement);
 		
 		Samples.Sample.SamplingTime samplingTime = new Samples.Sample.SamplingTime();	
-		samplingTime.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+		samplingTime.setNilReason(NilReasonType.UNKNOWN.value());
 		JAXBElement<SamplingTime> samplingTimeJAXBElement = this.objectFactory.createSamplesSampleSamplingTime(samplingTime);
 		samplingTimeJAXBElement.setNil(true);
 		sampleXml.setSamplingTime(samplingTimeJAXBElement);		
@@ -299,7 +303,7 @@ public class IGSNRegistrationService{
 		JAXBElement<SampleCollectors> sampleCollectorJAXBElement = this.objectFactory.createSamplesSampleSampleCollectors(sampleCollectors);
 		String sampleCollector = rsc.getSampleCollector();
 		if(sampleCollector.isEmpty()){
-			sampleCollectors.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+			sampleCollectors.setNilReason(NilReasonType.UNKNOWN.value());
 			sampleCollectorJAXBElement.setNil(true);				
 		}else{
 			Collector collector = new Collector();
@@ -312,7 +316,7 @@ public class IGSNRegistrationService{
 		
 		Samples.Sample.SamplingMethod samplingMethod= new Samples.Sample.SamplingMethod();
 		JAXBElement<SamplingMethod> samplingMethodJAXBElement = this.objectFactory.createSamplesSampleSamplingMethod(samplingMethod);		
-		samplingMethod.setNilReason("http://www.opengis.net/def/nil/OGC/0/unknown");
+		samplingMethod.setNilReason(NilReasonType.UNKNOWN.value());
 		samplingMethodJAXBElement.setNil(true);			
 		sampleXml.setSamplingMethod(samplingMethodJAXBElement);//VT: TODO- check null
 		

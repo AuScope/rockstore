@@ -559,6 +559,22 @@ CREATE TABLE users (
 );
 
 
+CREATE SEQUENCE public.igsn_log_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+  
+CREATE TABLE public.igsn_log
+(
+  id integer NOT NULL DEFAULT nextval('igsn_log_id_seq'::regclass),
+  igsn character varying(100),
+  handle character varying(150),
+  time_stamp timestamp without time zone DEFAULT now(),
+  CONSTRAINT pk_igsn_id PRIMARY KEY (id)
+)
+
 --
 -- TOC entry 3509 (class 0 OID 0)
 -- Dependencies: 192

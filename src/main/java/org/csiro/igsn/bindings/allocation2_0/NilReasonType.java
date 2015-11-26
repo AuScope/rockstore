@@ -6,7 +6,7 @@
 //
 
 
-package org.csiro.rockstore.igsn.bindings;
+package org.csiro.igsn.bindings.allocation2_0;
 
 
 
