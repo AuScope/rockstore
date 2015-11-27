@@ -189,14 +189,15 @@ public class IGSNRegistrationService{
 		
 		Samples.Sample.MaterialTypes materialType = new Samples.Sample.MaterialTypes();
 		JAXBElement<MaterialTypes> materialTypeJAXBElement = this.objectFactory.createSamplesSampleMaterialTypes(materialType);							
-		materialType.setNilReason(NilReasonType.UNKNOWN.value());
-		materialTypeJAXBElement.setNil(true);										
+		materialType.getMaterialType().add("http://vocabulary.odm2.org/medium/rock");
 		sampleXml.setMaterialTypes(materialTypeJAXBElement);
 		
 		Samples.Sample.Classification classification = new Samples.Sample.Classification();
-		classification.setClassificationIdentifier("UNKNOWN");
-		classification.setValue("UNKNOWN");
+		classification.setClassificationIdentifier(NilReasonType.UNKNOWN.value());
+		classification.setValue(NilReasonType.UNKNOWN.value());
 		sampleXml.setClassification(classification);
+		
+		sampleXml.setPurpose("Rock subcollection from rockstore");
 				
 		Samples.Sample.SamplingLocation samplingLocation = new Samples.Sample.SamplingLocation();	
 		JAXBElement<SamplingLocation> samplingLocationJAXBElement = this.objectFactory.createSamplesSampleSamplingLocation(samplingLocation);
@@ -275,14 +276,20 @@ public class IGSNRegistrationService{
 		
 		Samples.Sample.MaterialTypes materialType = new Samples.Sample.MaterialTypes();
 		JAXBElement<MaterialTypes> materialTypeJAXBElement = this.objectFactory.createSamplesSampleMaterialTypes(materialType);							
-		materialType.setNilReason(NilReasonType.UNKNOWN.value());
-		materialTypeJAXBElement.setNil(true);										
+		materialType.getMaterialType().add("http://vocabulary.odm2.org/medium/rock");
 		sampleXml.setMaterialTypes(materialTypeJAXBElement);
 		
 		Samples.Sample.Classification classification = new Samples.Sample.Classification();
-		classification.setClassificationIdentifier("UNKNOWN");
-		classification.setValue("UNKNOWN");
+		if(rsc.getSampleType()==null || rsc.getSampleType().isEmpty()){
+			classification.setClassificationIdentifier(NilReasonType.UNKNOWN.value());
+			classification.setValue("UNKNOWN");
+		}else{
+			classification.setClassificationIdentifier(NilReasonType.UNKNOWN.value());
+			classification.setValue(rsc.getSampleType());
+		}
 		sampleXml.setClassification(classification);
+		
+		sampleXml.setPurpose("Rock sample from rockstore");
 				
 		Samples.Sample.SamplingLocation samplingLocation = new Samples.Sample.SamplingLocation();	
 		JAXBElement<SamplingLocation> samplingLocationJAXBElement = this.objectFactory.createSamplesSampleSamplingLocation(samplingLocation);

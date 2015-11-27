@@ -119,8 +119,12 @@ public class SampleController {
 	    	}else{
 	    		
 	    		RsSubcollection rsc = subCollectionEntityService.search(subcollectionId);
-	    		
-	    		Point p = (Point)(SpatialUtilities.wktToGeometry(origLat, origLon,datum));
+	    		Point p=null;
+	    		try{
+	    			 p = (Point)(SpatialUtilities.wktToGeometry(origLat, origLon,datum));
+	    		}catch(Exception e){
+	    			throw new Exception("Invalid geometry specification, make sure you enter a valid location and datum");
+	    		}
 	    		
 	    		RsSample rs= new RsSample(rsc,  csiroSampleId,
 	    				 sampleType,  bhid,  depth,  datum,
