@@ -43,7 +43,7 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 	    	 });
 			return;
 		}
-		
+		spinnerService.show('subcollection-form.submit');
 		$http.get('subCollectionAddUpdate.do', {
 			params:{	
 				subcollectionId: $scope.form.subcollectionId,
@@ -68,13 +68,14 @@ allControllers.controller('SubCollectionCtrl', ['$scope','$rootScope','$http','D
 				$scope.gridOptions.data.push(response.data)
 				$scope.resetForm();		
 			}
-			
+			spinnerService.hide('subcollection-form.submit');
 			
 		  }, function(response) {
 			  modalService.showModal({}, {    	            	           
 		           headerText: response.data.header,
 		           bodyText: response.data.message
 	    	 });
+			  spinnerService.hide('subcollection-form.submit');
 		  });
 		  
 	}

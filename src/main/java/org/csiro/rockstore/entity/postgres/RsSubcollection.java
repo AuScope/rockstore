@@ -155,6 +155,7 @@ public class RsSubcollection implements java.io.Serializable {
 	
 
 	@Column(insertable=false,updatable=false, name = "subcollection_id", unique = true, length = 100)
+    @Generated(GenerationTime.INSERT)
 	public String getSubcollectionId() {
 		return this.subcollectionId;
 	}

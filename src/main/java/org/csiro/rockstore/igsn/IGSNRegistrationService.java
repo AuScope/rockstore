@@ -114,8 +114,11 @@ public class IGSNRegistrationService{
 	    post.addHeader("content-type", "application/xml");
         
         //Set the request post body
-        StringEntity userEntity = new StringEntity(writer.getBuffer().toString());
+	    String postBody = writer.getBuffer().toString();
+        StringEntity userEntity = new StringEntity(postBody);
         post.setEntity(userEntity);
+        
+        System.out.println(postBody);
         
         HttpResponse response = httpServiceProvider.invokeTheMethod(post);
         
@@ -169,7 +172,7 @@ public class IGSNRegistrationService{
 		sampleNumberXml.setIdentifierType(IdentifierType.fromValue("igsn"));
 		sampleNumberXml.setValue(rsc.getIgsn());
 		
-		sampleXml.setSampleName(rsc.getSubcollectionId());
+		sampleXml.setSampleName(rsc.getRsCollection().getProject() + ":"+ rsc.getSubcollectionId());
 		sampleXml.setSampleNumber(sampleNumberXml);
 		
 		Samples.Sample.IsPublic isPublic = new Samples.Sample.IsPublic();
@@ -255,7 +258,7 @@ public class IGSNRegistrationService{
 		sampleNumberXml.setIdentifierType(IdentifierType.fromValue("igsn"));
 		sampleNumberXml.setValue(rsc.getIgsn());
 		
-		sampleXml.setSampleName(rsc.getCsiroSampleId());
+		sampleXml.setSampleName(rsc.getRsSubcollection().getRsCollection().getProject() + ":" + (rsc.getCsiroSampleId()==null || rsc.getCsiroSampleId().isEmpty()?rsc.getIgsn():rsc.getCsiroSampleId()));
 		sampleXml.setSampleNumber(sampleNumberXml);
 		
 		Samples.Sample.IsPublic isPublic = new Samples.Sample.IsPublic();
@@ -306,7 +309,7 @@ public class IGSNRegistrationService{
 		Samples.Sample.SampleCollectors sampleCollectors = new Samples.Sample.SampleCollectors();
 		JAXBElement<SampleCollectors> sampleCollectorJAXBElement = this.objectFactory.createSamplesSampleSampleCollectors(sampleCollectors);
 		String sampleCollector = rsc.getSampleCollector();
-		if(sampleCollector.isEmpty()){
+		if(sampleCollector==null || sampleCollector.isEmpty()){
 			sampleCollectors.setNilReason(NilReasonType.UNKNOWN.value());
 			sampleCollectorJAXBElement.setNil(true);				
 		}else{
