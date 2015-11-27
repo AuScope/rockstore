@@ -116,12 +116,10 @@ public class IGSNRegistrationService{
         //Set the request post body
 	    String postBody = writer.getBuffer().toString();
         StringEntity userEntity = new StringEntity(postBody);
-        post.setEntity(userEntity);
+        post.setEntity(userEntity);        
+        log.info(postBody);
         
-        System.out.println(postBody);
-        
-        HttpResponse response = httpServiceProvider.invokeTheMethod(post);
-        
+        HttpResponse response = httpServiceProvider.invokeTheMethod(post);        
      
         JsonElement ele = new JsonParser().parse(IOUtils.toString(response.getEntity().getContent()));
         
