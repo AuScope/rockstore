@@ -82,6 +82,14 @@ public class SubCollectionController {
 	    		
 	    		this.subCollectionEntityService.merge(rsc);
 	    		
+	    		try{//VT: update igsn on changes
+		       		Samples samplesXML = new Samples();		    				    		
+		       		samplesXML.getSample().add(igsnService.register(rsc,true));
+		       		igsnService.mint(samplesXML);
+		       	}catch(Exception e){
+		       		logger.error(e);
+		       	}
+	    		
 	    		return  new ResponseEntity<Object>(rsc,HttpStatus.OK);  
 	    		
 	    	}else{
@@ -92,9 +100,9 @@ public class SubCollectionController {
 	       	
 		       	this.subCollectionEntityService.persist(rsc);
 		       	
-		       	try{
+		       	try{//VT: Mint new record
 		       		Samples samplesXML = new Samples();		    				    		
-		       		samplesXML.getSample().add(igsnService.register(rsc));
+		       		samplesXML.getSample().add(igsnService.register(rsc,false));
 		       		igsnService.mint(samplesXML);
 		       	}catch(Exception e){
 		       		logger.error(e);

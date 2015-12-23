@@ -113,6 +113,14 @@ public class SampleController {
 	    		
 	    		this.sampleEntityService.merge(rs);
 	    		
+	    		try{//VT:update the igsn record
+		       		Samples samplesXML = new Samples();		    				    		
+		       		samplesXML.getSample().add(igsnService.register(rs,true));
+		       		igsnService.mint(samplesXML);
+		       	}catch(Exception e){
+		       		logger.error(e);
+		       	}
+	    		
 	    		return  new ResponseEntity<Object>(rs,HttpStatus.OK);  
 	    		
 	    		
@@ -135,9 +143,9 @@ public class SampleController {
 	    		
 		       	this.sampleEntityService.persist(rs);
 		       	
-		       	try{
+		       	try{//VT: mint the new igsn
 		       		Samples samplesXML = new Samples();		    				    		
-		       		samplesXML.getSample().add(igsnService.register(rs));
+		       		samplesXML.getSample().add(igsnService.register(rs,false));
 		       		igsnService.mint(samplesXML);
 		       	}catch(Exception e){
 		       		logger.error(e);

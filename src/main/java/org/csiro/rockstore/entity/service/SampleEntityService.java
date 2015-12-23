@@ -173,11 +173,16 @@ public class SampleEntityService {
 
 	public RsSample searchByIGSN(String igsn) {
 		EntityManager em = JPAEntityManager.createEntityManager();
-		RsSample result = em.createNamedQuery("RsSample.findSampleByIGSN",RsSample.class)
-	    .setParameter("igsn", igsn)
-	    .getSingleResult();
-		em.close();
+		try{					
+			RsSample result = em.createNamedQuery("RsSample.findSampleByIGSN",RsSample.class)
+		    .setParameter("igsn", igsn)
+		    .getSingleResult();		
 		return result;
+		}catch(NoResultException e){
+			return null;
+		}finally{
+			em.close();
+		}
 	}
 
 	public List<ImportBatch> listBatch(Principal user) {

@@ -175,11 +175,17 @@ public class SubCollectionEntityService {
 
 	public RsSubcollection searchByIGSN(String igsn) {
 		EntityManager em = JPAEntityManager.createEntityManager();
-		RsSubcollection result = em.createNamedQuery("RsSubcollection.findSubCollectionByIGSN",RsSubcollection.class)
-	    .setParameter("igsn", igsn)
-	    .getSingleResult();
-		em.close();
+		try{			
+			RsSubcollection result = em.createNamedQuery("RsSubcollection.findSubCollectionByIGSN",RsSubcollection.class)
+		    .setParameter("igsn", igsn)
+		    .getSingleResult();
+			
 		return result;
+		}catch(NoResultException  e){
+			return null;
+		}finally{
+			em.close();
+		}
 	}
 
 	public void registerCheckout(CheckoutRegistry entry) {

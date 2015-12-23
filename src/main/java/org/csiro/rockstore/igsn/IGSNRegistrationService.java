@@ -116,8 +116,7 @@ public class IGSNRegistrationService{
         //Set the request post body
 	    String postBody = writer.getBuffer().toString();
         StringEntity userEntity = new StringEntity(postBody);
-        post.setEntity(userEntity);        
-        log.info(postBody);
+        post.setEntity(userEntity);               
         
         HttpResponse response = httpServiceProvider.invokeTheMethod(post);        
      
@@ -129,6 +128,30 @@ public class IGSNRegistrationService{
         	if(jobj.get("mintStatusCode").getAsInt()==200 && jobj.get("databaseStatusCode").getAsInt()==200){
         		IGSNLog ml= new IGSNLog(jobj.get("sampleId").getAsString(),jobj.get("handle").getAsString());
         		igsnEntityService.persist(ml);
+        	}else if(jobj.get("mintStatusCode").getAsInt()==200 && jobj.get("databaseStatusCode").getAsInt()==104){
+        		//VT: For some reason perhaps deal to network failure whilst minting, if a igsn already exist, we will attempt to update instead
+        		//VT: we will first try sample and if not found, we can safely assume it is in subcollection        		
+        		RsSample rs = this.sampleEntityService.searchByIGSN(jobj.get("sampleId").getAsString());
+        		if(rs!=null){  
+        			try{        				
+    		       		Samples sampleXMLRetry = new Samples();		    				    		
+    		       		sampleXMLRetry.getSample().add(this.register(rs,true));
+    		       		this.mint(sampleXMLRetry);
+    		       	}catch(Exception e){
+    		       		log.error(e);
+    		       	}
+        			
+        		}else {   //VT: rsSample is null therefore it has to be subcollection     			
+        			try{
+        				RsSubcollection rsc = this.subcollectionService.searchByIGSN(jobj.get("sampleId").getAsString());
+    		       		Samples subCollectionXMLRetry = new Samples();		    				    		
+    		       		subCollectionXMLRetry.getSample().add(this.register(rsc,true));
+    		       		this.mint(subCollectionXMLRetry);
+    		       	}catch(Exception e){
+    		       		log.error(e);
+    		       	}
+        		}	    		        		
+        		        	
         	}
         } 
         
@@ -142,7 +165,7 @@ public class IGSNRegistrationService{
 		Samples samplesXML = new Samples();
 		
 		for(RsSubcollection o:samples){
-			samplesXML.getSample().add(this.register(o));
+			samplesXML.getSample().add(this.register(o,false));
 		}
 		
 		return samplesXML;
@@ -157,13 +180,13 @@ public class IGSNRegistrationService{
 		Samples samplesXML = new Samples();
 		
 		for(RsSample o:samples){
-			samplesXML.getSample().add(this.register(o));
+			samplesXML.getSample().add(this.register(o,false));
 		}
 		
 		return samplesXML;
 	}
 	
-	public  Sample register(RsSubcollection rsc) throws FileNotFoundException{
+	public  Sample register(RsSubcollection rsc,boolean update) throws FileNotFoundException{
 		Samples.Sample sampleXml = new Samples.Sample();
 		Samples.Sample.SampleNumber sampleNumberXml = new Samples.Sample.SampleNumber();
 		
@@ -243,14 +266,18 @@ public class IGSNRegistrationService{
 		Samples.Sample.LogElement logElement = new Samples.Sample.LogElement();
 		logElement.setValue("rockstore: SubCollection");		
 		cal.setTime(new Date());				  
-		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));					
-		logElement.setEvent(EventType.SUBMITTED);		
+		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));	
+		if(update){
+			logElement.setEvent(EventType.UPDATED);
+		}else{
+			logElement.setEvent(EventType.SUBMITTED);
+		}
 		sampleXml.setLogElement(logElement);
 		
 		return sampleXml;	
 	}
 	
-	public  Sample register(RsSample rsc) throws FileNotFoundException{
+	public  Sample register(RsSample rsc,boolean update) throws FileNotFoundException{
 		Samples.Sample sampleXml = new Samples.Sample();
 		Samples.Sample.SampleNumber sampleNumberXml = new Samples.Sample.SampleNumber();
 		
@@ -297,7 +324,7 @@ public class IGSNRegistrationService{
 			Samples.Sample.SamplingFeatures.SamplingFeature.SamplingFeatureLocation.Wkt wkt = new Samples.Sample.SamplingFeatures.SamplingFeature.SamplingFeatureLocation.Wkt();
 			wkt.setSrs("EPSG:4326");
 			wkt.setSpatialType(SpatialType.POINT);
-			wkt.setValue(rsc.getLat() + " " + rsc.getLon());
+			wkt.setValue(rsc.getLocation().toText());
 			samplingLocation.setWkt(wkt);
 		}else{
 			samplingLocation.setNilReason(NilReasonType.MISSING.value());
@@ -345,8 +372,13 @@ public class IGSNRegistrationService{
 		Samples.Sample.LogElement logElement = new Samples.Sample.LogElement();
 		logElement.setValue("rockstore: Samples");		
 		cal.setTime(new Date());				  
-		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));					
-		logElement.setEvent(EventType.SUBMITTED);		
+		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));	
+		if(update){
+			logElement.setEvent(EventType.UPDATED);
+		}else{
+			logElement.setEvent(EventType.SUBMITTED);
+		}
+				
 		sampleXml.setLogElement(logElement);
 		
 		return sampleXml;	
