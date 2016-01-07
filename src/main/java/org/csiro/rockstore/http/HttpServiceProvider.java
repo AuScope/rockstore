@@ -111,26 +111,9 @@ public class HttpServiceProvider {
         // make the call
         HttpResponse response = httpClient.execute(method,context);
 
-        int statusCode = response.getStatusLine().getStatusCode();
+        //int statusCode = response.getStatusLine().getStatusCode();
 
-        if (statusCode != HttpStatus.SC_OK &&
-                statusCode != HttpStatus.SC_CREATED &&
-                statusCode != HttpStatus.SC_ACCEPTED) {
-        
-
-            // if it's unavailable then throw connection exception
-            if (statusCode == HttpStatus.SC_SERVICE_UNAVAILABLE) {
-                throw new ConnectException();
-            }
-
-            String responseBody = IOUtils.toString(response.getEntity().getContent());
-
-            // if the response is not OK then throw an error
-            throw new Exception("Returned status line: " + response.getStatusLine() +
-                    System.getProperty("line.separator") + "Returned response body: " + responseBody);
-        } else {
-            return response;
-        }
+        return response;
     }
 	
 	
