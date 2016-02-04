@@ -262,6 +262,11 @@ public class IGSNRegistrationService{
 		sampleCurationXml.getCuration().add(c);					
 		sampleXml.setSampleCuration(sampleCurationXml);	
 		
+		//VT:Set Comments
+		if(rsc.getRsCollection().getProjectPublication()!=null){
+			sampleXml.setComments(rsc.getRsCollection().getProjectPublication());
+		}
+		
 		Calendar cal = Calendar.getInstance();
 		Samples.Sample.LogElement logElement = new Samples.Sample.LogElement();
 		logElement.setValue("rockstore: SubCollection");		
@@ -377,6 +382,11 @@ public class IGSNRegistrationService{
 			logElement.setEvent(EventType.UPDATED);
 		}else{
 			logElement.setEvent(EventType.SUBMITTED);
+		}
+		
+		//VT: Set comments
+		if(rsc.getRsSubcollection().getRsCollection().getProjectPublication()!=null){
+			sampleXml.setComments(rsc.getRsSubcollection().getRsCollection().getProjectPublication());
 		}
 				
 		sampleXml.setLogElement(logElement);
