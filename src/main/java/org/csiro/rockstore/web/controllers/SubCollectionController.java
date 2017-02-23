@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.csiro.igsn.bindings.allocation2_0.Samples;
+import org.csiro.igsn.jaxb.registration.bindings.Resources;
 import org.csiro.rockstore.entity.postgres.CheckoutRegistry;
 import org.csiro.rockstore.entity.postgres.RsCollection;
 import org.csiro.rockstore.entity.postgres.RsCollectionAudit;
@@ -83,9 +84,9 @@ public class SubCollectionController {
 	    		this.subCollectionEntityService.merge(rsc);
 	    		
 	    		try{//VT: update igsn on changes
-		       		Samples samplesXML = new Samples();		    				    		
-		       		samplesXML.getSample().add(igsnService.register(rsc,true));
-		       		igsnService.mint(samplesXML);
+		       		Resources resourcesXML = new Resources();		    				    		
+		       		resourcesXML.getResource().add(igsnService.register(rsc,true));
+		       		igsnService.mint(resourcesXML);
 		       	}catch(Exception e){
 		       		logger.error(e);
 		       	}
@@ -101,9 +102,9 @@ public class SubCollectionController {
 		       	this.subCollectionEntityService.persist(rsc);
 		       	
 		       	try{//VT: Mint new record
-		       		Samples samplesXML = new Samples();		    				    		
-		       		samplesXML.getSample().add(igsnService.register(rsc,false));
-		       		igsnService.mint(samplesXML);
+		       		Resources resourcesXML = new Resources();		    				    		
+		       		resourcesXML.getResource().add(igsnService.register(rsc,false));
+		       		igsnService.mint(resourcesXML);
 		       	}catch(Exception e){
 		       		logger.error(e);
 		       	}

@@ -17,21 +17,14 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.csiro.igsn.bindings.allocation2_0.EventType;
-import org.csiro.igsn.bindings.allocation2_0.IdentifierType;
-import org.csiro.igsn.bindings.allocation2_0.NilReasonType;
-import org.csiro.igsn.bindings.allocation2_0.ObjectFactory;
-import org.csiro.igsn.bindings.allocation2_0.Samples;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.MaterialTypes;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleCollectors;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleCollectors.Collector;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleCuration.Curation;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SampleTypes;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SamplingLocation;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SamplingMethod;
-import org.csiro.igsn.bindings.allocation2_0.Samples.Sample.SamplingTime;
-import org.csiro.igsn.bindings.allocation2_0.SpatialType;
+import org.csiro.igsn.jaxb.registration.bindings.EventType;
+import org.csiro.igsn.jaxb.registration.bindings.ObjectFactory;
+import org.csiro.igsn.jaxb.registration.bindings.Resources;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Classifications.Classification;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Contributors.Contributor;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.CurationDetails.Curation;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Location;
 import org.csiro.rockstore.entity.postgres.IGSNLog;
 import org.csiro.rockstore.entity.postgres.RsSample;
 import org.csiro.rockstore.entity.postgres.RsSubcollection;
@@ -100,16 +93,16 @@ public class IGSNRegistrationService{
 		System.out.print(IOUtils.toString(response.getEntity().getContent()));
 	}
 	
-	public void mint(Samples samplesXML) throws Exception{
-		if(samplesXML==null){
+	public void mint(Resources resourcesXML) throws Exception{
+		if(resourcesXML==null){
 			return;
 		}
 		HttpPost post= new HttpPost(Config.getIGSNUrl()+"igsn/mint");
 		
 		StringWriter writer = new StringWriter();
-	    JAXBContext jaxbContext = JAXBContext.newInstance(Samples.class);
+	    JAXBContext jaxbContext = JAXBContext.newInstance(Resources.class);
 	    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-	    jaxbMarshaller.marshal(samplesXML, writer);
+	    jaxbMarshaller.marshal(resourcesXML, writer);
 	    
 	    post.addHeader("content-type", "application/xml");
         
@@ -134,8 +127,8 @@ public class IGSNRegistrationService{
         		RsSample rs = this.sampleEntityService.searchByIGSN(jobj.get("sampleId").getAsString());
         		if(rs!=null){  
         			try{        				
-    		       		Samples sampleXMLRetry = new Samples();		    				    		
-    		       		sampleXMLRetry.getSample().add(this.register(rs,true));
+    		       		Resources sampleXMLRetry = new Resources();		    				    		
+    		       		sampleXMLRetry.getResource().add(this.register(rs,true));
     		       		this.mint(sampleXMLRetry);
     		       	}catch(Exception e){
     		       		log.error(e);
@@ -144,8 +137,8 @@ public class IGSNRegistrationService{
         		}else {   //VT: rsSample is null therefore it has to be subcollection     			
         			try{
         				RsSubcollection rsc = this.subcollectionService.searchByIGSN(jobj.get("sampleId").getAsString());
-    		       		Samples subCollectionXMLRetry = new Samples();		    				    		
-    		       		subCollectionXMLRetry.getSample().add(this.register(rsc,true));
+    		       		Resources subCollectionXMLRetry = new Resources();		    				    		
+    		       		subCollectionXMLRetry.getResource().add(this.register(rsc,true));
     		       		this.mint(subCollectionXMLRetry);
     		       	}catch(Exception e){
     		       		log.error(e);
@@ -157,241 +150,170 @@ public class IGSNRegistrationService{
         
 	}
 	
-	public  synchronized Samples registerSubCollections() throws FileNotFoundException{
+	public  synchronized Resources registerSubCollections() throws FileNotFoundException{
 		List<RsSubcollection> samples=subcollectionService.getUnminted();
 		if(samples.size() ==0 ){
 			return null;
 		}
-		Samples samplesXML = new Samples();
+		Resources resourceXML = new Resources();
 		
 		for(RsSubcollection o:samples){
-			samplesXML.getSample().add(this.register(o,false));
+			resourceXML.getResource().add(this.register(o,false));
 		}
 		
-		return samplesXML;
+		return resourceXML;
 	}
 	
-	public synchronized Samples registerSamples() throws FileNotFoundException{
+	public synchronized Resources registerSamples() throws FileNotFoundException{
 		
 		List<RsSample> samples=sampleEntityService.getUnminted();
 		if(samples.size() ==0 ){
 			return null;
 		}
-		Samples samplesXML = new Samples();
+		Resources resourcesXML = new Resources();
 		
 		for(RsSample o:samples){
-			samplesXML.getSample().add(this.register(o,false));
+			resourcesXML.getResource().add(this.register(o,false));
 		}
 		
-		return samplesXML;
+		return resourcesXML;
 	}
 	
-	public  Sample register(RsSubcollection rsc,boolean update) throws FileNotFoundException{
-		Samples.Sample sampleXml = new Samples.Sample();
-		Samples.Sample.SampleNumber sampleNumberXml = new Samples.Sample.SampleNumber();
+	public  Resource register(RsSubcollection rsc,boolean update) throws FileNotFoundException{
+		Resource resourceXML = this.objectFactory.createResourcesResource();
+		resourceXML.setResourceIdentifier(this.objectFactory.createResourcesResourceResourceIdentifier());
+		resourceXML.getResourceIdentifier().setValue(rsc.getIgsn());
+		resourceXML.setResourceTitle(rsc.getRsCollection().getProject() + ":"+ rsc.getSubcollectionId());
 		
-		sampleNumberXml.setIdentifierType(IdentifierType.fromValue("igsn"));
-		sampleNumberXml.setValue(rsc.getIgsn());
+		resourceXML.setRegisteredObjectType("http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample");
+	
+		resourceXML.setIsPublic(this.objectFactory.createResourcesResourceIsPublic());
+		resourceXML.getIsPublic().setValue(true);
 		
-		sampleXml.setSampleName(rsc.getRsCollection().getProject() + ":"+ rsc.getSubcollectionId());
-		sampleXml.setSampleNumber(sampleNumberXml);
+		resourceXML.setLandingPage(Config.getIGSNLanding()+"browsesubcollections/" + rsc.getIgsn());
 		
-		Samples.Sample.IsPublic isPublic = new Samples.Sample.IsPublic();
-		isPublic.setValue(true);
-		sampleXml.setIsPublic(isPublic);
-		sampleXml.setLandingPage(Config.getIGSNLanding()+"browsesubcollections/" + rsc.getIgsn());	
 		
-		Samples.Sample.SampleTypes sampleTypesXml = new Samples.Sample.SampleTypes();
-		JAXBElement<SampleTypes> sampleTypeJAXBElement = objectFactory.createSamplesSampleSampleTypes(sampleTypesXml);					
-		sampleTypesXml.setNilReason(NilReasonType.UNKNOWN.value());				
-		sampleTypesXml.getSampleType().add(null);
-		sampleTypeJAXBElement.setNil(true);							
-		sampleXml.setSampleTypes(sampleTypeJAXBElement);
+		resourceXML.setResourceTypes(this.objectFactory.createResourcesResourceResourceTypes());
+		resourceXML.getResourceTypes().getResourceType().add("http://www.opengis.net/def/nil/OGC/0/unknown");
 		
-		Samples.Sample.MaterialTypes materialType = new Samples.Sample.MaterialTypes();
-		JAXBElement<MaterialTypes> materialTypeJAXBElement = this.objectFactory.createSamplesSampleMaterialTypes(materialType);							
-		materialType.getMaterialType().add("http://vocabulary.odm2.org/medium/rock");
-		sampleXml.setMaterialTypes(materialTypeJAXBElement);
+		resourceXML.setMaterialTypes(this.objectFactory.createResourcesResourceMaterialTypes());
+		resourceXML.getMaterialTypes().getMaterialType().add("http://pid.geoscience.gov.au/def/voc/igsn-codelists/rock");
 		
-		Samples.Sample.Classification classification = new Samples.Sample.Classification();
-		classification.setClassificationIdentifier(NilReasonType.UNKNOWN.value());
-		classification.setValue(NilReasonType.UNKNOWN.value());
-		sampleXml.setClassification(classification);
-		
-		sampleXml.setPurpose("Rock subcollection from rockstore");
+		resourceXML.setPurpose("Rock subcollection from rockstore");
 				
-		Samples.Sample.SamplingLocation samplingLocation = new Samples.Sample.SamplingLocation();	
-		JAXBElement<SamplingLocation> samplingLocationJAXBElement = this.objectFactory.createSamplesSampleSamplingLocation(samplingLocation);
-		samplingLocation.setNilReason(NilReasonType.UNKNOWN.value());
-		samplingLocationJAXBElement.setNil(true);							
-		sampleXml.setSamplingLocation(samplingLocationJAXBElement);
 		
-		Samples.Sample.SamplingTime samplingTime = new Samples.Sample.SamplingTime();	
-		samplingTime.setNilReason(NilReasonType.UNKNOWN.value());
-		JAXBElement<SamplingTime> samplingTimeJAXBElement = this.objectFactory.createSamplesSampleSamplingTime(samplingTime);
-		samplingTimeJAXBElement.setNil(true);
-		sampleXml.setSamplingTime(samplingTimeJAXBElement);		
 		
-		Samples.Sample.SampleCollectors sampleCollectors = new Samples.Sample.SampleCollectors();
-		JAXBElement<SampleCollectors> sampleCollectorJAXBElement = this.objectFactory.createSamplesSampleSampleCollectors(sampleCollectors);
 		String staffIdManager = rsc.getRsCollection().getStaffIdFieldManager();
-		if(staffIdManager.isEmpty()){
-			sampleCollectors.setNilReason(NilReasonType.UNKNOWN.value());
-			sampleCollectorJAXBElement.setNil(true);				
-		}else{
-			Collector collector = new Collector();
-			collector.setCollectorIdentifier(staffIdManager);
-			collector.setValue(staffIdManager);
-			sampleCollectors.getCollector().add(collector);
+		if(!staffIdManager.isEmpty()){
+			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());			
+			Contributor contributorXML = this.objectFactory.createResourcesResourceContributorsContributor();
+			contributorXML.setContributorType("http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator");
+			contributorXML.setContributorName(staffIdManager);
+			resourceXML.getContributors().getContributor().add(contributorXML);
 		}
-		sampleXml.setSampleCollectors(sampleCollectorJAXBElement);
+			
+		resourceXML.setCurationDetails(this.objectFactory.createResourcesResourceCurationDetails());
 		
-		
-		Samples.Sample.SamplingMethod samplingMethod= new Samples.Sample.SamplingMethod();
-		JAXBElement<SamplingMethod> samplingMethodJAXBElement = this.objectFactory.createSamplesSampleSamplingMethod(samplingMethod);		
-		samplingMethod.setNilReason(NilReasonType.UNKNOWN.value());
-		samplingMethodJAXBElement.setNil(true);			
-		sampleXml.setSamplingMethod(samplingMethodJAXBElement);//VT: TODO- check null
-		
-		
-		Samples.Sample.SampleCuration sampleCurationXml = new Samples.Sample.SampleCuration();		
-		Curation c= new Curation();		
-		c.setCurator("CSIRO");
-		
-		//VT Set curator
-		sampleCurationXml.getCuration().add(c);					
-		sampleXml.setSampleCuration(sampleCurationXml);	
+		Curation curationXML = this.objectFactory.createResourcesResourceCurationDetailsCuration();
+		curationXML.setCurator("CSIRO Rockstore");
+		curationXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
+		curationXML.getCuratingInstitution().setInstitutionURI("http://csiro.au");
+		curationXML.getCuratingInstitution().setValue("CSIRO");
+		resourceXML.getCurationDetails().getCuration().add(curationXML);	
 		
 		//VT:Set Comments
 		if(rsc.getRsCollection().getProjectPublication()!=null){
-			sampleXml.setComments(rsc.getRsCollection().getProjectPublication());
+			resourceXML.setComments(rsc.getRsCollection().getProjectPublication());
 		}
 		
-		Calendar cal = Calendar.getInstance();
-		Samples.Sample.LogElement logElement = new Samples.Sample.LogElement();
-		logElement.setValue("rockstore: SubCollection");		
-		cal.setTime(new Date());				  
-		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));	
+		Calendar cal = Calendar.getInstance();		
+		cal.setTime(new Date());				
+		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
+		resourceXML.getLogDate().setValue(String.valueOf(cal.get(Calendar.YEAR)));
+		
 		if(update){
-			logElement.setEvent(EventType.UPDATED);
-		}else{
-			logElement.setEvent(EventType.SUBMITTED);
+			resourceXML.getLogDate().setEventType(EventType.UPDATED);
+		}else{			
+			resourceXML.getLogDate().setEventType(EventType.REGISTERED);
 		}
-		sampleXml.setLogElement(logElement);
 		
-		return sampleXml;	
+		return resourceXML;	
 	}
 	
-	public  Sample register(RsSample rsc,boolean update) throws FileNotFoundException{
-		Samples.Sample sampleXml = new Samples.Sample();
-		Samples.Sample.SampleNumber sampleNumberXml = new Samples.Sample.SampleNumber();
+	public  Resource register(RsSample rsc,boolean update) throws FileNotFoundException{
+		Resource resourceXML = this.objectFactory.createResourcesResource();
+		resourceXML.setResourceIdentifier(this.objectFactory.createResourcesResourceResourceIdentifier());
+		resourceXML.getResourceIdentifier().setValue(rsc.getIgsn());
+		resourceXML.setRegisteredObjectType("http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample");
 		
-		sampleNumberXml.setIdentifierType(IdentifierType.fromValue("igsn"));
-		sampleNumberXml.setValue(rsc.getIgsn());
+		resourceXML.setResourceTitle(rsc.getRsSubcollection().getRsCollection().getProject() + ":" + (rsc.getCsiroSampleId()==null || rsc.getCsiroSampleId().isEmpty()?rsc.getIgsn():rsc.getCsiroSampleId()));
 		
-		sampleXml.setSampleName(rsc.getRsSubcollection().getRsCollection().getProject() + ":" + (rsc.getCsiroSampleId()==null || rsc.getCsiroSampleId().isEmpty()?rsc.getIgsn():rsc.getCsiroSampleId()));
-		sampleXml.setSampleNumber(sampleNumberXml);
 		
-		Samples.Sample.IsPublic isPublic = new Samples.Sample.IsPublic();
-		isPublic.setValue(true);
-		sampleXml.setIsPublic(isPublic);
-		sampleXml.setLandingPage(Config.getIGSNLanding()+"browsesamples/" + rsc.getIgsn());	
+		resourceXML.setIsPublic(this.objectFactory.createResourcesResourceIsPublic());
+		resourceXML.getIsPublic().setValue(true);
+		resourceXML.setLandingPage(Config.getIGSNLanding()+"browsesamples/" + rsc.getIgsn());	
 		
-		Samples.Sample.SampleTypes sampleTypesXml = new Samples.Sample.SampleTypes();
-		JAXBElement<SampleTypes> sampleTypeJAXBElement = objectFactory.createSamplesSampleSampleTypes(sampleTypesXml);					
-		sampleTypesXml.setNilReason(NilReasonType.UNKNOWN.value());				
-		sampleTypesXml.getSampleType().add(null);
-		sampleTypeJAXBElement.setNil(true);							
-		sampleXml.setSampleTypes(sampleTypeJAXBElement);
+		resourceXML.setResourceTypes(this.objectFactory.createResourcesResourceResourceTypes());
+		resourceXML.getResourceTypes().getResourceType().add("http://www.opengis.net/def/nil/OGC/0/unknown");
 		
-		Samples.Sample.MaterialTypes materialType = new Samples.Sample.MaterialTypes();
-		JAXBElement<MaterialTypes> materialTypeJAXBElement = this.objectFactory.createSamplesSampleMaterialTypes(materialType);							
-		materialType.getMaterialType().add("http://vocabulary.odm2.org/medium/rock");
-		sampleXml.setMaterialTypes(materialTypeJAXBElement);
+		resourceXML.setMaterialTypes(this.objectFactory.createResourcesResourceMaterialTypes());
+		resourceXML.getMaterialTypes().getMaterialType().add("http://pid.geoscience.gov.au/def/voc/igsn-codelists/rock");
 		
-		Samples.Sample.Classification classification = new Samples.Sample.Classification();
-		if(rsc.getSampleType()==null || rsc.getSampleType().isEmpty()){
-			classification.setClassificationIdentifier(NilReasonType.UNKNOWN.value());
-			classification.setValue("UNKNOWN");
-		}else{
-			classification.setClassificationIdentifier(NilReasonType.UNKNOWN.value());
-			classification.setValue(rsc.getSampleType());
+		
+		if(rsc.getSampleType()!=null && !rsc.getSampleType().isEmpty()){
+			resourceXML.setClassifications(this.objectFactory.createResourcesResourceClassifications());			
+			Classification classificationXML = this.objectFactory.createResourcesResourceClassificationsClassification();
+			classificationXML.setValue(rsc.getSampleType());
+			resourceXML.getClassifications().getClassification().add(classificationXML);
 		}
-		sampleXml.setClassification(classification);
 		
-		sampleXml.setPurpose("Rock sample from rockstore");
-				
-		Samples.Sample.SamplingLocation samplingLocation = new Samples.Sample.SamplingLocation();	
-		JAXBElement<SamplingLocation> samplingLocationJAXBElement = this.objectFactory.createSamplesSampleSamplingLocation(samplingLocation);
+		resourceXML.setPurpose("Rock sample from rockstore");
+								
+		if(rsc.getLocation()!=null){						
+			Location locationXML = this.objectFactory.createResourcesResourceLocation();
+			locationXML.setGeometry(this.objectFactory.createResourcesResourceLocationGeometry());
+			locationXML.getGeometry().setSrid("https://epsg.io/4326");
+			locationXML.getGeometry().setValue(rsc.getLocation().toText());
+			JAXBElement<Location> locationJAXB = this.objectFactory.createResourcesResourceLocation(locationXML);
+			resourceXML.setLocation(locationJAXB);
+		}				
 		
-		if(rsc.getLocation()!=null){			
-			//VT: sample elevation
-			Samples.Sample.SamplingFeatures.SamplingFeature.SamplingFeatureLocation.Wkt wkt = new Samples.Sample.SamplingFeatures.SamplingFeature.SamplingFeatureLocation.Wkt();
-			wkt.setSrs("EPSG:4326");
-			wkt.setSpatialType(SpatialType.POINT);
-			wkt.setValue(rsc.getLocation().toText());
-			samplingLocation.setWkt(wkt);
-		}else{
-			samplingLocation.setNilReason(NilReasonType.MISSING.value());
-			samplingLocationJAXBElement.setNil(true);
-		}						
-		sampleXml.setSamplingLocation(samplingLocationJAXBElement);
-		
-		Samples.Sample.SamplingTime samplingTime = new Samples.Sample.SamplingTime();	
-		samplingTime.setNilReason(NilReasonType.UNKNOWN.value());
-		JAXBElement<SamplingTime> samplingTimeJAXBElement = this.objectFactory.createSamplesSampleSamplingTime(samplingTime);
-		samplingTimeJAXBElement.setNil(true);
-		sampleXml.setSamplingTime(samplingTimeJAXBElement);		
-		
-		Samples.Sample.SampleCollectors sampleCollectors = new Samples.Sample.SampleCollectors();
-		JAXBElement<SampleCollectors> sampleCollectorJAXBElement = this.objectFactory.createSamplesSampleSampleCollectors(sampleCollectors);
+	
 		String sampleCollector = rsc.getSampleCollector();
-		if(sampleCollector==null || sampleCollector.isEmpty()){
-			sampleCollectors.setNilReason(NilReasonType.UNKNOWN.value());
-			sampleCollectorJAXBElement.setNil(true);				
-		}else{
-			Collector collector = new Collector();
-			collector.setCollectorIdentifier(sampleCollector);
-			collector.setValue(sampleCollector);
-			sampleCollectors.getCollector().add(collector);
+		if(sampleCollector!=null && !sampleCollector.isEmpty()){				
+			resourceXML.setContributors(this.objectFactory.createResourcesResourceContributors());			
+			Contributor contributorXML = this.objectFactory.createResourcesResourceContributorsContributor();
+			contributorXML.setContributorType("http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator");
+			contributorXML.setContributorName(sampleCollector);
+			resourceXML.getContributors().getContributor().add(contributorXML);
 		}
-		sampleXml.setSampleCollectors(sampleCollectorJAXBElement);
 		
 		
-		Samples.Sample.SamplingMethod samplingMethod= new Samples.Sample.SamplingMethod();
-		JAXBElement<SamplingMethod> samplingMethodJAXBElement = this.objectFactory.createSamplesSampleSamplingMethod(samplingMethod);		
-		samplingMethod.setNilReason(NilReasonType.UNKNOWN.value());
-		samplingMethodJAXBElement.setNil(true);			
-		sampleXml.setSamplingMethod(samplingMethodJAXBElement);//VT: TODO- check null
+		Curation curationXML = this.objectFactory.createResourcesResourceCurationDetailsCuration();
+		curationXML.setCurator("CSIRO Rockstore");
+		curationXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
+		curationXML.getCuratingInstitution().setInstitutionURI("http://csiro.au");
+		curationXML.getCuratingInstitution().setValue("CSIRO");
+		resourceXML.getCurationDetails().getCuration().add(curationXML);	
 		
+		Calendar cal = Calendar.getInstance();		
+		cal.setTime(new Date());				
+		resourceXML.setLogDate(this.objectFactory.createResourcesResourceLogDate());
+		resourceXML.getLogDate().setValue(String.valueOf(cal.get(Calendar.YEAR)));
 		
-		Samples.Sample.SampleCuration sampleCurationXml = new Samples.Sample.SampleCuration();		
-		Curation c= new Curation();		
-		c.setCurator("CSIRO");
-		
-		//VT Set curator
-		sampleCurationXml.getCuration().add(c);					
-		sampleXml.setSampleCuration(sampleCurationXml);	
-		
-		Calendar cal = Calendar.getInstance();
-		Samples.Sample.LogElement logElement = new Samples.Sample.LogElement();
-		logElement.setValue("rockstore: Samples");		
-		cal.setTime(new Date());				  
-		logElement.setTimeStamp(String.valueOf(cal.get(Calendar.YEAR)));	
 		if(update){
-			logElement.setEvent(EventType.UPDATED);
-		}else{
-			logElement.setEvent(EventType.SUBMITTED);
+			resourceXML.getLogDate().setEventType(EventType.UPDATED);
+		}else{			
+			resourceXML.getLogDate().setEventType(EventType.REGISTERED);
 		}
-		
 		//VT: Set comments
 		if(rsc.getRsSubcollection().getRsCollection().getProjectPublication()!=null){
-			sampleXml.setComments(rsc.getRsSubcollection().getRsCollection().getProjectPublication());
+			resourceXML.setComments(rsc.getRsSubcollection().getRsCollection().getProjectPublication());
 		}
 				
-		sampleXml.setLogElement(logElement);
+	
 		
-		return sampleXml;	
+		return resourceXML;	
 	}
 	
 	

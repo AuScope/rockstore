@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.csiro.igsn.bindings.allocation2_0.Samples;
+import org.csiro.igsn.jaxb.registration.bindings.Resources;
 import org.csiro.rockstore.entity.postgres.ImportBatch;
 import org.csiro.rockstore.entity.postgres.ImportLog;
 import org.csiro.rockstore.entity.postgres.RsCollection;
@@ -114,9 +115,9 @@ public class SampleController {
 	    		this.sampleEntityService.merge(rs);
 	    		
 	    		try{//VT:update the igsn record
-		       		Samples samplesXML = new Samples();		    				    		
-		       		samplesXML.getSample().add(igsnService.register(rs,true));
-		       		igsnService.mint(samplesXML);
+		       		Resources resourcesXML = new Resources();		    				    		
+		       		resourcesXML.getResource().add(igsnService.register(rs,true));
+		       		igsnService.mint(resourcesXML);
 		       	}catch(Exception e){
 		       		logger.error(e);
 		       	}
@@ -144,9 +145,9 @@ public class SampleController {
 		       	this.sampleEntityService.persist(rs);
 		       	
 		       	try{//VT: mint the new igsn
-		       		Samples samplesXML = new Samples();		    				    		
-		       		samplesXML.getSample().add(igsnService.register(rs,false));
-		       		igsnService.mint(samplesXML);
+		       		Resources resourcesXML = new Resources();		    				    		
+		       		resourcesXML.getResource().add(igsnService.register(rs,false));
+		       		igsnService.mint(resourcesXML);
 		       	}catch(Exception e){
 		       		logger.error(e);
 		       	}
