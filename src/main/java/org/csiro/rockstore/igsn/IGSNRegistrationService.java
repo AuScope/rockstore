@@ -23,6 +23,7 @@ import org.csiro.igsn.jaxb.registration.bindings.Resources;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Classifications.Classification;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Contributors.Contributor;
+import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.CurationDetails;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.CurationDetails.Curation;
 import org.csiro.igsn.jaxb.registration.bindings.Resources.Resource.Location;
 import org.csiro.rockstore.entity.postgres.IGSNLog;
@@ -87,17 +88,13 @@ public class IGSNRegistrationService{
 		}
 	}
 	
-	public void test() throws Exception{
-		HttpGet get = new HttpGet("http://localhost:8080/CSIRO-IGSN/subnamespace/list/all");
-		HttpResponse response = httpServiceProvider.invokeTheMethod(get);
-		System.out.print(IOUtils.toString(response.getEntity().getContent()));
-	}
+	
 	
 	public void mint(Resources resourcesXML) throws Exception{
 		if(resourcesXML==null){
 			return;
 		}
-		HttpPost post= new HttpPost(Config.getIGSNUrl()+"igsn/mint");
+		HttpPost post= new HttpPost(Config.getIGSNUrl()+"api/igsn/30/mint");
 		
 		StringWriter writer = new StringWriter();
 	    JAXBContext jaxbContext = JAXBContext.newInstance(Resources.class);
@@ -294,6 +291,8 @@ public class IGSNRegistrationService{
 		curationXML.setCuratingInstitution(this.objectFactory.createResourcesResourceCurationDetailsCurationCuratingInstitution());
 		curationXML.getCuratingInstitution().setInstitutionURI("http://csiro.au");
 		curationXML.getCuratingInstitution().setValue("CSIRO");
+		
+		resourceXML.setCurationDetails(this.objectFactory.createResourcesResourceCurationDetails());
 		resourceXML.getCurationDetails().getCuration().add(curationXML);	
 		
 		Calendar cal = Calendar.getInstance();		
