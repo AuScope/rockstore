@@ -182,7 +182,7 @@ public class IGSNRegistrationService{
 		resourceXML.getResourceIdentifier().setValue(rsc.getIgsn());
 		resourceXML.setResourceTitle(rsc.getRsCollection().getProject() + ":"+ rsc.getSubcollectionId());
 		
-		resourceXML.setRegisteredObjectType("http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample");
+		resourceXML.setRegisteredObjectType("http://pid.geoscience.gov.au/def/voc/igsn-codelists/SampleCollection");
 	
 		resourceXML.setIsPublic(this.objectFactory.createResourcesResourceIsPublic());
 		resourceXML.getIsPublic().setValue(true);
