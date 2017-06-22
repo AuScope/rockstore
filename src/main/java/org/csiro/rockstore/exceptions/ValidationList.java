@@ -17,6 +17,7 @@ public class ValidationList {
 				"Chips - in trays",
 				"Reference",
 				"Crushed",
+				"Core",
 				"Minus 1 mm",
 				"Laterite",
 				"Hand",

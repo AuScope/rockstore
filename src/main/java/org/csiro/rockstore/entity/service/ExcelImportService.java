@@ -199,12 +199,12 @@ public class ExcelImportService {
 			throw new ImportExceptions(ImportExceptionCode.SAMPLE_TYPE_OUTSIDE_LIST,"Sample_type",row.getRowNum());
 		}
 		
-		String sampleCollector=matchStaff(getCellValue(row,headers,"Sample_Collector"));
+		String sampleCollector=matchUser(getCellValue(row,headers,"Sample_Collector"));
 		if(sampleCollector==null){
 			throw new ImportExceptions(ImportExceptionCode.INVALID_SAMPLE_COLLECTOR,"Sample_Collector",row.getRowNum());
 		}
 		
-		String staffDisposed= matchUser(getCellValue(row,headers,"Staff_ID_disposed"));
+		String staffDisposed= matchStaff(getCellValue(row,headers,"Staff_ID_disposed"));
 		if(staffDisposed==null){
 			throw new ImportExceptions(ImportExceptionCode.INVALID_STAFF_ID,"Staff_ID_disposed",row.getRowNum());
 		}
@@ -248,6 +248,14 @@ public class ExcelImportService {
 	public  String getCellValue(Row row,HashMap<String,Integer> headers,String columnName) throws ImportExceptions{
 		try{
 			return row.getCell(headers.get(columnName.toUpperCase())).getStringCellValue();
+		}catch(NullPointerException e){
+			return "";
+		}catch(IllegalStateException e){
+			try{
+				return String.valueOf(row.getCell(headers.get(columnName.toUpperCase())).getNumericCellValue());
+			}catch(Exception e1){
+				throw e1;
+			}			
 		}catch(Exception e){
 			throw new ImportExceptions(ImportExceptionCode.INVALID_CELL_FORMAT,columnName,row.getRowNum());
 		}
@@ -256,6 +264,8 @@ public class ExcelImportService {
 	public  Double getNumericCellValue(Row row,HashMap<String,Integer> headers,String columnName) throws ImportExceptions{
 		try{
 			return row.getCell(headers.get(columnName.toUpperCase())).getNumericCellValue();
+		}catch(NullPointerException e){
+			return null;
 		}catch(Exception e){
 			throw new ImportExceptions(ImportExceptionCode.INVALID_CELL_FORMAT,columnName,row.getRowNum());
 		}
@@ -264,6 +274,8 @@ public class ExcelImportService {
 	public  Boolean getBooleanCellValue(Row row,HashMap<String,Integer> headers,String columnName) throws ImportExceptions{
 		try{
 			return row.getCell(headers.get(columnName.toUpperCase())).getBooleanCellValue();
+		}catch(NullPointerException e){
+			return null;
 		}catch(Exception e){
 			throw new ImportExceptions(ImportExceptionCode.INVALID_CELL_FORMAT,columnName,row.getRowNum());
 		}

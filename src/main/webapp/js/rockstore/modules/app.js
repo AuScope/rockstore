@@ -660,6 +660,7 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
     	          'Chips - in trays',
     	          'Reference',
     	          'Crushed',
+  				  'Core',
     	          'Minus 1 mm',
     	          'Laterite',
     	          'Hand',

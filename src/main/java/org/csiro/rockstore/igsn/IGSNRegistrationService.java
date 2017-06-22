@@ -194,7 +194,7 @@ public class IGSNRegistrationService{
 		resourceXML.getResourceTypes().getResourceType().add("http://www.opengis.net/def/nil/OGC/0/unknown");
 		
 		resourceXML.setMaterialTypes(this.objectFactory.createResourcesResourceMaterialTypes());
-		resourceXML.getMaterialTypes().getMaterialType().add("http://pid.geoscience.gov.au/def/voc/igsn-codelists/rock");
+		resourceXML.getMaterialTypes().getMaterialType().add("http://vocabulary.odm2.org/medium/rock");
 		
 		resourceXML.setPurpose("Rock subcollection from rockstore");
 				
@@ -254,7 +254,7 @@ public class IGSNRegistrationService{
 		resourceXML.getResourceTypes().getResourceType().add("http://www.opengis.net/def/nil/OGC/0/unknown");
 		
 		resourceXML.setMaterialTypes(this.objectFactory.createResourcesResourceMaterialTypes());
-		resourceXML.getMaterialTypes().getMaterialType().add("http://pid.geoscience.gov.au/def/voc/igsn-codelists/rock");
+		resourceXML.getMaterialTypes().getMaterialType().add("http://vocabulary.odm2.org/medium/rock");
 		
 		
 		if(rsc.getSampleType()!=null && !rsc.getSampleType().isEmpty()){
