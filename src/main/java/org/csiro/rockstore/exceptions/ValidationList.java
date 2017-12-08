@@ -26,7 +26,9 @@ public class ValidationList {
 				"Bulk",
 				"Pulp",
 				"Superpan Light Minerals",
-				"Mineralised"};
+				"Mineralised",
+				"Hand sample-surface",
+				"Hand sample–underground"};
 		
 		for(String item:list){
 			if(item.toUpperCase().equals(sampleType.toUpperCase())){

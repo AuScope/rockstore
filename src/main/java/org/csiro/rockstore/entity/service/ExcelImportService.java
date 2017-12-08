@@ -187,7 +187,7 @@ public class ExcelImportService {
 		
 		Double lat=getNumericCellValue(row,headers,"Northing_MGA");
 		Double lon=getNumericCellValue(row,headers,"Easting_MGA");
-		if(lat==0 || lon==0 || lat.isNaN() || lon.isNaN() || lat==null || lon==null){
+		if(lat==null || lon==null || lat==0 || lon==0 || lat.isNaN() || lon.isNaN()){
 			throw new ImportExceptions(ImportExceptionCode.INVALID_LAT_LON,"Northing_MGA or Easting_MGA",row.getRowNum());
 		}
 
