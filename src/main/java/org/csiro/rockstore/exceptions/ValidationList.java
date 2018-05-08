@@ -28,7 +28,11 @@ public class ValidationList {
 				"Superpan Light Minerals",
 				"Mineralised",
 				"Hand sample-surface",
-				"Hand sample–underground"};
+				"Hand sample–underground",
+				"Soil",
+  	          	"Regolith",
+  	          	"Vegetation",
+  	          	"Water"};
 		
 		for(String item:list){
 			if(item.toUpperCase().equals(sampleType.toUpperCase())){

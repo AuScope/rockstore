@@ -671,7 +671,11 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
     	          'Superpan Light Minerals',
     	          'Mineralised',
     	          'Hand sample-surface',
-    	          'Hand sample–underground'];
+    	          'Hand sample–underground',
+    	          'Soil',
+    	          'Regolith',
+    	          'Vegetation',
+    	          'Water'];
       }
       
       this.getDatum = function(){
