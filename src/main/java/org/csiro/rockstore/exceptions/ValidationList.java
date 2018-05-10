@@ -32,7 +32,8 @@ public class ValidationList {
 				"Soil",
   	          	"Regolith",
   	          	"Vegetation",
-  	          	"Water"};
+  	          	"Water",
+  	          	"Termite mound"};
 		
 		for(String item:list){
 			if(item.toUpperCase().equals(sampleType.toUpperCase())){

@@ -675,7 +675,8 @@ app.service('DropDownValueService', ['$q','$http',function($q,$http) {
     	          'Soil',
     	          'Regolith',
     	          'Vegetation',
-    	          'Water'];
+    	          'Water',
+    	          'Termite mound'];
       }
       
       this.getDatum = function(){
